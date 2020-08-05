@@ -35,8 +35,6 @@ public class ZstudentController extends BaseController
     @GetMapping()
     public String zstudent()
     {
-
-
         return prefix + "/zstudent";
     }
 
