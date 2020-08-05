@@ -36,6 +36,7 @@ public class ZstudentController extends BaseController
     public String zstudent()
     {
 
+
         return prefix + "/zstudent";
     }
 
