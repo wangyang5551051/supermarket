@@ -57,9 +57,9 @@ public class ZstudentServiceImpl implements ZstudentService
     public int insertZstudent(Zstudent zstudent)
     {
         zstudentMapper.insertZstudent(zstudent);
-        if(true){
-            throw new RuntimeException("测试");
-        }
+//        if(true){
+//            throw new RuntimeException("测试");
+//        }
         return 1;
     }
 
