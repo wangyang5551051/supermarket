@@ -1,4 +1,4 @@
-package com.ruoyi.moudle.student.controller;
+package com.ruoyi.moudle.leida.controller;
 
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -6,10 +6,8 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.moudle.student.domain.Zstudent;
-import com.ruoyi.moudle.student.service.ZstudentService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import com.ruoyi.moudle.leida.domain.Zleidatu;
+import com.ruoyi.moudle.leida.service.IZleidatu;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,36 +20,34 @@ import java.util.List;
  * 【请填写功能名称】Controller
  * 
  * @author ruoyi
- * @date 2020-08-04
+ * @date 2020-08-10
  */
-@Api("学生信息管理")
 @Controller
-@RequestMapping("/system/zstudent")
-public class ZstudentController extends BaseController
+@RequestMapping("/system/zleidatu")
+public class ZleidaController extends BaseController
 {
-    private String prefix = "system/zstudent";
+    private String prefix = "system/zleidatu";
 
     @Autowired
-    private ZstudentService zstudentService;
+    private IZleidatu zstudentService;
 
     @RequiresPermissions("system:zstudent:view")
     @GetMapping()
     public String zstudent()
     {
-        return prefix + "/zstudent";
+        return prefix + "/zleidatu";
     }
 
     /**
      * 查询【请填写功能名称】列表
      */
-    @ApiOperation("获取学生列表")
     @RequiresPermissions("system:zstudent:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(Zstudent zstudent)
+    public TableDataInfo list(Zleidatu zstudent)
     {
         startPage();
-        List<Zstudent> list = zstudentService.selectZstudentList(zstudent);
+        List<Zleidatu> list = zstudentService.selectZstudentList(zstudent);
         return getDataTable(list);
     }
 
@@ -62,10 +58,10 @@ public class ZstudentController extends BaseController
     @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(Zstudent zstudent)
+    public AjaxResult export(Zleidatu zstudent)
     {
-        List<Zstudent> list = zstudentService.selectZstudentList(zstudent);
-        ExcelUtil<Zstudent> util = new ExcelUtil<Zstudent>(Zstudent.class);
+        List<Zleidatu> list = zstudentService.selectZstudentList(zstudent);
+        ExcelUtil<Zleidatu> util = new ExcelUtil<Zleidatu>(Zleidatu.class);
         return util.exportExcel(list, "zstudent");
     }
 
@@ -81,12 +77,11 @@ public class ZstudentController extends BaseController
     /**
      * 新增保存【请填写功能名称】
      */
-    @ApiOperation("新增学生")
     @RequiresPermissions("system:zstudent:add")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(Zstudent zstudent)
+    public AjaxResult addSave(Zleidatu zstudent)
     {
         return toAjax(zstudentService.insertZstudent(zstudent));
     }
@@ -97,11 +92,31 @@ public class ZstudentController extends BaseController
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Long id, ModelMap mmap)
     {
-        Zstudent zstudent = zstudentService.selectZstudentById(id);
+        Zleidatu zstudent = zstudentService.selectZstudentById(id);
         mmap.put("zstudent", zstudent);
         return prefix + "/edit";
     }
+    /**
+     * 修改【动态雷达图】
+     */
+    @GetMapping("/leida/{id}")
+    public String leida(@PathVariable("id") Long id, ModelMap mmap)
+    {
+        Zleidatu zleidatu = zstudentService.selectZstudentById(id);
+        mmap.put("zleidatu", zleidatu);
+        return prefix + "/leidatu";
+    }
 
+    /**
+     * 修改【动态雷达图】
+     */
+    @GetMapping("/leida2/{id}")
+    public String leida2(@PathVariable("id") Long id, ModelMap mmap)
+    {
+        Zleidatu zleidatu = zstudentService.selectZstudentById(id);
+        mmap.put("zleidatu", zleidatu);
+        return prefix + "/leidatu2";
+    }
     /**
      * 修改保存【请填写功能名称】
      */
@@ -109,7 +124,7 @@ public class ZstudentController extends BaseController
     @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(Zstudent zstudent)
+    public AjaxResult editSave(Zleidatu zstudent)
     {
         return toAjax(zstudentService.updateZstudent(zstudent));
     }
