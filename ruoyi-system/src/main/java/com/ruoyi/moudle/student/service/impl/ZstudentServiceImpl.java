@@ -1,12 +1,18 @@
 package com.ruoyi.moudle.student.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.ruoyi.common.annotation.CacheFind;
 import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.utils.JsonListUtil;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.moudle.student.domain.Zstudent;
 import com.ruoyi.moudle.student.mapper.ZstudentMapper;
 import com.ruoyi.moudle.student.service.ZstudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import redis.clients.jedis.Jedis;
 
 import java.util.List;
 
@@ -21,6 +27,8 @@ public class ZstudentServiceImpl implements ZstudentService
 {
     @Autowired
     private ZstudentMapper zstudentMapper;
+    @Autowired
+    private Jedis jedis;
 
     /**
      * 查询【请填写功能名称】
@@ -36,15 +44,38 @@ public class ZstudentServiceImpl implements ZstudentService
 
     /**
      * 查询【请填写功能名称】列表
-     * 
+     *
      * @param zstudent 【请填写功能名称】
      * @return 【请填写功能名称】
      */
     @Override
+    @CacheFind(key = "STU_LIST")
     public List<Zstudent> selectZstudentList(Zstudent zstudent)
     {
         return zstudentMapper.selectZstudentList(zstudent);
     }
+
+//    /**
+//     * 查询【请填写功能名称】列表
+//     *
+//     * @param zstudent 【请填写功能名称】
+//     * @return 【请填写功能名称】
+//     */
+//    @Override
+//    public List<Zstudent> selectZstudentList(Zstudent zstudent)
+//    {
+//        if(jedis.exists(zstudent.getName())){
+//            String value = jedis.get(zstudent.getName());
+//            List<Zstudent> zstudents = JsonListUtil.jsonToList(value, Zstudent.class);
+//            return zstudents;
+//        }else {
+//            List<Zstudent> zstudents = zstudentMapper.selectZstudentList(zstudent);
+//            if(StringUtils.isNotEmpty(zstudent.getName())){
+//                jedis.set(zstudent.getName(),JsonListUtil.listToJson(zstudents));
+//            }
+//            return zstudents;
+//        }
+//    }
 
     /**
      * 新增【请填写功能名称】
@@ -56,6 +87,7 @@ public class ZstudentServiceImpl implements ZstudentService
     @Transactional
     public int insertZstudent(Zstudent zstudent)
     {
+        jedis.flushDB();
         zstudentMapper.insertZstudent(zstudent);
 //        if(true){
 //            throw new RuntimeException("测试");
@@ -72,6 +104,7 @@ public class ZstudentServiceImpl implements ZstudentService
     @Override
     public int updateZstudent(Zstudent zstudent)
     {
+        jedis.flushDB();
         return zstudentMapper.updateZstudent(zstudent);
     }
 
@@ -84,6 +117,7 @@ public class ZstudentServiceImpl implements ZstudentService
     @Override
     public int deleteZstudentByIds(String ids)
     {
+        jedis.flushDB();
         return zstudentMapper.deleteZstudentByIds(Convert.toStrArray(ids));
     }
 
@@ -96,6 +130,7 @@ public class ZstudentServiceImpl implements ZstudentService
     @Override
     public int deleteZstudentById(Long id)
     {
+        jedis.flushDB();
         return zstudentMapper.deleteZstudentById(id);
     }
 }
