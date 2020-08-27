@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 【请填写功能名称】Service业务层处理
@@ -47,6 +48,7 @@ public class ZleidatuServiceImpl implements IZleidatu
     @Override
     public List<Zleidatu> selectZstudentList(Zleidatu zstudent)
     {
+        Set<String> keys = jedis.keys("LEIDA_LIST");
         return zstudentMapper.selectZstudentList(zstudent);
     }
 
@@ -59,6 +61,7 @@ public class ZleidatuServiceImpl implements IZleidatu
     @Override
     public int insertZstudent(Zleidatu zstudent)
     {
+
         jedis.flushDB();
         return zstudentMapper.insertZstudent(zstudent);
     }

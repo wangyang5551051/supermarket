@@ -47,7 +47,7 @@ public class CacheAOP {
 //            String args = Arrays.toString(joinPoint.getArgs());
             Object o = joinPoint.getArgs()[0];
             Zstudent zstudent = JSON.parseObject(JsonListUtil.objectToJson(o),Zstudent.class);
-            String key = prekey + "::" + zstudent.getName();
+            String key = prekey + "::" + zstudent.getName()+"::" +zstudent.getAge();
             //3.检验redis中是否有数据
             if(jedis.exists(key)){
                 //有缓存  从redis缓存中获取json 之后还原对象返回
