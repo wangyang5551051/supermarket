@@ -1,11 +1,13 @@
 package com.ruoyi.leida.service.impl;
 
+import com.ruoyi.annotation.CacheFind;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.leida.domain.Zleidatu;
 import com.ruoyi.leida.mapper.ZleidatuMapper;
 import com.ruoyi.leida.service.IZleidatu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
 
 import java.util.List;
 
@@ -20,6 +22,8 @@ public class ZleidatuServiceImpl implements IZleidatu
 {
     @Autowired
     private ZleidatuMapper zstudentMapper;
+    @Autowired
+    private Jedis jedis;
 
     /**
      * 查询【请填写功能名称】
@@ -39,6 +43,7 @@ public class ZleidatuServiceImpl implements IZleidatu
      * @param zstudent 【请填写功能名称】
      * @return 【请填写功能名称】
      */
+    @CacheFind(key = "LEIDA_LIST")
     @Override
     public List<Zleidatu> selectZstudentList(Zleidatu zstudent)
     {
@@ -54,6 +59,7 @@ public class ZleidatuServiceImpl implements IZleidatu
     @Override
     public int insertZstudent(Zleidatu zstudent)
     {
+        jedis.flushDB();
         return zstudentMapper.insertZstudent(zstudent);
     }
 
@@ -66,6 +72,7 @@ public class ZleidatuServiceImpl implements IZleidatu
     @Override
     public int updateZstudent(Zleidatu zstudent)
     {
+        jedis.flushDB();
         return zstudentMapper.updateZstudent(zstudent);
     }
 
@@ -78,6 +85,7 @@ public class ZleidatuServiceImpl implements IZleidatu
     @Override
     public int deleteZstudentByIds(String ids)
     {
+        jedis.flushDB();
         return zstudentMapper.deleteZstudentByIds(Convert.toStrArray(ids));
     }
 
@@ -90,6 +98,7 @@ public class ZleidatuServiceImpl implements IZleidatu
     @Override
     public int deleteZstudentById(Long id)
     {
+        jedis.flushDB();
         return zstudentMapper.deleteZstudentById(id);
     }
 }
