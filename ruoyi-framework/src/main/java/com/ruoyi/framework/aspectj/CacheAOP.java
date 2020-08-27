@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.ruoyi.common.annotation.CacheFind;
 import com.ruoyi.common.utils.JsonListUtil;
 import com.ruoyi.common.utils.ObjectMapperUtil;
-import com.ruoyi.moudle.student.domain.Zstudent;
+import com.ruoyi.student.domain.Zstudent;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -46,7 +46,7 @@ public class CacheAOP {
             //2.动态获取方法中的参数  将数组转化为字符串
 //            String args = Arrays.toString(joinPoint.getArgs());
             Object o = joinPoint.getArgs()[0];
-            Zstudent zstudent = JSON.parseObject(JsonListUtil.objectToJson(o), Zstudent.class);
+            Zstudent zstudent = JSON.parseObject(JsonListUtil.objectToJson(o),Zstudent.class);
             String key = prekey + "::" + zstudent.getName();
             //3.检验redis中是否有数据
             if(jedis.exists(key)){

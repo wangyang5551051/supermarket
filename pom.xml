@@ -201,6 +201,13 @@
                 <artifactId>ruoyi-common</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
+
+            <!-- 通用工具-->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-student</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
             <!-- redis -->
             <!--<dependency>-->
                 <!--<groupId>redis.clients</groupId>-->
@@ -220,6 +227,7 @@
         <module>ruoyi-quartz</module>
         <module>ruoyi-generator</module>
         <module>ruoyi-common</module>
+        <module>ruoyi-student</module>
     </modules>
     <packaging>pom</packaging>
 
