@@ -1,7 +1,7 @@
-package com.ruoyi.framework.aspectj;
+package com.ruoyi.aspectj;
 
 import com.alibaba.fastjson.JSON;
-import com.ruoyi.common.annotation.CacheFind;
+import com.ruoyi.annotation.CacheFind;
 import com.ruoyi.common.utils.JsonListUtil;
 import com.ruoyi.common.utils.ObjectMapperUtil;
 import com.ruoyi.student.domain.Zstudent;
@@ -21,7 +21,7 @@ public class CacheAOP {
     @Autowired
     private Jedis jedis;
 
-//    @Pointcut("@annotation(com.ruoyi.common.annotation.CacheFind)") //只拦截xxx类中的方法
+//    @Pointcut("@annotation(com.ruoyi.annotation.CacheFind)") //只拦截xxx类中的方法
 //    public void pointCut(){
 //
 //    }

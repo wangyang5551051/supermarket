@@ -1,6 +1,6 @@
 package com.ruoyi.student.service.impl;
 
-import com.ruoyi.common.annotation.CacheFind;
+import com.ruoyi.annotation.CacheFind;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.student.domain.Zstudent;
 import com.ruoyi.student.mapper.ZstudentMapper;

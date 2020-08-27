@@ -99,7 +99,7 @@ public class ZleidaController extends BaseController
     /**
      * 修改【动态雷达图】
      */
-    @GetMapping("/com/ruoyi/leida/{id}")
+    @GetMapping("/leida/{id}")
     public String leida(@PathVariable("id") Long id, ModelMap mmap)
     {
         Zleidatu zleidatu = zstudentService.selectZstudentById(id);
