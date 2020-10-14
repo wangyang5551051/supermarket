@@ -14,13 +14,12 @@ import java.util.List;
 
 /**
  * 【请填写功能名称】Service业务层处理
- * 
+ *
  * @author ruoyi
  * @date 2020-08-04
  */
 @Service
-public class ZstudentServiceImpl implements ZstudentService
-{
+public class ZstudentServiceImpl implements ZstudentService {
     @Autowired
     private ZstudentMapper zstudentMapper;
     @Autowired
@@ -28,13 +27,12 @@ public class ZstudentServiceImpl implements ZstudentService
 
     /**
      * 查询【请填写功能名称】
-     * 
+     *
      * @param id 【请填写功能名称】ID
      * @return 【请填写功能名称】
      */
     @Override
-    public Zstudent selectZstudentById(Long id)
-    {
+    public Zstudent selectZstudentById(Long id) {
         return zstudentMapper.selectZstudentById(id);
     }
 
@@ -46,86 +44,60 @@ public class ZstudentServiceImpl implements ZstudentService
      */
     @Override
     @CacheFind(key = "STU_LIST")
-    public List<Zstudent> selectZstudentList(Zstudent zstudent)
-    {
+    public List<Zstudent> selectZstudentList(Zstudent zstudent) {
+//        QueryWrapper<Zstudent> queryWrapper4 = new QueryWrapper<>();
+//        queryWrapper4.lambda().like(Zstudent::getName,zstudent.getName());
+//        List<Zstudent> id = zstudentMapper.selectList(queryWrapper4);
         return zstudentMapper.selectZstudentList(zstudent);
     }
 
-//    /**
-//     * 查询【请填写功能名称】列表
-//     *
-//     * @param zstudent 【请填写功能名称】
-//     * @return 【请填写功能名称】
-//     */
-//    @Override
-//    public List<Zstudent> selectZstudentList(Zstudent zstudent)
-//    {
-//        if(jedis.exists(zstudent.getName())){
-//            String value = jedis.get(zstudent.getName());
-//            List<Zstudent> zstudents = JsonListUtil.jsonToList(value, Zstudent.class);
-//            return zstudents;
-//        }else {
-//            List<Zstudent> zstudents = zstudentMapper.selectZstudentList(zstudent);
-//            if(StringUtils.isNotEmpty(zstudent.getName())){
-//                jedis.set(zstudent.getName(),JsonListUtil.listToJson(zstudents));
-//            }
-//            return zstudents;
-//        }
-//    }
-
     /**
      * 新增【请填写功能名称】
-     * 
+     *
      * @param zstudent 【请填写功能名称】
      * @return 结果
      */
     @Override
     @Transactional
-    public int insertZstudent(Zstudent zstudent)
-    {
+    public int insertZstudent(Zstudent zstudent) {
         jedis.flushDB();
         zstudentMapper.insertZstudent(zstudent);
-//        if(true){
-//            throw new RuntimeException("测试");
-//        }
         return 1;
     }
 
     /**
      * 修改【请填写功能名称】
-     * 
+     *
      * @param zstudent 【请填写功能名称】
      * @return 结果
      */
     @Override
-    public int updateZstudent(Zstudent zstudent)
-    {
+    public int updateZstudent(Zstudent zstudent) {
         jedis.flushDB();
-        return zstudentMapper.updateZstudent(zstudent);
+        zstudentMapper.updateZstudent(zstudent);
+        return 1;
     }
 
     /**
      * 删除【请填写功能名称】对象
-     * 
+     *
      * @param ids 需要删除的数据ID
      * @return 结果
      */
     @Override
-    public int deleteZstudentByIds(String ids)
-    {
+    public int deleteZstudentByIds(String ids) {
         jedis.flushDB();
         return zstudentMapper.deleteZstudentByIds(Convert.toStrArray(ids));
     }
 
     /**
      * 删除【请填写功能名称】信息
-     * 
+     *
      * @param id 【请填写功能名称】ID
      * @return 结果
      */
     @Override
-    public int deleteZstudentById(Long id)
-    {
+    public int deleteZstudentById(Long id) {
         jedis.flushDB();
         return zstudentMapper.deleteZstudentById(id);
     }

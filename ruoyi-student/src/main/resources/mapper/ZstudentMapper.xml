@@ -59,5 +59,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+    <insert id="insertZstudentList" parameterType="java.util.List">
+        insert into zstudent (name,age) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.name},#{item.age})
+        </foreach>
+    </insert>
 
+    <update id="updateZstudentList"  parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator="">
+            update zstudent
+            set age=${item.age}
+            where id = ${item.id};
+        </foreach>
+    </update>
+    <update id="updateZstudentListById">
+        update zstudent
+        set age=${age},jisha=${jisha},mofa=${mofa}
+        where id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+           ${item}
+        </foreach>
+    </update>
 </mapper>

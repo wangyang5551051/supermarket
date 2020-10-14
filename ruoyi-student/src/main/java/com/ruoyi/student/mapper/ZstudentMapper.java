@@ -1,7 +1,10 @@
 package com.ruoyi.student.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.student.domain.Zstudent;
+import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -10,7 +13,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2020-08-04
  */
-public interface ZstudentMapper 
+public interface ZstudentMapper extends BaseMapper<Zstudent>
 {
     /**
      * 查询【请填写功能名称】
@@ -59,4 +62,10 @@ public interface ZstudentMapper
      * @return 结果
      */
     public int deleteZstudentByIds(String[] ids);
+
+    void insertZstudentList(List<Zstudent> list);
+
+    void updateZstudentList(List<Zstudent> list);
+
+    void updateZstudentListById(@Param("list") List<Long> list,@Param("age") long age,@Param("jisha") BigDecimal jisha,@Param("mofa") BigDecimal mofa);
 }
