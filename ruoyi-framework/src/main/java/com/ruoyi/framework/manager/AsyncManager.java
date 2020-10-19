@@ -19,7 +19,7 @@ public class AsyncManager
     private final int OPERATE_DELAY_TIME = 10;
 
     /**
-     * 异步操作任务调度线程池
+     * 异步操作任务调度线程池 通过？方法创建ScheduledExecutorService的实例
      */
     private ScheduledExecutorService executor = SpringUtils.getBean("scheduledExecutorService");
 
@@ -42,6 +42,11 @@ public class AsyncManager
      */
     public void execute(TimerTask task)
     {
+        //循环环任务，按照上一次任务的发起时间计算下一次任务的开始时间
+//        executor.scheduleAtFixedRate()
+        // 循环任务，以上一次任务的结束时间计算下一次任务的开始时间
+//        executor.scheduleWithFixedDelay()
+        //延时任务
         executor.schedule(task, OPERATE_DELAY_TIME, TimeUnit.MILLISECONDS);
     }
 

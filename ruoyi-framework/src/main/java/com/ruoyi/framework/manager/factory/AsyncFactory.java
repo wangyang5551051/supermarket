@@ -1,6 +1,8 @@
 package com.ruoyi.framework.manager.factory;
 
 import java.util.TimerTask;
+
+import com.ruoyi.system.service.ISysLogininforService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.ruoyi.common.constant.Constants;
@@ -18,6 +20,7 @@ import com.ruoyi.system.service.ISysOperLogService;
 import com.ruoyi.system.service.ISysUserOnlineService;
 import com.ruoyi.system.service.impl.SysLogininforServiceImpl;
 import eu.bitwalker.useragentutils.UserAgent;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 异步工厂（产生任务用）
@@ -27,6 +30,9 @@ import eu.bitwalker.useragentutils.UserAgent;
  */
 public class AsyncFactory
 {
+    @Autowired
+    ISysLogininforService iSysLogininforService;
+
     private static final Logger sys_user_logger = LoggerFactory.getLogger("sys-user");
 
     /**

@@ -60,4 +60,6 @@ public interface ZstudentService
      * @return 结果
      */
     public int deleteZstudentById(Long id);
+
+    Object[] selectWeather(String province, String city, String area, String data);
 }

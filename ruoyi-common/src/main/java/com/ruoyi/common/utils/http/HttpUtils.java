@@ -1,21 +1,19 @@
 package com.ruoyi.common.utils.http;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.io.*;
+import java.net.*;
 import java.security.cert.X509Certificate;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+
+import com.ruoyi.common.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.ruoyi.common.constant.Constants;
@@ -258,5 +256,83 @@ public class HttpUtils
         {
             return true;
         }
+    }
+
+    /**
+     * 向指定URL发送GET方法的请求
+     */
+    public static String sendGet(String url, Map<String, String> header) throws UnsupportedEncodingException, IOException {
+        String result = "";
+        BufferedReader in = null;
+        String urlNameString = url ;
+        URL realUrl = new URL(urlNameString);
+        // 打开和URL之间的连接
+        URLConnection connection = realUrl.openConnection();
+        //设置超时时间
+        connection.setConnectTimeout(5000);
+        connection.setReadTimeout(15000);
+        // 设置通用的请求属性
+        if (header!=null) {
+            Iterator<Map.Entry<String, String>> it =header.entrySet().iterator();
+            while(it.hasNext()){
+                Map.Entry<String, String> entry = it.next();
+//                System.out.println(entry.getKey()+":"+entry.getValue());
+                connection.setRequestProperty(entry.getKey(), entry.getValue());
+            }
+        }
+
+        connection.setRequestProperty("accept", "*/*");
+        connection.setRequestProperty("connection", "Keep-Alive");
+        connection.setRequestProperty("user-agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+
+        // 建立实际的连接
+        connection.connect();
+        // 获取所有响应头字段
+        Map<String, List<String>> map = connection.getHeaderFields();
+        // 遍历所有的响应头字段
+        for (String key : map.keySet()) {
+//            System.out.println(key + "--->" + map.get(key));
+        }
+        // 定义 BufferedReader输入流来读取URL的响应，设置utf8防止中文乱码
+        in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
+        String line;
+        while ((line = in.readLine()) != null) {
+            result += line;
+        }
+        if (in != null) {
+            in.close();
+        }
+        return result;
+    }
+
+    public static String buildUrl(String host, String path, Map<String, String> querys) throws UnsupportedEncodingException {
+        StringBuilder sbUrl = new StringBuilder();
+        sbUrl.append(host);
+        if (!StringUtils.isBlank(path)) {
+            sbUrl.append(path);
+        }
+        if (null != querys) {
+            StringBuilder sbQuery = new StringBuilder();
+            for (Map.Entry<String, String> query : querys.entrySet()) {
+                if (0 < sbQuery.length()) {
+                    sbQuery.append("&");
+                }
+                if (StringUtils.isBlank(query.getKey()) && !StringUtils.isBlank(query.getValue())) {
+                    sbQuery.append(query.getValue());
+                }
+                if (!StringUtils.isBlank(query.getKey())) {
+                    sbQuery.append(query.getKey());
+                    if (!StringUtils.isBlank(query.getValue())) {
+                        sbQuery.append("=");
+                        sbQuery.append(URLEncoder.encode(query.getValue(), "utf-8"));
+                    }
+                }
+            }
+            if (0 < sbQuery.length()) {
+                sbUrl.append("?").append(sbQuery);
+            }
+        }
+
+        return sbUrl.toString();
     }
 }
