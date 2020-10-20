@@ -18,37 +18,66 @@
         .flot-chart {
             height: 500px;
         }
+
+        @media ( max-width : 768px) {
+            .search-collapse {
+                display: block;
+            }
+        }
     </style>
 </head>
 
 <body class="gray-bg">
-<div class="row">
+<!--<div class="col-sm-12 search-collapse">-->
+<!--<form id="formId1">-->
+<!--<div class="select-list">-->
+<!--<ul>-->
+<!--<li>-->
+<!--<label>姓名：</label>-->
+<!--<input type="text" name="name"/>-->
+<!--</li>-->
+<!--<li>-->
+<!--<label>年龄：</label>-->
+<!--<input type="text" name="age"/>-->
+<!--</li>-->
+<!--<li>-->
+<!--<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>-->
+<!--<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>-->
+<!--</li>-->
+<!--</ul>-->
+<!--</div>-->
+<!--</form>-->
+<!--</div>-->
+
     <div class="col-sm-12 search-collapse">
-        <form id="formId1">
+        <form id="formId">
             <div class="select-list">
                 <ul>
                     <li>
                         <label>省：</label>
-                        <input type="text" value="河南" id="name"/>
+                        <input type="text" value="河南" name="name" id="name"/>
                     </li>
                     <li>
                         <label>市：</label>
-                        <input type="text" value="平顶山" id="name1"/>
+                        <input type="text" value="平顶山" name="name1" id="name1"/>
                     </li>
                     <li>
                         <label>县：</label>
-                        <input type="text" value="郏县" id="name2"/>
+                        <input type="text" value="郏县" name="name2" id="name2"/>
                     </li>
                     <li>
                         <a class="btn btn-primary btn-rounded btn-sm" onclick="searchWeather()"><i
                                 class="fa fa-search"></i>&nbsp;搜索</a>
-                        <a class="btn btn-warning btn-rounded btn-sm" onclick="reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                        <a class="btn btn-warning btn-rounded btn-sm" onclick="reset()"><i
+                                class="fa fa-refresh"></i>&nbsp;重置</a>
                     </li>
                 </ul>
             </div>
         </form>
     </div>
-</div>
+
+
+
 <div class="row">
     <div class="col-sm-12">
         <div class="ibox float-e-margins">
@@ -81,7 +110,7 @@
     <div class="col-sm-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>用户项目列表</h5>
+                <h5>未来一周气温变化</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>
@@ -99,6 +128,11 @@
                         <th>白天气温</th>
                         <th>夜间气温</th>
                         <th>舒适度指数</th>
+                        <th>空气质量</th>
+                        <th>风向</th>
+                        <th>风级</th>
+                        <th>日出时间</th>
+                        <th>日落时间</th>
                     </tr>
                     </thead>
 
@@ -235,7 +269,7 @@
 
     function searchWeather() {
         var config = {
-            url: ctx + "system/zstudent/test",
+            url: ctx + "weather",
             type: "post",
             dataType: "json",
             data: {
@@ -248,7 +282,6 @@
             },
             success: function (result) {
                 if (result.code == web_status.SUCCESS) {
-                    console.log(result);
                     initWeather(result.data);
                     initTable(result.data[3]);
                 } else if (result.code == web_status.FAIL) {
@@ -340,14 +373,27 @@
             "            </tr>");
         var a;
         for (var i = 0; i < data.length; i++) {
-            a = a+ "<tr><td><span class='label label-primary'>"+ data[i].date+"</span></td>" +
-                "<td> <i class=\"fa fa-cloud\"></i> "+data[i].day_air_temperature+"℃</td>" +
-                "<td><span class=\"fa fa-cloud\">"+data[i].night_air_temperature+"℃</span></td>" +
-                "<td class=\"text-navy\"><i class=\"fa fa-level-up\"></i> "+ data[i].live.co.title+"</td>" +
+            a = a + "<tr><td><span class='label label-primary'>" + data[i].nongli + "</span></td>" +
+                "<td> <i class=\"fa fa-cloud\"></i> " + data[i].day_air_temperature + "℃</td>" +
+                "<td><span class=\"fa fa-cloud\">" + data[i].night_air_temperature + "℃</span></td>" +
+                "<td class=\"text-navy\"><i class=\"fa fa-level-up\"></i> " + data[i].live.co.title + "</td>" +
+                "<td>" + data[i].quality + "</span></td>" +
+                "<td>" + data[i].day_wind_direction + "</span></td>" +
+                "<td>" + data[i].day_wind_power + "</span></td>" +
+                "<td>" + data[i].sun_begin + "</span></td>" +
+                "<td>" + data[i].sun_end + "</span></td>" +
                 "</tr>";
         }
         console.log(data);
         $("#table1").after(a);
+    }
+
+
+
+    function reset() {
+       $("#name").val("");
+       $("#name1").val("");
+       $("#name2").val("");
     }
 </script>
 </body>

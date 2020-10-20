@@ -126,22 +126,4 @@ public class ZstudentController extends BaseController
         return toAjax(zstudentService.deleteZstudentByIds(ids));
     }
 
-    /**
-     *
-     */
-    @Log(title = "【查询天气】", businessType = BusinessType.DELETE)
-    @PostMapping( "/test")
-    @ResponseBody
-    public AjaxResult test(String province,String city,String area,String data)
-    {
-        Object[] list = zstudentService.selectWeather(province,city,area,data);
-        AjaxResult ajaxResult;
-        if(null == list){
-            ajaxResult = error("请输入正确的地址");
-        }else {
-            ajaxResult = toAjax(true);
-            ajaxResult.put("data",list);
-        }
-        return ajaxResult;
-    }
 }
