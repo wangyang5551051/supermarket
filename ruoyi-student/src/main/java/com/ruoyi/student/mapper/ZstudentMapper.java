@@ -1,6 +1,5 @@
 package com.ruoyi.student.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.student.domain.Zstudent;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,7 +12,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2020-08-04
  */
-public interface ZstudentMapper extends BaseMapper<Zstudent>
+public interface ZstudentMapper
 {
     /**
      * 查询【请填写功能名称】

@@ -62,4 +62,6 @@ public interface ZstudentService
     public int deleteZstudentById(Long id);
 
     Object[] selectWeather(String province, String city, String area, String data);
+
+    Object[] selectWeatherRabbit(String province, String city, String area, String data);
 }

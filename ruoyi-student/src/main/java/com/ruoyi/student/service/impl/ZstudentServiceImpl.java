@@ -3,19 +3,22 @@ package com.ruoyi.student.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.ruoyi.annotation.CacheFind;
 import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.utils.ObjectMapperUtil;
 import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.student.domain.Zstudent;
 import com.ruoyi.student.mapper.ZstudentMapper;
 import com.ruoyi.student.service.ZstudentService;
+import com.ruoyi.system.service.ISysLogininforService;
+import com.ruoyi.test.MsgProducer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 【请填写功能名称】Service业务层处理
@@ -28,8 +31,13 @@ public class ZstudentServiceImpl implements ZstudentService {
     @Autowired
     private ZstudentMapper zstudentMapper;
     @Autowired
-    private Jedis jedis;
+    private JedisPool jedisPool;
+    @Autowired
+    private MsgProducer msgProducer;
+    @Autowired
+    private ISysLogininforService iSysLogininforService;
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     /**
      * 查询【请填写功能名称】
      *
@@ -65,7 +73,9 @@ public class ZstudentServiceImpl implements ZstudentService {
     @Override
     @Transactional
     public int insertZstudent(Zstudent zstudent) {
+        Jedis jedis = jedisPool.getResource();
         jedis.flushDB();
+        jedis.close();
         zstudentMapper.insertZstudent(zstudent);
         return 1;
     }
@@ -78,7 +88,9 @@ public class ZstudentServiceImpl implements ZstudentService {
      */
     @Override
     public int updateZstudent(Zstudent zstudent) {
+        Jedis jedis = jedisPool.getResource();
         jedis.flushDB();
+        jedis.close();
         zstudentMapper.updateZstudent(zstudent);
         return 1;
     }
@@ -91,7 +103,9 @@ public class ZstudentServiceImpl implements ZstudentService {
      */
     @Override
     public int deleteZstudentByIds(String ids) {
+        Jedis jedis = jedisPool.getResource();
         jedis.flushDB();
+        jedis.close();
         return zstudentMapper.deleteZstudentByIds(Convert.toStrArray(ids));
     }
 
@@ -103,7 +117,9 @@ public class ZstudentServiceImpl implements ZstudentService {
      */
     @Override
     public int deleteZstudentById(Long id) {
+        Jedis jedis = jedisPool.getResource();
         jedis.flushDB();
+        jedis.close();
         return zstudentMapper.deleteZstudentById(id);
     }
 
@@ -166,5 +182,64 @@ public class ZstudentServiceImpl implements ZstudentService {
             return null;
         }
         return objects;
+    }
+
+    @Override
+    public Object[] selectWeatherRabbit(String province, String city, String area, String needday) {
+        Jedis jedis = jedisPool.getResource();
+        Map<String,String> querys = new TreeMap<>();
+        querys.put("prov", province);
+        querys.put("city", city);
+        querys.put("area", area);
+        querys.put("needday",needday);
+        String key = "Weather" + "::" + JSON.toJSONString(querys);
+        Object[] result = new Object[4];
+        try {
+            //mq记录日志
+            msgProducer.sendMsgC(JSON.toJSONString(querys));
+            if(jedis.exists(key)){
+                //有缓存  从redis缓存中获取json 之后还原对象返回
+                String json = jedis.get(key);
+                result = ObjectMapperUtil.toObject(json, Object[].class);
+                logger.info("redis实现缓存查询!!!!");
+            }else{
+                String host = "https://iweather.market.alicloudapi.com";
+                String path = "/address";
+                String method = "GET";
+                String appcode = "b3f02b20f86d4ee0a41167ca372b998c";
+                Map<String, String> headers = new HashMap<String, String>();
+                //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+                headers.put("Authorization", "APPCODE " + appcode);
+                String buildUrl = HttpUtils.buildUrl(host, path, querys);
+                String response = HttpUtils.sendGet(buildUrl,headers);
+                HashMap hashMap1 = JSON.parseObject(response, HashMap.class);
+                Object data1 = hashMap1.get("data");
+                HashMap hashMap2 = JSON.parseObject(data1.toString(), HashMap.class);
+                Object data2 = hashMap2.get("day7");
+                List<HashMap> maps = JSON.parseArray(data2.toString(), HashMap.class);
+                List<Object> air = new ArrayList<>();
+                List<Object> nightAir = new ArrayList<>();
+                List<Object> date = new ArrayList<>();
+                maps.forEach(x ->{
+                    air.add(x.get("day_air_temperature"));
+                    nightAir.add(x.get("night_air_temperature"));
+                    date.add("周"+x.get("week").toString());
+                });
+                result[0] = date;
+                result[1] = air;
+                result[2] = nightAir;
+//                result[3] = data2;
+                jedis.set(key,JSON.toJSONString(result));
+            }
+        } catch (Exception e) {
+//            result = null;
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }finally {
+            if(null != jedis){
+                jedis.close();
+            }
+        }
+        return result;
     }
 }

@@ -23,8 +23,8 @@ public class ZleidatuServiceImpl implements IZleidatu
 {
     @Autowired
     private ZleidatuMapper zstudentMapper;
-    @Autowired
-    private Jedis jedis;
+//    @Autowired
+//    private Jedis jedis;
 
     /**
      * 查询【请填写功能名称】
@@ -48,7 +48,6 @@ public class ZleidatuServiceImpl implements IZleidatu
     @Override
     public List<Zleidatu> selectZstudentList(Zleidatu zstudent)
     {
-        Set<String> keys = jedis.keys("LEIDA_LIST");
         return zstudentMapper.selectZstudentList(zstudent);
     }
 
@@ -62,7 +61,7 @@ public class ZleidatuServiceImpl implements IZleidatu
     public int insertZstudent(Zleidatu zstudent)
     {
 
-        jedis.flushDB();
+//        jedis.flushDB();
         return zstudentMapper.insertZstudent(zstudent);
     }
 
@@ -75,7 +74,7 @@ public class ZleidatuServiceImpl implements IZleidatu
     @Override
     public int updateZstudent(Zleidatu zstudent)
     {
-        jedis.flushDB();
+//        jedis.flushDB();
         return zstudentMapper.updateZstudent(zstudent);
     }
 
@@ -88,7 +87,7 @@ public class ZleidatuServiceImpl implements IZleidatu
     @Override
     public int deleteZstudentByIds(String ids)
     {
-        jedis.flushDB();
+//        jedis.flushDB();
         return zstudentMapper.deleteZstudentByIds(Convert.toStrArray(ids));
     }
 
@@ -101,7 +100,7 @@ public class ZleidatuServiceImpl implements IZleidatu
     @Override
     public int deleteZstudentById(Long id)
     {
-        jedis.flushDB();
+//        jedis.flushDB();
         return zstudentMapper.deleteZstudentById(id);
     }
 }

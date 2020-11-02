@@ -19,7 +19,7 @@
             height: 500px;
         }
 
-        @media ( max-width : 768px) {
+        @media ( max-width: 768px) {
             .search-collapse {
                 display: block;
             }
@@ -49,33 +49,32 @@
 <!--</form>-->
 <!--</div>-->
 
-    <div class="col-sm-12 search-collapse">
-        <form id="formId">
-            <div class="select-list">
-                <ul>
-                    <li>
-                        <label>省：</label>
-                        <input type="text" value="河南" name="name" id="name"/>
-                    </li>
-                    <li>
-                        <label>市：</label>
-                        <input type="text" value="平顶山" name="name1" id="name1"/>
-                    </li>
-                    <li>
-                        <label>县：</label>
-                        <input type="text" value="郏县" name="name2" id="name2"/>
-                    </li>
-                    <li>
-                        <a class="btn btn-primary btn-rounded btn-sm" onclick="searchWeather()"><i
-                                class="fa fa-search"></i>&nbsp;搜索</a>
-                        <a class="btn btn-warning btn-rounded btn-sm" onclick="reset()"><i
-                                class="fa fa-refresh"></i>&nbsp;重置</a>
-                    </li>
-                </ul>
-            </div>
-        </form>
-    </div>
-
+<div class="col-sm-12 search-collapse">
+    <form id="formId">
+        <div class="select-list">
+            <ul>
+                <li>
+                    <label>省：</label>
+                    <input type="text" value="河南" name="name" id="name"/>
+                </li>
+                <li>
+                    <label>市：</label>
+                    <input type="text" value="平顶山" name="name1" id="name1"/>
+                </li>
+                <li>
+                    <label>县：</label>
+                    <input type="text" value="郏县" name="name2" id="name2"/>
+                </li>
+                <li>
+                    <a class="btn btn-primary btn-rounded btn-sm" onclick="searchWeather()"><i
+                            class="fa fa-search"></i>&nbsp;搜索</a>
+                    <a class="btn btn-warning btn-rounded btn-sm" onclick="reset()"><i
+                            class="fa fa-refresh"></i>&nbsp;重置</a>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>
 
 
 <div class="row">
@@ -126,7 +125,9 @@
                     <tr>
                         <th>日期</th>
                         <th>白天气温</th>
+                        <th>白天天气</th>
                         <th>夜间气温</th>
+                        <th>夜间天气</th>
                         <th>舒适度指数</th>
                         <th>空气质量</th>
                         <th>风向</th>
@@ -152,115 +153,6 @@
 <th:block th:include="include :: echarts-js"/>
 <script th:inline="javascript">
     $(document).ready(function () {
-        var data2 = [
-            [gd(2012, 1, 1), 7], [gd(2012, 1, 2), 6], [gd(2012, 1, 3), 4], [gd(2012, 1, 4), 8],
-            [gd(2012, 1, 5), 9], [gd(2012, 1, 6), 7], [gd(2012, 1, 7), 5], [gd(2012, 1, 8), 4],
-            [gd(2012, 1, 9), 7], [gd(2012, 1, 10), 8], [gd(2012, 1, 11), 9], [gd(2012, 1, 12), 6],
-            [gd(2012, 1, 13), 4], [gd(2012, 1, 14), 5], [gd(2012, 1, 15), 11], [gd(2012, 1, 16), 8],
-            [gd(2012, 1, 17), 8], [gd(2012, 1, 18), 11], [gd(2012, 1, 19), 11], [gd(2012, 1, 20), 6],
-            [gd(2012, 1, 21), 6], [gd(2012, 1, 22), 8], [gd(2012, 1, 23), 11], [gd(2012, 1, 24), 13],
-            [gd(2012, 1, 25), 7], [gd(2012, 1, 26), 9], [gd(2012, 1, 27), 9], [gd(2012, 1, 28), 8],
-            [gd(2012, 1, 29), 5], [gd(2012, 1, 30), 8], [gd(2012, 1, 31), 25]
-        ];
-
-        var data3 = [
-            [gd(2012, 1, 1), 800], [gd(2012, 1, 2), 500], [gd(2012, 1, 3), 600], [gd(2012, 1, 4), 700],
-            [gd(2012, 1, 5), 500], [gd(2012, 1, 6), 456], [gd(2012, 1, 7), 800], [gd(2012, 1, 8), 589],
-            [gd(2012, 1, 9), 467], [gd(2012, 1, 10), 876], [gd(2012, 1, 11), 689], [gd(2012, 1, 12), 700],
-            [gd(2012, 1, 13), 500], [gd(2012, 1, 14), 600], [gd(2012, 1, 15), 700], [gd(2012, 1, 16), 786],
-            [gd(2012, 1, 17), 345], [gd(2012, 1, 18), 888], [gd(2012, 1, 19), 888], [gd(2012, 1, 20), 888],
-            [gd(2012, 1, 21), 987], [gd(2012, 1, 22), 444], [gd(2012, 1, 23), 999], [gd(2012, 1, 24), 567],
-            [gd(2012, 1, 25), 786], [gd(2012, 1, 26), 666], [gd(2012, 1, 27), 888], [gd(2012, 1, 28), 900],
-            [gd(2012, 1, 29), 178], [gd(2012, 1, 30), 555], [gd(2012, 1, 31), 993]
-        ];
-
-
-        var dataset = [
-            {
-                label: "订单数",
-                data: data3,
-                color: "#1ab394",
-                bars: {
-                    show: true,
-                    align: "center",
-                    barWidth: 24 * 60 * 60 * 600,
-                    lineWidth: 0
-                }
-
-            }, {
-                label: "付款数",
-                data: data2,
-                yaxis: 2,
-                color: "#464f88",
-                lines: {
-                    lineWidth: 1,
-                    show: true,
-                    fill: true,
-                    fillColor: {
-                        colors: [{
-                            opacity: 0.2
-                        }, {
-                            opacity: 0.2
-                        }]
-                    }
-                },
-                splines: {
-                    show: false,
-                    tension: 0.6,
-                    lineWidth: 1,
-                    fill: 0.1
-                },
-            }
-        ];
-
-
-        var options = {
-            xaxis: {
-                mode: "time",
-                tickSize: [3, "day"],
-                tickLength: 0,
-                axisLabel: "Date",
-                axisLabelUseCanvas: true,
-                axisLabelFontSizePixels: 12,
-                axisLabelFontFamily: 'Arial',
-                axisLabelPadding: 10,
-                color: "#838383"
-            },
-            yaxes: [{
-                position: "left",
-                max: 1070,
-                color: "#838383",
-                axisLabelUseCanvas: true,
-                axisLabelFontSizePixels: 12,
-                axisLabelFontFamily: 'Arial',
-                axisLabelPadding: 3
-            }, {
-                position: "right",
-                clolor: "#838383",
-                axisLabelUseCanvas: true,
-                axisLabelFontSizePixels: 12,
-                axisLabelFontFamily: ' Arial',
-                axisLabelPadding: 67
-            }
-            ],
-            legend: {
-                noColumns: 1,
-                labelBoxBorderColor: "#000000",
-                position: "nw"
-            },
-            grid: {
-                hoverable: false,
-                borderWidth: 0,
-                color: '#838383'
-            }
-        };
-
-        function gd(year, month, day) {
-            return new Date(year, month - 1, day).getTime();
-        }
-
-        var previousPoint = null,
-            previousLabel = null;
 
         searchWeather();
 
@@ -276,6 +168,7 @@
                 province: $("#name").val(),
                 city: $("#name1").val(),
                 area: $("#name2").val(),
+                needday: '7'
             },
             beforeSend: function () {
                 $.modal.loading("正在处理中，请稍后...");
@@ -368,14 +261,19 @@
 
     }
 
+    //下雨 <span class="glyphicon glyphicon-tint" aria-hidden="true"></span>
+    //多云 <i class="fa fa-cloud">
+    //晴天 <span class="glyphicon glyphicon-certificate" aria-hidden="true"></span>
     function initTable(data) {
         $("#tbody1").html("<tr id=\"table1\">\n" +
             "            </tr>");
         var a;
         for (var i = 0; i < data.length; i++) {
             a = a + "<tr><td><span class='label label-primary'>" + data[i].nongli + "</span></td>" +
-                "<td> <i class=\"fa fa-cloud\"></i> " + data[i].day_air_temperature + "℃</td>" +
-                "<td><span class=\"fa fa-cloud\">" + data[i].night_air_temperature + "℃</span></td>" +
+                "<td>" + data[i].day_air_temperature + "℃</td>" +
+                "<td>" + airGlyphicons(data[i].day_air_weather) + data[i].day_air_weather + "</td>" +
+                "<td>" + data[i].night_air_temperature + "℃</span></td>" +
+                "<td>" + airGlyphicons(data[i].night_air_weather) + data[i].night_air_weather + "</td>" +
                 "<td class=\"text-navy\"><i class=\"fa fa-level-up\"></i> " + data[i].live.co.title + "</td>" +
                 "<td>" + data[i].quality + "</span></td>" +
                 "<td>" + data[i].day_wind_direction + "</span></td>" +
@@ -388,12 +286,24 @@
         $("#table1").after(a);
     }
 
-
+    function airGlyphicons(air) {
+        if (air.indexOf("晴") != -1) {
+            return '<span class="glyphicon glyphicon-certificate" aria-hidden="true"></span>';
+        } else if (air.indexOf("雨") != -1) {
+            return '<span class="glyphicon glyphicon-tint" aria-hidden="true"></span>';
+        } else if (air.indexOf("云") != -1) {
+            return '<i class="fa fa-cloud">';
+        }else if (air.indexOf("阴") != -1) {
+            return '<i class="fa fa-cloud">';
+        } else {
+            return '';
+        }
+    }
 
     function reset() {
-       $("#name").val("");
-       $("#name1").val("");
-       $("#name2").val("");
+        $("#name").val("");
+        $("#name1").val("");
+        $("#name2").val("");
     }
 </script>
 </body>

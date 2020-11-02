@@ -39,15 +39,40 @@ public class WeatherController extends BaseController
     /**
      *
      */
-    @Log(title = "【查询天气】", businessType = BusinessType.DELETE)
+    @Log(title = "【查询天气】", businessType = BusinessType.OTHER)
     @PostMapping( "/weather")
     @ResponseBody
-    public AjaxResult weather(String province,String city,String area,String data)
+    public AjaxResult weather(String province,String city,String area,String needday)
     {
         AjaxResult ajaxResult;
         Object[] list = null;
         try {
-            list = zstudentService.selectWeather(province,city,area,data);
+            list = zstudentService.selectWeather(province,city,area,needday);
+        } catch (Exception e) {
+            ajaxResult = error("请输入正确的地址");
+            return ajaxResult;
+        }
+        if(null == list){
+            ajaxResult = error("请输入正确的地址");
+        }else {
+            ajaxResult = toAjax(true);
+            ajaxResult.put("data",list);
+        }
+        return ajaxResult;
+    }
+
+    /**
+     *
+     */
+    @Log(title = "【rabbit性能测试】", businessType = BusinessType.OTHER)
+    @PostMapping( "/test")
+    @ResponseBody
+    public AjaxResult weatherRabbit(String province,String city,String area,String needday)
+    {
+        AjaxResult ajaxResult;
+        Object[] list = null;
+        try {
+            list = zstudentService.selectWeatherRabbit(province,city,area,needday);
         } catch (Exception e) {
             ajaxResult = error("请输入正确的地址");
             return ajaxResult;

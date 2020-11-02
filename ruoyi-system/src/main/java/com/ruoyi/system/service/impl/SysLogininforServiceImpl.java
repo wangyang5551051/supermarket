@@ -7,6 +7,7 @@ import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.system.domain.SysLogininfor;
 import com.ruoyi.system.mapper.SysLogininforMapper;
 import com.ruoyi.system.service.ISysLogininforService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 系统访问日志情况信息 服务层处理
@@ -26,6 +27,7 @@ public class SysLogininforServiceImpl implements ISysLogininforService
      * @param logininfor 访问日志对象
      */
     @Override
+    @Transactional
     public void insertLogininfor(SysLogininfor logininfor)
     {
         logininforMapper.insertLogininfor(logininfor);
