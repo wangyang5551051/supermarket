@@ -8,6 +8,7 @@ import com.ruoyi.leida.service.IZleidatu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import java.util.List;
 import java.util.Set;
@@ -23,8 +24,8 @@ public class ZleidatuServiceImpl implements IZleidatu
 {
     @Autowired
     private ZleidatuMapper zstudentMapper;
-//    @Autowired
-//    private Jedis jedis;
+    @Autowired
+    private JedisPool jedisPool;
 
     /**
      * 查询【请填写功能名称】
@@ -60,8 +61,9 @@ public class ZleidatuServiceImpl implements IZleidatu
     @Override
     public int insertZstudent(Zleidatu zstudent)
     {
-
-//        jedis.flushDB();
+        Jedis jedis = jedisPool.getResource();
+        jedis.flushDB();
+        jedis.close();
         return zstudentMapper.insertZstudent(zstudent);
     }
 
@@ -74,7 +76,9 @@ public class ZleidatuServiceImpl implements IZleidatu
     @Override
     public int updateZstudent(Zleidatu zstudent)
     {
-//        jedis.flushDB();
+        Jedis jedis = jedisPool.getResource();
+        jedis.flushDB();
+        jedis.close();
         return zstudentMapper.updateZstudent(zstudent);
     }
 
@@ -87,7 +91,9 @@ public class ZleidatuServiceImpl implements IZleidatu
     @Override
     public int deleteZstudentByIds(String ids)
     {
-//        jedis.flushDB();
+        Jedis jedis = jedisPool.getResource();
+        jedis.flushDB();
+        jedis.close();
         return zstudentMapper.deleteZstudentByIds(Convert.toStrArray(ids));
     }
 
@@ -100,7 +106,9 @@ public class ZleidatuServiceImpl implements IZleidatu
     @Override
     public int deleteZstudentById(Long id)
     {
-//        jedis.flushDB();
+        Jedis jedis = jedisPool.getResource();
+        jedis.flushDB();
+        jedis.close();
         return zstudentMapper.deleteZstudentById(id);
     }
 }
