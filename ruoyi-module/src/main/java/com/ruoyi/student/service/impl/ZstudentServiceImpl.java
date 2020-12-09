@@ -1,6 +1,5 @@
 package com.ruoyi.student.service.impl;
 
-import com.ruoyi.annotation.CacheFind;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.student.domain.Zstudent;
 import com.ruoyi.student.mapper.ZstudentMapper;
@@ -8,8 +7,6 @@ import com.ruoyi.student.service.ZstudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 
 import java.util.List;
 
@@ -23,8 +20,6 @@ import java.util.List;
 public class ZstudentServiceImpl implements ZstudentService {
     @Autowired
     private ZstudentMapper zstudentMapper;
-    @Autowired
-    private JedisPool jedisPool;
     /**
      * 查询【请填写功能名称】
      *
@@ -43,7 +38,6 @@ public class ZstudentServiceImpl implements ZstudentService {
      * @return 【请填写功能名称】
      */
     @Override
-    @CacheFind(key = "STU_LIST")
     public List<Zstudent> selectZstudentList(Zstudent zstudent) {
 //        QueryWrapper<Zstudent> queryWrapper4 = new QueryWrapper<>();
 //        queryWrapper4.lambda().like(Zstudent::getName,zstudent.getName());
@@ -60,9 +54,6 @@ public class ZstudentServiceImpl implements ZstudentService {
     @Override
     @Transactional
     public int insertZstudent(Zstudent zstudent) {
-        Jedis jedis = jedisPool.getResource();
-        jedis.flushDB();
-        jedis.close();
         zstudentMapper.insertZstudent(zstudent);
         return 1;
     }
@@ -75,9 +66,6 @@ public class ZstudentServiceImpl implements ZstudentService {
      */
     @Override
     public int updateZstudent(Zstudent zstudent) {
-        Jedis jedis = jedisPool.getResource();
-        jedis.flushDB();
-        jedis.close();
         zstudentMapper.updateZstudent(zstudent);
         return 1;
     }
@@ -90,9 +78,6 @@ public class ZstudentServiceImpl implements ZstudentService {
      */
     @Override
     public int deleteZstudentByIds(String ids) {
-        Jedis jedis = jedisPool.getResource();
-        jedis.flushDB();
-        jedis.close();
         return zstudentMapper.deleteZstudentByIds(Convert.toStrArray(ids));
     }
 
@@ -104,9 +89,6 @@ public class ZstudentServiceImpl implements ZstudentService {
      */
     @Override
     public int deleteZstudentById(Long id) {
-        Jedis jedis = jedisPool.getResource();
-        jedis.flushDB();
-        jedis.close();
         return zstudentMapper.deleteZstudentById(id);
     }
 }

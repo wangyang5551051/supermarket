@@ -94,7 +94,7 @@
         </dependency>
         <dependency>
             <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-student</artifactId>
+            <artifactId>ruoyi-module</artifactId>
         </dependency>
     </dependencies>
 
