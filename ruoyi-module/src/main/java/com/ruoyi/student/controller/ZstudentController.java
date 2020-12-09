@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 【请填写功能名称】Controller
+ * 【学生信息管理】Controller
  * 
  * @author ruoyi
  * @date 2020-08-04
@@ -42,7 +42,7 @@ public class ZstudentController extends BaseController
     }
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询【学生信息管理】列表
      */
     @ApiOperation("获取学生列表")
     @RequiresPermissions("system:zstudent:list")
@@ -56,10 +56,10 @@ public class ZstudentController extends BaseController
     }
 
     /**
-     * 导出【请填写功能名称】列表
+     * 导出【学生信息管理】列表
      */
     @RequiresPermissions("system:zstudent:export")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
+    @Log(title = "【学生信息管理】", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(Zstudent zstudent)
@@ -70,7 +70,7 @@ public class ZstudentController extends BaseController
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增【学生信息管理】
      */
     @GetMapping("/add")
     public String add()
@@ -79,11 +79,11 @@ public class ZstudentController extends BaseController
     }
 
     /**
-     * 新增保存【请填写功能名称】
+     * 新增保存【学生信息管理】
      */
     @ApiOperation("新增学生")
     @RequiresPermissions("system:zstudent:add")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
+    @Log(title = "【学生信息管理】", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(Zstudent zstudent)
@@ -92,7 +92,7 @@ public class ZstudentController extends BaseController
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改【学生信息管理】
      */
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Long id, ModelMap mmap)
@@ -103,10 +103,10 @@ public class ZstudentController extends BaseController
     }
 
     /**
-     * 修改保存【请填写功能名称】
+     * 修改保存【学生信息管理】
      */
     @RequiresPermissions("system:zstudent:edit")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
+    @Log(title = "【学生信息管理】", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(Zstudent zstudent)
@@ -115,10 +115,10 @@ public class ZstudentController extends BaseController
     }
 
     /**
-     * 删除【请填写功能名称】
+     * 删除【学生信息管理】
      */
     @RequiresPermissions("system:zstudent:remove")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
+    @Log(title = "【学生信息管理】", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
     public AjaxResult remove(String ids)
