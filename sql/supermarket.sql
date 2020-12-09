@@ -3,15 +3,15 @@
 
  Source Server         : 175.24.44.32
  Source Server Type    : MySQL
- Source Server Version : 50649
+ Source Server Version : 50636
  Source Host           : 175.24.44.32:3306
- Source Schema         : ry
+ Source Schema         : supermarket
 
  Target Server Type    : MySQL
- Target Server Version : 50649
+ Target Server Version : 50636
  File Encoding         : 65001
 
- Date: 26/08/2020 13:28:42
+ Date: 09/12/2020 16:43:04
 */
 
 SET NAMES utf8mb4;
@@ -43,7 +43,13 @@ CREATE TABLE `gen_table`  (
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`table_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '代码生成业务表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '代码生成业务表' ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of gen_table
+-- ----------------------------
+INSERT INTO `gen_table` VALUES (1, 'zgoods', '', NULL, NULL, 'Zgoods', 'crud', 'com.ruoyi.system', 'system', 'zgoods', NULL, 'ruoyi', '0', '/', NULL, 'admin', '2020-11-03 02:51:20', '', NULL, NULL);
+INSERT INTO `gen_table` VALUES (2, 'zorder', '', NULL, NULL, 'Zorder', 'crud', 'com.ruoyi.system', 'system', 'zorder', NULL, 'ruoyi', '0', '/', NULL, 'admin', '2020-11-03 02:51:20', '', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for gen_table_column
@@ -73,205 +79,18 @@ CREATE TABLE `gen_table_column`  (
   `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '' COMMENT '更新者',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`column_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '代码生成业务表字段' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '代码生成业务表字段' ROW_FORMAT = Compact;
 
 -- ----------------------------
--- Table structure for qrtz_blob_triggers
+-- Records of gen_table_column
 -- ----------------------------
-DROP TABLE IF EXISTS `qrtz_blob_triggers`;
-CREATE TABLE `qrtz_blob_triggers`  (
-  `sched_name` varchar(120) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `trigger_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `trigger_group` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `blob_data` blob NULL,
-  PRIMARY KEY (`sched_name`, `trigger_name`, `trigger_group`) USING BTREE,
-  CONSTRAINT `qrtz_blob_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Table structure for qrtz_calendars
--- ----------------------------
-DROP TABLE IF EXISTS `qrtz_calendars`;
-CREATE TABLE `qrtz_calendars`  (
-  `sched_name` varchar(120) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `calendar_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `calendar` blob NOT NULL,
-  PRIMARY KEY (`sched_name`, `calendar_name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Table structure for qrtz_cron_triggers
--- ----------------------------
-DROP TABLE IF EXISTS `qrtz_cron_triggers`;
-CREATE TABLE `qrtz_cron_triggers`  (
-  `sched_name` varchar(120) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `trigger_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `trigger_group` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `cron_expression` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `time_zone_id` varchar(80) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`sched_name`, `trigger_name`, `trigger_group`) USING BTREE,
-  CONSTRAINT `qrtz_cron_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of qrtz_cron_triggers
--- ----------------------------
-INSERT INTO `qrtz_cron_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME1', 'DEFAULT', '0/10 * * * * ?', 'Asia/Shanghai');
-INSERT INTO `qrtz_cron_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME2', 'DEFAULT', '0/15 * * * * ?', 'Asia/Shanghai');
-INSERT INTO `qrtz_cron_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME3', 'DEFAULT', '0/20 * * * * ?', 'Asia/Shanghai');
-
--- ----------------------------
--- Table structure for qrtz_fired_triggers
--- ----------------------------
-DROP TABLE IF EXISTS `qrtz_fired_triggers`;
-CREATE TABLE `qrtz_fired_triggers`  (
-  `sched_name` varchar(120) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `entry_id` varchar(95) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `trigger_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `trigger_group` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `instance_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `fired_time` bigint(13) NOT NULL,
-  `sched_time` bigint(13) NOT NULL,
-  `priority` int(11) NOT NULL,
-  `state` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `job_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
-  `job_group` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
-  `is_nonconcurrent` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
-  `requests_recovery` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`sched_name`, `entry_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Table structure for qrtz_job_details
--- ----------------------------
-DROP TABLE IF EXISTS `qrtz_job_details`;
-CREATE TABLE `qrtz_job_details`  (
-  `sched_name` varchar(120) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `job_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `job_group` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `description` varchar(250) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
-  `job_class_name` varchar(250) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `is_durable` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `is_nonconcurrent` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `is_update_data` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `requests_recovery` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `job_data` blob NULL,
-  PRIMARY KEY (`sched_name`, `job_name`, `job_group`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Table structure for qrtz_locks
--- ----------------------------
-DROP TABLE IF EXISTS `qrtz_locks`;
-CREATE TABLE `qrtz_locks`  (
-  `sched_name` varchar(120) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `lock_name` varchar(40) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`sched_name`, `lock_name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of qrtz_locks
--- ----------------------------
-INSERT INTO `qrtz_locks` VALUES ('RuoyiScheduler', 'STATE_ACCESS');
-INSERT INTO `qrtz_locks` VALUES ('RuoyiScheduler', 'TRIGGER_ACCESS');
-
--- ----------------------------
--- Table structure for qrtz_paused_trigger_grps
--- ----------------------------
-DROP TABLE IF EXISTS `qrtz_paused_trigger_grps`;
-CREATE TABLE `qrtz_paused_trigger_grps`  (
-  `sched_name` varchar(120) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `trigger_group` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`sched_name`, `trigger_group`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Table structure for qrtz_scheduler_state
--- ----------------------------
-DROP TABLE IF EXISTS `qrtz_scheduler_state`;
-CREATE TABLE `qrtz_scheduler_state`  (
-  `sched_name` varchar(120) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `instance_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `last_checkin_time` bigint(13) NOT NULL,
-  `checkin_interval` bigint(13) NOT NULL,
-  PRIMARY KEY (`sched_name`, `instance_name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of qrtz_scheduler_state
--- ----------------------------
-INSERT INTO `qrtz_scheduler_state` VALUES ('RuoyiScheduler', 'LAPTOP-4NL626PN1598418995238', 1598419721829, 15000);
-
--- ----------------------------
--- Table structure for qrtz_simple_triggers
--- ----------------------------
-DROP TABLE IF EXISTS `qrtz_simple_triggers`;
-CREATE TABLE `qrtz_simple_triggers`  (
-  `sched_name` varchar(120) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `trigger_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `trigger_group` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `repeat_count` bigint(7) NOT NULL,
-  `repeat_interval` bigint(12) NOT NULL,
-  `times_triggered` bigint(10) NOT NULL,
-  PRIMARY KEY (`sched_name`, `trigger_name`, `trigger_group`) USING BTREE,
-  CONSTRAINT `qrtz_simple_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Table structure for qrtz_simprop_triggers
--- ----------------------------
-DROP TABLE IF EXISTS `qrtz_simprop_triggers`;
-CREATE TABLE `qrtz_simprop_triggers`  (
-  `sched_name` varchar(120) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `trigger_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `trigger_group` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `str_prop_1` varchar(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
-  `str_prop_2` varchar(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
-  `str_prop_3` varchar(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
-  `int_prop_1` int(11) NULL DEFAULT NULL,
-  `int_prop_2` int(11) NULL DEFAULT NULL,
-  `long_prop_1` bigint(20) NULL DEFAULT NULL,
-  `long_prop_2` bigint(20) NULL DEFAULT NULL,
-  `dec_prop_1` decimal(13, 4) NULL DEFAULT NULL,
-  `dec_prop_2` decimal(13, 4) NULL DEFAULT NULL,
-  `bool_prop_1` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
-  `bool_prop_2` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`sched_name`, `trigger_name`, `trigger_group`) USING BTREE,
-  CONSTRAINT `qrtz_simprop_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Table structure for qrtz_triggers
--- ----------------------------
-DROP TABLE IF EXISTS `qrtz_triggers`;
-CREATE TABLE `qrtz_triggers`  (
-  `sched_name` varchar(120) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `trigger_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `trigger_group` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `job_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `job_group` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `description` varchar(250) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
-  `next_fire_time` bigint(13) NULL DEFAULT NULL,
-  `prev_fire_time` bigint(13) NULL DEFAULT NULL,
-  `priority` int(11) NULL DEFAULT NULL,
-  `trigger_state` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `trigger_type` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `start_time` bigint(13) NOT NULL,
-  `end_time` bigint(13) NULL DEFAULT NULL,
-  `calendar_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
-  `misfire_instr` smallint(2) NULL DEFAULT NULL,
-  `job_data` blob NULL,
-  PRIMARY KEY (`sched_name`, `trigger_name`, `trigger_group`) USING BTREE,
-  INDEX `sched_name`(`sched_name`, `job_name`, `job_group`) USING BTREE,
-  CONSTRAINT `qrtz_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `job_name`, `job_group`) REFERENCES `qrtz_job_details` (`sched_name`, `job_name`, `job_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of qrtz_triggers
--- ----------------------------
-INSERT INTO `qrtz_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME1', 'DEFAULT', 'TASK_CLASS_NAME1', 'DEFAULT', NULL, 1598419000000, -1, 5, 'PAUSED', 'CRON', 1598418995000, 0, NULL, 2, '');
-INSERT INTO `qrtz_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME2', 'DEFAULT', 'TASK_CLASS_NAME2', 'DEFAULT', NULL, 1598419005000, -1, 5, 'PAUSED', 'CRON', 1598418995000, 0, NULL, 2, '');
-INSERT INTO `qrtz_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME3', 'DEFAULT', 'TASK_CLASS_NAME3', 'DEFAULT', NULL, 1598419000000, -1, 5, 'PAUSED', 'CRON', 1598418995000, 0, NULL, 2, '');
+INSERT INTO `gen_table_column` VALUES (1, '1', 'id', NULL, 'int(11)', 'Long', 'id', '1', '1', NULL, '1', NULL, NULL, NULL, 'EQ', 'input', '', 1, 'admin', '2020-11-03 02:51:20', '', NULL);
+INSERT INTO `gen_table_column` VALUES (2, '1', 'name', NULL, 'varchar(10)', 'String', 'name', '0', '0', NULL, '1', '1', '1', '1', 'LIKE', 'input', '', 2, 'admin', '2020-11-03 02:51:20', '', NULL);
+INSERT INTO `gen_table_column` VALUES (3, '1', 'num', NULL, 'int(11)', 'Long', 'num', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 3, 'admin', '2020-11-03 02:51:20', '', NULL);
+INSERT INTO `gen_table_column` VALUES (4, '2', 'id', NULL, 'int(11)', 'Long', 'id', '1', '1', NULL, '1', NULL, NULL, NULL, 'EQ', 'input', '', 1, 'admin', '2020-11-03 02:51:20', '', NULL);
+INSERT INTO `gen_table_column` VALUES (5, '2', 'orderId', NULL, 'varchar(20)', 'String', 'orderId', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 2, 'admin', '2020-11-03 02:51:20', '', NULL);
+INSERT INTO `gen_table_column` VALUES (6, '2', 'name', NULL, 'varchar(10)', 'String', 'name', '0', '0', NULL, '1', '1', '1', '1', 'LIKE', 'input', '', 3, 'admin', '2020-11-03 02:51:20', '', NULL);
+INSERT INTO `gen_table_column` VALUES (7, '2', 'num', NULL, 'int(10)', 'Integer', 'num', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 4, 'admin', '2020-11-03 02:51:20', '', NULL);
 
 -- ----------------------------
 -- Table structure for sys_config
@@ -320,21 +139,22 @@ CREATE TABLE `sys_dept`  (
   `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '' COMMENT '更新者',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`dept_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 110 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '部门表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 111 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '部门表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of sys_dept
 -- ----------------------------
-INSERT INTO `sys_dept` VALUES (100, 0, '0', '若依科技', 0, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00');
-INSERT INTO `sys_dept` VALUES (101, 100, '0,100', '深圳总公司', 1, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00');
-INSERT INTO `sys_dept` VALUES (102, 100, '0,100', '长沙分公司', 2, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00');
-INSERT INTO `sys_dept` VALUES (103, 101, '0,100,101', '研发部门', 1, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00');
-INSERT INTO `sys_dept` VALUES (104, 101, '0,100,101', '市场部门', 2, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00');
-INSERT INTO `sys_dept` VALUES (105, 101, '0,100,101', '测试部门', 3, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00');
-INSERT INTO `sys_dept` VALUES (106, 101, '0,100,101', '财务部门', 4, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00');
-INSERT INTO `sys_dept` VALUES (107, 101, '0,100,101', '运维部门', 5, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00');
-INSERT INTO `sys_dept` VALUES (108, 102, '0,100,102', '市场部门', 1, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00');
-INSERT INTO `sys_dept` VALUES (109, 102, '0,100,102', '财务部门', 2, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00');
+INSERT INTO `sys_dept` VALUES (100, 0, '0', '超市管理系统', 0, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00');
+INSERT INTO `sys_dept` VALUES (101, 100, '0,100', '深圳总公司', 1, '若依', '15888888888', 'ry@qq.com', '0', '2', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00');
+INSERT INTO `sys_dept` VALUES (102, 100, '0,100', '长沙分公司', 2, '若依', '15888888888', 'ry@qq.com', '0', '2', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00');
+INSERT INTO `sys_dept` VALUES (103, 101, '0,100,101', '研发部门', 1, '若依', '15888888888', 'ry@qq.com', '0', '2', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00');
+INSERT INTO `sys_dept` VALUES (104, 101, '0,100,101', '市场部门', 2, '若依', '15888888888', 'ry@qq.com', '0', '2', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00');
+INSERT INTO `sys_dept` VALUES (105, 101, '0,100,101', '测试部门', 3, '若依', '15888888888', 'ry@qq.com', '0', '2', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00');
+INSERT INTO `sys_dept` VALUES (106, 101, '0,100,101', '财务部门', 4, '若依', '15888888888', 'ry@qq.com', '0', '2', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00');
+INSERT INTO `sys_dept` VALUES (107, 101, '0,100,101', '运维部门', 5, '若依', '15888888888', 'ry@qq.com', '0', '2', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00');
+INSERT INTO `sys_dept` VALUES (108, 102, '0,100,102', '市场部门', 1, '若依', '15888888888', 'ry@qq.com', '0', '2', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00');
+INSERT INTO `sys_dept` VALUES (109, 102, '0,100,102', '财务部门', 2, '若依', '15888888888', 'ry@qq.com', '0', '2', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00');
+INSERT INTO `sys_dept` VALUES (110, 100, '0,100', '售货部', 1, NULL, NULL, NULL, '0', '0', 'admin', '2020-12-09 08:37:28', '', NULL);
 
 -- ----------------------------
 -- Table structure for sys_dict_data
@@ -424,50 +244,6 @@ INSERT INTO `sys_dict_type` VALUES (9, '操作类型', 'sys_oper_type', '0', 'ad
 INSERT INTO `sys_dict_type` VALUES (10, '系统状态', 'sys_common_status', '0', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '登录状态列表');
 
 -- ----------------------------
--- Table structure for sys_job
--- ----------------------------
-DROP TABLE IF EXISTS `sys_job`;
-CREATE TABLE `sys_job`  (
-  `job_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务ID',
-  `job_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '任务名称',
-  `job_group` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'DEFAULT' COMMENT '任务组名',
-  `invoke_target` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '调用目标字符串',
-  `cron_expression` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '' COMMENT 'cron执行表达式',
-  `misfire_policy` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '3' COMMENT '计划执行错误策略（1立即执行 2执行一次 3放弃执行）',
-  `concurrent` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '1' COMMENT '是否并发执行（0允许 1禁止）',
-  `status` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '0' COMMENT '状态（0正常 1暂停）',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '' COMMENT '备注信息',
-  PRIMARY KEY (`job_id`, `job_name`, `job_group`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '定时任务调度表' ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of sys_job
--- ----------------------------
-INSERT INTO `sys_job` VALUES (1, '系统默认（无参）', 'DEFAULT', 'ryTask.ryNoParams', '0/10 * * * * ?', '3', '1', '1', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '');
-INSERT INTO `sys_job` VALUES (2, '系统默认（有参）', 'DEFAULT', 'ryTask.ryParams(\'ry\')', '0/15 * * * * ?', '3', '1', '1', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '');
-INSERT INTO `sys_job` VALUES (3, '系统默认（多参）', 'DEFAULT', 'ryTask.ryMultipleParams(\'ry\', true, 2000L, 316.50D, 100)', '0/20 * * * * ?', '3', '1', '1', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '');
-
--- ----------------------------
--- Table structure for sys_job_log
--- ----------------------------
-DROP TABLE IF EXISTS `sys_job_log`;
-CREATE TABLE `sys_job_log`  (
-  `job_log_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务日志ID',
-  `job_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '任务名称',
-  `job_group` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '任务组名',
-  `invoke_target` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '调用目标字符串',
-  `job_message` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '日志信息',
-  `status` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '0' COMMENT '执行状态（0正常 1失败）',
-  `exception_info` varchar(2000) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '' COMMENT '异常信息',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`job_log_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = Compact;
-
--- ----------------------------
 -- Table structure for sys_logininfor
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_logininfor`;
@@ -482,42 +258,60 @@ CREATE TABLE `sys_logininfor`  (
   `msg` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '' COMMENT '提示消息',
   `login_time` datetime(0) NULL DEFAULT NULL COMMENT '访问时间',
   PRIMARY KEY (`info_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 131 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '系统访问记录' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 2832 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '系统访问记录' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of sys_logininfor
 -- ----------------------------
-INSERT INTO `sys_logininfor` VALUES (100, 'admin', '58.246.101.186', 'XX XX', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-11 16:17:49');
-INSERT INTO `sys_logininfor` VALUES (101, 'admin', '1.192.241.169', 'XX XX', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-11 16:18:41');
-INSERT INTO `sys_logininfor` VALUES (102, 'admin', '58.246.101.186', 'XX XX', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-12 09:51:43');
-INSERT INTO `sys_logininfor` VALUES (103, 'admin', '58.246.101.186', 'XX XX', 'Chrome 8', 'Windows 10', '0', '退出成功', '2020-08-12 09:52:19');
-INSERT INTO `sys_logininfor` VALUES (104, 'admin', '58.246.101.186', 'XX XX', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-12 09:52:21');
-INSERT INTO `sys_logininfor` VALUES (105, 'admin', '58.246.101.186', 'XX XX', 'Chrome 8', 'Windows 10', '0', '退出成功', '2020-08-12 09:53:32');
-INSERT INTO `sys_logininfor` VALUES (106, 'admin', '58.246.101.186', 'XX XX', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-12 09:53:36');
-INSERT INTO `sys_logininfor` VALUES (107, 'admin', '58.246.101.186', 'XX XX', 'Chrome 8', 'Windows 10', '0', '退出成功', '2020-08-12 09:54:50');
-INSERT INTO `sys_logininfor` VALUES (108, 'admin', '58.246.101.186', 'XX XX', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-12 09:54:52');
-INSERT INTO `sys_logininfor` VALUES (109, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-19 13:47:34');
-INSERT INTO `sys_logininfor` VALUES (110, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '退出成功', '2020-08-19 13:49:06');
-INSERT INTO `sys_logininfor` VALUES (111, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-19 13:49:10');
-INSERT INTO `sys_logininfor` VALUES (112, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '退出成功', '2020-08-19 13:50:00');
-INSERT INTO `sys_logininfor` VALUES (113, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-19 13:50:03');
-INSERT INTO `sys_logininfor` VALUES (114, 'admin', '58.246.101.186', 'XX XX', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-19 14:06:42');
-INSERT INTO `sys_logininfor` VALUES (115, 'admin', '58.246.101.186', 'XX XX', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-19 14:17:07');
-INSERT INTO `sys_logininfor` VALUES (116, 'admin', '58.246.101.186', 'XX XX', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-19 16:13:30');
-INSERT INTO `sys_logininfor` VALUES (117, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-20 11:02:44');
-INSERT INTO `sys_logininfor` VALUES (118, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-20 11:10:32');
-INSERT INTO `sys_logininfor` VALUES (119, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-20 13:02:50');
-INSERT INTO `sys_logininfor` VALUES (120, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-21 14:26:30');
-INSERT INTO `sys_logininfor` VALUES (121, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-08-24 08:56:15');
-INSERT INTO `sys_logininfor` VALUES (122, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-24 08:56:18');
-INSERT INTO `sys_logininfor` VALUES (123, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-25 11:25:18');
-INSERT INTO `sys_logininfor` VALUES (124, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-25 16:47:36');
-INSERT INTO `sys_logininfor` VALUES (125, 'admin', '140.206.67.66', 'XX XX', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-26 13:10:32');
-INSERT INTO `sys_logininfor` VALUES (126, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-08-26 13:16:57');
-INSERT INTO `sys_logininfor` VALUES (127, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-26 13:17:00');
-INSERT INTO `sys_logininfor` VALUES (128, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-08-26 13:17:07');
-INSERT INTO `sys_logininfor` VALUES (129, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-08-26 13:17:42');
-INSERT INTO `sys_logininfor` VALUES (130, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-08-26 13:17:46');
+INSERT INTO `sys_logininfor` VALUES (2783, 'admin123', '61.190.70.103', 'XX XX', 'Firefox 8', 'Windows 10', '1', '验证码错误', '2020-11-02 08:29:54');
+INSERT INTO `sys_logininfor` VALUES (2784, 'admin123', '61.190.70.103', 'XX XX', 'Firefox 8', 'Windows 10', '1', '验证码错误', '2020-11-02 08:30:51');
+INSERT INTO `sys_logininfor` VALUES (2785, 'admin123', '61.190.70.103', 'XX XX', 'Firefox 8', 'Windows 10', '1', '验证码错误', '2020-11-02 08:31:00');
+INSERT INTO `sys_logininfor` VALUES (2786, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-11-03 02:51:11');
+INSERT INTO `sys_logininfor` VALUES (2787, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-11-09 02:27:33');
+INSERT INTO `sys_logininfor` VALUES (2788, 'admin', '117.136.117.100', 'XX XX', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-11-09 07:58:55');
+INSERT INTO `sys_logininfor` VALUES (2789, 'admin', '211.72.213.251', 'XX XX', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-11-09 17:10:03');
+INSERT INTO `sys_logininfor` VALUES (2790, 'admin', '211.72.213.251', 'XX XX', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-11-09 17:10:03');
+INSERT INTO `sys_logininfor` VALUES (2791, 'admin', '211.72.213.251', 'XX XX', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-11-10 03:46:35');
+INSERT INTO `sys_logininfor` VALUES (2792, 'admin', '211.72.213.251', 'XX XX', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-11-10 03:46:35');
+INSERT INTO `sys_logininfor` VALUES (2793, 'admin', '211.72.213.251', 'XX XX', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-11-10 04:09:39');
+INSERT INTO `sys_logininfor` VALUES (2794, 'admin', '211.72.213.251', 'XX XX', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-11-10 04:12:28');
+INSERT INTO `sys_logininfor` VALUES (2795, 'admin', '211.72.213.251', 'XX XX', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-11-10 04:18:22');
+INSERT INTO `sys_logininfor` VALUES (2796, 'admin', '211.72.213.251', 'XX XX', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-11-10 04:34:53');
+INSERT INTO `sys_logininfor` VALUES (2797, 'admin', '211.72.213.251', 'XX XX', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-11-10 04:58:16');
+INSERT INTO `sys_logininfor` VALUES (2798, 'admin', '211.72.213.251', 'XX XX', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-11-10 06:09:59');
+INSERT INTO `sys_logininfor` VALUES (2799, 'admin', '117.136.101.92', 'XX XX', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-11-10 08:57:40');
+INSERT INTO `sys_logininfor` VALUES (2800, 'admin', '211.72.213.251', 'XX XX', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-11-10 10:26:05');
+INSERT INTO `sys_logininfor` VALUES (2801, 'admin', '211.72.213.251', 'XX XX', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-11-10 12:24:35');
+INSERT INTO `sys_logininfor` VALUES (2802, 'admin', '211.72.213.251', 'XX XX', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-11-10 13:31:01');
+INSERT INTO `sys_logininfor` VALUES (2803, 'administrator', '211.72.213.251', 'XX XX', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-11-10 15:26:15');
+INSERT INTO `sys_logininfor` VALUES (2804, 'admin', '211.72.213.251', 'XX XX', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-11-10 15:26:21');
+INSERT INTO `sys_logininfor` VALUES (2805, 'root', '211.72.213.251', 'XX XX', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-11-10 15:26:38');
+INSERT INTO `sys_logininfor` VALUES (2806, 'root123', '211.72.213.251', 'XX XX', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-11-10 15:26:41');
+INSERT INTO `sys_logininfor` VALUES (2807, 'system', '211.72.213.251', 'XX XX', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-11-10 15:26:44');
+INSERT INTO `sys_logininfor` VALUES (2808, 'admin', '112.64.6.102', 'XX XX', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-11-25 05:25:28');
+INSERT INTO `sys_logininfor` VALUES (2809, 'admin', '112.64.6.102', 'XX XX', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-12-08 05:18:32');
+INSERT INTO `sys_logininfor` VALUES (2810, 'admin', '112.64.6.102', 'XX XX', 'Chrome 8', 'Windows 10', '0', '退出成功', '2020-12-08 05:19:09');
+INSERT INTO `sys_logininfor` VALUES (2811, 'admin', '112.64.6.102', 'XX XX', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-12-08 05:19:11');
+INSERT INTO `sys_logininfor` VALUES (2812, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-12-09 02:46:18');
+INSERT INTO `sys_logininfor` VALUES (2813, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '退出成功', '2020-12-09 08:27:24');
+INSERT INTO `sys_logininfor` VALUES (2814, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-12-09 08:27:28');
+INSERT INTO `sys_logininfor` VALUES (2815, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '退出成功', '2020-12-09 08:31:50');
+INSERT INTO `sys_logininfor` VALUES (2816, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-12-09 08:31:56');
+INSERT INTO `sys_logininfor` VALUES (2817, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '退出成功', '2020-12-09 08:33:51');
+INSERT INTO `sys_logininfor` VALUES (2818, 'ry', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '1', '密码输入错误1次', '2020-12-09 08:33:56');
+INSERT INTO `sys_logininfor` VALUES (2819, 'ry', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '1', '密码输入错误2次', '2020-12-09 08:34:03');
+INSERT INTO `sys_logininfor` VALUES (2820, 'ry', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '1', '密码输入错误3次', '2020-12-09 08:34:37');
+INSERT INTO `sys_logininfor` VALUES (2821, 'ry', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-12-09 08:34:56');
+INSERT INTO `sys_logininfor` VALUES (2822, 'ry', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '退出成功', '2020-12-09 08:35:41');
+INSERT INTO `sys_logininfor` VALUES (2823, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-12-09 08:35:44');
+INSERT INTO `sys_logininfor` VALUES (2824, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-12-09 08:35:46');
+INSERT INTO `sys_logininfor` VALUES (2825, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '退出成功', '2020-12-09 08:40:10');
+INSERT INTO `sys_logininfor` VALUES (2826, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-12-09 08:40:14');
+INSERT INTO `sys_logininfor` VALUES (2827, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '退出成功', '2020-12-09 08:40:18');
+INSERT INTO `sys_logininfor` VALUES (2828, 'ry', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '1', '验证码错误', '2020-12-09 08:40:21');
+INSERT INTO `sys_logininfor` VALUES (2829, 'ry', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-12-09 08:40:23');
+INSERT INTO `sys_logininfor` VALUES (2830, 'ry', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '退出成功', '2020-12-09 08:41:05');
+INSERT INTO `sys_logininfor` VALUES (2831, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2020-12-09 08:41:10');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -559,8 +353,6 @@ INSERT INTO `sys_menu` VALUES (106, '参数设置', 1, 7, '/system/config', '', 
 INSERT INTO `sys_menu` VALUES (107, '通知公告', 1, 8, '/system/notice', '', 'C', '0', 'system:notice:view', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '通知公告菜单');
 INSERT INTO `sys_menu` VALUES (108, '日志管理', 1, 9, '#', '', 'M', '0', '', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '日志管理菜单');
 INSERT INTO `sys_menu` VALUES (109, '在线用户', 2, 1, '/monitor/online', '', 'C', '0', 'monitor:online:view', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '在线用户菜单');
-INSERT INTO `sys_menu` VALUES (110, '定时任务', 2, 2, '/monitor/job', '', 'C', '0', 'monitor:job:view', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '定时任务菜单');
-INSERT INTO `sys_menu` VALUES (111, '数据监控', 2, 3, '/monitor/data', '', 'C', '0', 'monitor:data:view', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '数据监控菜单');
 INSERT INTO `sys_menu` VALUES (112, '服务监控', 2, 3, '/monitor/server', '', 'C', '0', 'monitor:server:view', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '服务监控菜单');
 INSERT INTO `sys_menu` VALUES (113, '表单构建', 3, 1, '/tool/build', '', 'C', '0', 'tool:build:view', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '表单构建菜单');
 INSERT INTO `sys_menu` VALUES (114, '代码生成', 3, 2, '/tool/gen', '', 'C', '0', 'tool:gen:view', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '代码生成菜单');
@@ -617,13 +409,6 @@ INSERT INTO `sys_menu` VALUES (1046, '账户解锁', 501, 4, '#', '', 'F', '0', 
 INSERT INTO `sys_menu` VALUES (1047, '在线查询', 109, 1, '#', '', 'F', '0', 'monitor:online:list', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '');
 INSERT INTO `sys_menu` VALUES (1048, '批量强退', 109, 2, '#', '', 'F', '0', 'monitor:online:batchForceLogout', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '');
 INSERT INTO `sys_menu` VALUES (1049, '单条强退', 109, 3, '#', '', 'F', '0', 'monitor:online:forceLogout', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '');
-INSERT INTO `sys_menu` VALUES (1050, '任务查询', 110, 1, '#', '', 'F', '0', 'monitor:job:list', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '');
-INSERT INTO `sys_menu` VALUES (1051, '任务新增', 110, 2, '#', '', 'F', '0', 'monitor:job:add', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '');
-INSERT INTO `sys_menu` VALUES (1052, '任务修改', 110, 3, '#', '', 'F', '0', 'monitor:job:edit', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '');
-INSERT INTO `sys_menu` VALUES (1053, '任务删除', 110, 4, '#', '', 'F', '0', 'monitor:job:remove', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '');
-INSERT INTO `sys_menu` VALUES (1054, '状态修改', 110, 5, '#', '', 'F', '0', 'monitor:job:changeStatus', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '');
-INSERT INTO `sys_menu` VALUES (1055, '任务详细', 110, 6, '#', '', 'F', '0', 'monitor:job:detail', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '');
-INSERT INTO `sys_menu` VALUES (1056, '任务导出', 110, 7, '#', '', 'F', '0', 'monitor:job:export', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '');
 INSERT INTO `sys_menu` VALUES (1057, '生成查询', 114, 1, '#', '', 'F', '0', 'tool:gen:list', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '');
 INSERT INTO `sys_menu` VALUES (1058, '生成修改', 114, 2, '#', '', 'F', '0', 'tool:gen:edit', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '');
 INSERT INTO `sys_menu` VALUES (1059, '生成删除', 114, 3, '#', '', 'F', '0', 'tool:gen:remove', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '');
@@ -631,7 +416,6 @@ INSERT INTO `sys_menu` VALUES (1060, '预览代码', 114, 4, '#', '', 'F', '0', 
 INSERT INTO `sys_menu` VALUES (1061, '生成代码', 114, 5, '#', '', 'F', '0', 'tool:gen:code', '#', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '');
 INSERT INTO `sys_menu` VALUES (2000, '教务管理', 0, 1, '#', 'menuItem', 'C', '0', NULL, 'fa fa-address-card', 'admin', '2020-08-12 09:52:17', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2001, '学生管理', 2000, 1, 'system/zstudent', 'menuItem', 'C', '0', 'system:zstudent:view', '#', 'admin', '2020-08-12 09:53:26', 'admin', '2020-08-12 09:54:46', '');
-INSERT INTO `sys_menu` VALUES (2002, '雷达图', 2000, 2, '/system/zleidatu', 'menuItem', 'C', '0', 'system:zstudent:view', 'fa fa-address-book', 'admin', '2020-08-19 13:49:59', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -679,36 +463,44 @@ CREATE TABLE `sys_oper_log`  (
   `error_msg` varchar(2000) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '' COMMENT '错误消息',
   `oper_time` datetime(0) NULL DEFAULT NULL COMMENT '操作时间',
   PRIMARY KEY (`oper_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 125 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '操作日志记录' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 3138 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '操作日志记录' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of sys_oper_log
 -- ----------------------------
-INSERT INTO `sys_oper_log` VALUES (100, '菜单管理', 1, 'com.ruoyi.web.controller.system.SysMenuController.addSave()', 'POST', 1, 'admin', '研发部门', '/system/menu/add', '58.246.101.186', 'XX XX', '{\n  \"parentId\" : [ \"0\" ],\n  \"menuType\" : [ \"C\" ],\n  \"menuName\" : [ \"教务管理\" ],\n  \"url\" : [ \"\" ],\n  \"target\" : [ \"menuItem\" ],\n  \"perms\" : [ \"\" ],\n  \"orderNum\" : [ \"1\" ],\n  \"icon\" : [ \"fa fa-address-card\" ],\n  \"visible\" : [ \"0\" ]\n}', '{\n  \"msg\" : \"操作成功\",\n  \"code\" : 0\n}', 0, NULL, '2020-08-12 09:52:17');
-INSERT INTO `sys_oper_log` VALUES (101, '菜单管理', 1, 'com.ruoyi.web.controller.system.SysMenuController.addSave()', 'POST', 1, 'admin', '研发部门', '/system/menu/add', '58.246.101.186', 'XX XX', '{\n  \"parentId\" : [ \"2000\" ],\n  \"menuType\" : [ \"C\" ],\n  \"menuName\" : [ \"学生管理\" ],\n  \"url\" : [ \"system/zstudent/list\" ],\n  \"target\" : [ \"menuItem\" ],\n  \"perms\" : [ \"system:zstudent:view\" ],\n  \"orderNum\" : [ \"1\" ],\n  \"icon\" : [ \"\" ],\n  \"visible\" : [ \"0\" ]\n}', '{\n  \"msg\" : \"操作成功\",\n  \"code\" : 0\n}', 0, NULL, '2020-08-12 09:53:26');
-INSERT INTO `sys_oper_log` VALUES (102, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.editSave()', 'POST', 1, 'admin', '研发部门', '/system/menu/edit', '58.246.101.186', 'XX XX', '{\n  \"menuId\" : [ \"2001\" ],\n  \"parentId\" : [ \"2000\" ],\n  \"menuType\" : [ \"C\" ],\n  \"menuName\" : [ \"学生管理\" ],\n  \"url\" : [ \"system/zstudent\" ],\n  \"target\" : [ \"menuItem\" ],\n  \"perms\" : [ \"system:zstudent:view\" ],\n  \"orderNum\" : [ \"1\" ],\n  \"icon\" : [ \"#\" ],\n  \"visible\" : [ \"0\" ]\n}', '{\n  \"msg\" : \"操作成功\",\n  \"code\" : 0\n}', 0, NULL, '2020-08-12 09:54:46');
-INSERT INTO `sys_oper_log` VALUES (103, '【请填写功能名称】', 1, 'com.ruoyi.moudle.mapper.com.ruoyi.student.controller.ZstudentController.addSave()', 'POST', 1, 'admin', '研发部门', '/system/zstudent/add', '58.246.101.186', 'XX XX', '{\n  \"name\" : [ \"1\" ],\n  \"age\" : [ \"1\" ]\n}', 'null', 1, '测试', '2020-08-12 09:55:00');
-INSERT INTO `sys_oper_log` VALUES (104, '【请填写功能名称】', 2, 'com.ruoyi.moudle.mapper.com.ruoyi.student.controller.ZstudentController.editSave()', 'POST', 1, 'admin', '研发部门', '/system/zstudent/edit', '58.246.101.186', 'XX XX', '{\n  \"id\" : [ \"2\" ],\n  \"name\" : [ \"11\" ],\n  \"age\" : [ \"22\" ]\n}', '{\n  \"msg\" : \"操作成功\",\n  \"code\" : 0\n}', 0, NULL, '2020-08-12 09:58:16');
-INSERT INTO `sys_oper_log` VALUES (105, '【请填写功能名称】', 1, 'com.ruoyi.moudle.mapper.com.ruoyi.student.controller.ZstudentController.addSave()', 'POST', 1, 'admin', '研发部门', '/system/zstudent/add', '127.0.0.1', '内网IP', '{\r\n  \"name\" : [ \"2\" ],\r\n  \"age\" : [ \"2\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-08-19 13:47:47');
-INSERT INTO `sys_oper_log` VALUES (106, '【请填写功能名称】', 2, 'com.ruoyi.moudle.mapper.com.ruoyi.student.controller.ZstudentController.editSave()', 'POST', 1, 'admin', '研发部门', '/system/zstudent/edit', '127.0.0.1', '内网IP', '{\r\n  \"id\" : [ \"3\" ],\r\n  \"name\" : [ \"2\" ],\r\n  \"age\" : [ \"3\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-08-19 13:47:54');
-INSERT INTO `sys_oper_log` VALUES (107, '【请填写功能名称】', 3, 'com.ruoyi.moudle.mapper.com.ruoyi.student.controller.ZstudentController.remove()', 'POST', 1, 'admin', '研发部门', '/system/zstudent/remove', '127.0.0.1', '内网IP', '{\r\n  \"ids\" : [ \"3\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-08-19 13:47:58');
-INSERT INTO `sys_oper_log` VALUES (108, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.editSave()', 'POST', 1, 'admin', '研发部门', '/system/menu/edit', '127.0.0.1', '内网IP', '{\r\n  \"menuId\" : [ \"1\" ],\r\n  \"parentId\" : [ \"0\" ],\r\n  \"menuType\" : [ \"M\" ],\r\n  \"menuName\" : [ \"系统管理\" ],\r\n  \"url\" : [ \"#\" ],\r\n  \"target\" : [ \"menuItem\" ],\r\n  \"perms\" : [ \"\" ],\r\n  \"orderNum\" : [ \"2\" ],\r\n  \"icon\" : [ \"fa fa-gear\" ],\r\n  \"visible\" : [ \"0\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-08-19 13:48:36');
-INSERT INTO `sys_oper_log` VALUES (109, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.editSave()', 'POST', 1, 'admin', '研发部门', '/system/menu/edit', '127.0.0.1', '内网IP', '{\r\n  \"menuId\" : [ \"2\" ],\r\n  \"parentId\" : [ \"0\" ],\r\n  \"menuType\" : [ \"M\" ],\r\n  \"menuName\" : [ \"系统监控\" ],\r\n  \"url\" : [ \"#\" ],\r\n  \"target\" : [ \"menuItem\" ],\r\n  \"perms\" : [ \"\" ],\r\n  \"orderNum\" : [ \"3\" ],\r\n  \"icon\" : [ \"fa fa-video-camera\" ],\r\n  \"visible\" : [ \"0\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-08-19 13:48:42');
-INSERT INTO `sys_oper_log` VALUES (110, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.editSave()', 'POST', 1, 'admin', '研发部门', '/system/menu/edit', '127.0.0.1', '内网IP', '{\r\n  \"menuId\" : [ \"3\" ],\r\n  \"parentId\" : [ \"0\" ],\r\n  \"menuType\" : [ \"M\" ],\r\n  \"menuName\" : [ \"系统工具\" ],\r\n  \"url\" : [ \"#\" ],\r\n  \"target\" : [ \"menuItem\" ],\r\n  \"perms\" : [ \"\" ],\r\n  \"orderNum\" : [ \"4\" ],\r\n  \"icon\" : [ \"fa fa-bars\" ],\r\n  \"visible\" : [ \"0\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-08-19 13:48:48');
-INSERT INTO `sys_oper_log` VALUES (111, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.editSave()', 'POST', 1, 'admin', '研发部门', '/system/menu/edit', '127.0.0.1', '内网IP', '{\r\n  \"menuId\" : [ \"4\" ],\r\n  \"parentId\" : [ \"0\" ],\r\n  \"menuType\" : [ \"C\" ],\r\n  \"menuName\" : [ \"若依官网\" ],\r\n  \"url\" : [ \"http://ruoyi.vip\" ],\r\n  \"target\" : [ \"menuBlank\" ],\r\n  \"perms\" : [ \"\" ],\r\n  \"orderNum\" : [ \"4\" ],\r\n  \"icon\" : [ \"fa fa-location-arrow\" ],\r\n  \"visible\" : [ \"1\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-08-19 13:49:03');
-INSERT INTO `sys_oper_log` VALUES (112, '菜单管理', 1, 'com.ruoyi.web.controller.system.SysMenuController.addSave()', 'POST', 1, 'admin', '研发部门', '/system/menu/add', '127.0.0.1', '内网IP', '{\r\n  \"parentId\" : [ \"2000\" ],\r\n  \"menuType\" : [ \"C\" ],\r\n  \"menuName\" : [ \"雷达图\" ],\r\n  \"url\" : [ \"/system/zleidatu\" ],\r\n  \"target\" : [ \"menuItem\" ],\r\n  \"perms\" : [ \"system:zstudent:view\" ],\r\n  \"orderNum\" : [ \"2\" ],\r\n  \"icon\" : [ \"fa fa-address-book\" ],\r\n  \"visible\" : [ \"0\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-08-19 13:49:59');
-INSERT INTO `sys_oper_log` VALUES (113, '【请填写功能名称】', 2, 'com.ruoyi.com.ruoyi.leida.controller.ZleidaController.editSave()', 'POST', 1, 'admin', '研发部门', '/system/zleidatu/edit', '127.0.0.1', '内网IP', '{\r\n  \"id\" : [ \"2\" ],\r\n  \"name\" : [ \"11\" ],\r\n  \"age\" : [ \"22\" ],\r\n  \"jisha\" : [ \"10\" ],\r\n  \"zhugong\" : [ \"10\" ],\r\n  \"shengcun\" : [ \"10\" ],\r\n  \"wuli\" : [ \"10\" ],\r\n  \"mofa\" : [ \"10\" ],\r\n  \"fangyu\" : [ \"10\" ],\r\n  \"jinqian\" : [ \"10\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-08-19 13:51:18');
-INSERT INTO `sys_oper_log` VALUES (114, '【请填写功能名称】', 1, 'com.ruoyi.com.ruoyi.leida.controller.ZleidaController.addSave()', 'POST', 1, 'admin', '研发部门', '/system/zleidatu/add', '127.0.0.1', '内网IP', '{\r\n  \"name\" : [ \"33\" ],\r\n  \"age\" : [ \"33\" ],\r\n  \"jisha\" : [ \"60\" ],\r\n  \"zhugong\" : [ \"70\" ],\r\n  \"shengcun\" : [ \"80\" ],\r\n  \"wuli\" : [ \"90\" ],\r\n  \"mofa\" : [ \"90\" ],\r\n  \"fangyu\" : [ \"90\" ],\r\n  \"jinqian\" : [ \"90\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-08-19 13:51:58');
-INSERT INTO `sys_oper_log` VALUES (115, '【请填写功能名称】', 3, 'com.ruoyi.com.ruoyi.leida.controller.ZleidaController.remove()', 'POST', 1, 'admin', '研发部门', '/system/zleidatu/remove', '127.0.0.1', '内网IP', '{\r\n  \"ids\" : [ \"4\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-08-19 13:52:09');
-INSERT INTO `sys_oper_log` VALUES (116, '【请填写功能名称】', 2, 'com.ruoyi.com.ruoyi.leida.controller.ZleidaController.editSave()', 'POST', 1, 'admin', '研发部门', '/system/zleidatu/edit', '127.0.0.1', '内网IP', '{\r\n  \"id\" : [ \"2\" ],\r\n  \"name\" : [ \"张三\" ],\r\n  \"age\" : [ \"22\" ],\r\n  \"jisha\" : [ \"60\" ],\r\n  \"zhugong\" : [ \"70\" ],\r\n  \"shengcun\" : [ \"80\" ],\r\n  \"wuli\" : [ \"90\" ],\r\n  \"mofa\" : [ \"100\" ],\r\n  \"fangyu\" : [ \"110\" ],\r\n  \"jinqian\" : [ \"10.0\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-08-19 13:52:55');
-INSERT INTO `sys_oper_log` VALUES (117, '【请填写功能名称】', 2, 'com.ruoyi.com.ruoyi.leida.controller.ZleidaController.editSave()', 'POST', 1, 'admin', '研发部门', '/system/zleidatu/edit', '127.0.0.1', '内网IP', '{\r\n  \"id\" : [ \"2\" ],\r\n  \"name\" : [ \"张三\" ],\r\n  \"age\" : [ \"22\" ],\r\n  \"jisha\" : [ \"60.0\" ],\r\n  \"zhugong\" : [ \"70.0\" ],\r\n  \"shengcun\" : [ \"80.0\" ],\r\n  \"wuli\" : [ \"90.0\" ],\r\n  \"mofa\" : [ \"100.0\" ],\r\n  \"fangyu\" : [ \"100\" ],\r\n  \"jinqian\" : [ \"110\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-08-19 13:53:17');
-INSERT INTO `sys_oper_log` VALUES (118, '【请填写功能名称】', 2, 'com.ruoyi.com.ruoyi.leida.controller.ZleidaController.editSave()', 'POST', 1, 'admin', '研发部门', '/system/zleidatu/edit', '127.0.0.1', '内网IP', '{\r\n  \"id\" : [ \"2\" ],\r\n  \"name\" : [ \"张三\" ],\r\n  \"age\" : [ \"22\" ],\r\n  \"jisha\" : [ \"60.0\" ],\r\n  \"zhugong\" : [ \"70.0\" ],\r\n  \"shengcun\" : [ \"80.0\" ],\r\n  \"wuli\" : [ \"90.0\" ],\r\n  \"mofa\" : [ \"100.0\" ],\r\n  \"fangyu\" : [ \"100.0\" ],\r\n  \"jinqian\" : [ \"100\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-08-19 13:54:21');
-INSERT INTO `sys_oper_log` VALUES (119, '【请填写功能名称】', 2, 'com.ruoyi.com.ruoyi.leida.controller.ZleidaController.editSave()', 'POST', 1, 'admin', '研发部门', '/system/zleidatu/edit', '58.246.101.186', 'XX XX', '{\n  \"id\" : [ \"2\" ],\n  \"name\" : [ \"张三\" ],\n  \"age\" : [ \"21\" ],\n  \"jisha\" : [ \"60.0\" ],\n  \"zhugong\" : [ \"70.0\" ],\n  \"shengcun\" : [ \"80.0\" ],\n  \"wuli\" : [ \"90.0\" ],\n  \"mofa\" : [ \"100.0\" ],\n  \"fangyu\" : [ \"100.0\" ],\n  \"jinqian\" : [ \"100.0\" ]\n}', '{\n  \"msg\" : \"操作成功\",\n  \"code\" : 0\n}', 0, NULL, '2020-08-19 14:17:39');
-INSERT INTO `sys_oper_log` VALUES (120, '【请填写功能名称】', 1, 'com.ruoyi.moudle.mapper.com.ruoyi.student.controller.ZstudentController.addSave()', 'POST', 1, 'admin', '研发部门', '/system/zstudent/add', '127.0.0.1', '内网IP', '{\r\n  \"name\" : [ \"张三\" ],\r\n  \"age\" : [ \"1111\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-08-21 14:47:07');
-INSERT INTO `sys_oper_log` VALUES (121, '【请填写功能名称】', 1, 'com.ruoyi.moudle.mapper.com.ruoyi.student.controller.ZstudentController.addSave()', 'POST', 1, 'admin', '研发部门', '/system/zstudent/add', '127.0.0.1', '内网IP', '{\r\n  \"name\" : [ \"李四\" ],\r\n  \"age\" : [ \"12\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-08-21 16:20:05');
-INSERT INTO `sys_oper_log` VALUES (122, '【请填写功能名称】', 1, 'com.ruoyi.moudle.mapper.com.ruoyi.student.controller.ZstudentController.addSave()', 'POST', 1, 'admin', '研发部门', '/system/zstudent/add', '127.0.0.1', '内网IP', '{\r\n  \"name\" : [ \"22\" ],\r\n  \"age\" : [ \"22\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-08-21 16:22:17');
-INSERT INTO `sys_oper_log` VALUES (123, '【请填写功能名称】', 3, 'com.ruoyi.moudle.mapper.com.ruoyi.student.controller.ZstudentController.remove()', 'POST', 1, 'admin', '研发部门', '/system/zstudent/remove', '127.0.0.1', '内网IP', '{\r\n  \"ids\" : [ \"5\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-08-21 16:22:41');
-INSERT INTO `sys_oper_log` VALUES (124, '【请填写功能名称】', 3, 'com.ruoyi.moudle.mapper.com.ruoyi.student.controller.ZstudentController.remove()', 'POST', 1, 'admin', '研发部门', '/system/zstudent/remove', '127.0.0.1', '内网IP', '{\r\n  \"ids\" : [ \"4\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-08-24 08:57:28');
+INSERT INTO `sys_oper_log` VALUES (3105, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'GET', 1, 'admin', '开发部门', '/system/menu/remove/111', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"菜单已分配,不允许删除\",\r\n  \"code\" : 301\r\n}', 0, NULL, '2020-12-09 08:26:49');
+INSERT INTO `sys_oper_log` VALUES (3106, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.editSave()', 'POST', 1, 'admin', '开发部门', '/system/menu/edit', '127.0.0.1', '内网IP', '{\r\n  \"menuId\" : [ \"110\" ],\r\n  \"parentId\" : [ \"2\" ],\r\n  \"menuType\" : [ \"C\" ],\r\n  \"menuName\" : [ \"定时任务\" ],\r\n  \"url\" : [ \"/monitor/job\" ],\r\n  \"target\" : [ \"menuItem\" ],\r\n  \"perms\" : [ \"monitor:job:view\" ],\r\n  \"orderNum\" : [ \"2\" ],\r\n  \"icon\" : [ \"#\" ],\r\n  \"visible\" : [ \"1\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:27:07');
+INSERT INTO `sys_oper_log` VALUES (3107, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.editSave()', 'POST', 1, 'admin', '开发部门', '/system/menu/edit', '127.0.0.1', '内网IP', '{\r\n  \"menuId\" : [ \"111\" ],\r\n  \"parentId\" : [ \"2\" ],\r\n  \"menuType\" : [ \"C\" ],\r\n  \"menuName\" : [ \"数据监控\" ],\r\n  \"url\" : [ \"/monitor/data\" ],\r\n  \"target\" : [ \"menuItem\" ],\r\n  \"perms\" : [ \"monitor:data:view\" ],\r\n  \"orderNum\" : [ \"3\" ],\r\n  \"icon\" : [ \"#\" ],\r\n  \"visible\" : [ \"1\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:27:22');
+INSERT INTO `sys_oper_log` VALUES (3108, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'GET', 1, 'admin', '研发部门', '/system/menu/remove/110', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"存在子菜单,不允许删除\",\r\n  \"code\" : 301\r\n}', 0, NULL, '2020-12-09 08:27:37');
+INSERT INTO `sys_oper_log` VALUES (3109, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'GET', 1, 'admin', '研发部门', '/system/menu/remove/1056', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"菜单已分配,不允许删除\",\r\n  \"code\" : 301\r\n}', 0, NULL, '2020-12-09 08:27:52');
+INSERT INTO `sys_oper_log` VALUES (3110, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'GET', 1, 'admin', '研发部门', '/system/menu/remove/1056', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"菜单已分配,不允许删除\",\r\n  \"code\" : 301\r\n}', 0, NULL, '2020-12-09 08:29:10');
+INSERT INTO `sys_oper_log` VALUES (3111, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'GET', 1, 'admin', '研发部门', '/system/menu/remove/1056', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"菜单已分配,不允许删除\",\r\n  \"code\" : 301\r\n}', 0, NULL, '2020-12-09 08:30:03');
+INSERT INTO `sys_oper_log` VALUES (3112, '角色管理', 2, 'com.ruoyi.web.controller.system.SysRoleController.editSave()', 'POST', 1, 'admin', '研发部门', '/system/role/edit', '127.0.0.1', '内网IP', '{\r\n  \"roleId\" : [ \"2\" ],\r\n  \"roleName\" : [ \"普通角色\" ],\r\n  \"roleKey\" : [ \"common\" ],\r\n  \"roleSort\" : [ \"2\" ],\r\n  \"status\" : [ \"0\" ],\r\n  \"remark\" : [ \"普通角色\" ],\r\n  \"menuIds\" : [ \"1,100,1000,1001,1002,1003,1004,1005,1006,101,1007,1008,1009,1010,1011,102,1012,1013,1014,1015,103,1016,1017,1018,1019,104,1020,1021,1022,1023,1024,105,1025,1026,1027,1028,1029,106,1030,1031,1032,1033,1034,107,1035,1036,1037,1038,108,500,1039,1040,1041,1042,501,1043,1044,1045,1046,3,113,114,1057,1058,1059,1060,1061,115,4\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:30:32');
+INSERT INTO `sys_oper_log` VALUES (3113, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'GET', 1, 'admin', '研发部门', '/system/menu/remove/1056', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:30:46');
+INSERT INTO `sys_oper_log` VALUES (3114, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'GET', 1, 'admin', '研发部门', '/system/menu/remove/110', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"存在子菜单,不允许删除\",\r\n  \"code\" : 301\r\n}', 0, NULL, '2020-12-09 08:30:58');
+INSERT INTO `sys_oper_log` VALUES (3115, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'GET', 1, 'admin', '研发部门', '/system/menu/remove/1055', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:31:04');
+INSERT INTO `sys_oper_log` VALUES (3116, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'GET', 1, 'admin', '研发部门', '/system/menu/remove/1054', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:31:15');
+INSERT INTO `sys_oper_log` VALUES (3117, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'GET', 1, 'admin', '研发部门', '/system/menu/remove/1053', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:31:21');
+INSERT INTO `sys_oper_log` VALUES (3118, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'GET', 1, 'admin', '研发部门', '/system/menu/remove/1052', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:31:26');
+INSERT INTO `sys_oper_log` VALUES (3119, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'GET', 1, 'admin', '研发部门', '/system/menu/remove/1051', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:31:32');
+INSERT INTO `sys_oper_log` VALUES (3120, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'GET', 1, 'admin', '研发部门', '/system/menu/remove/1050', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:31:36');
+INSERT INTO `sys_oper_log` VALUES (3121, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'GET', 1, 'admin', '研发部门', '/system/menu/remove/110', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:31:40');
+INSERT INTO `sys_oper_log` VALUES (3122, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'GET', 1, 'admin', '研发部门', '/system/menu/remove/111', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:31:45');
+INSERT INTO `sys_oper_log` VALUES (3123, '角色管理', 2, 'com.ruoyi.web.controller.system.SysRoleController.editSave()', 'POST', 1, 'admin', '研发部门', '/system/role/edit', '127.0.0.1', '内网IP', '{\r\n  \"roleId\" : [ \"2\" ],\r\n  \"roleName\" : [ \"普通角色\" ],\r\n  \"roleKey\" : [ \"common\" ],\r\n  \"roleSort\" : [ \"2\" ],\r\n  \"status\" : [ \"0\" ],\r\n  \"remark\" : [ \"普通角色\" ],\r\n  \"menuIds\" : [ \"1,100,1000,1001,1002,1003,1004,1005,1006,101,1007,1008,1009,1010,1011,103,1016,1017,1018,1019,104,1020,1021,1022,1023,1024,108,500,1039,1040,1041,1042,501,1043,1044,1045,1046,2,109,1047,1048,1049,112\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:33:48');
+INSERT INTO `sys_oper_log` VALUES (3124, '部门管理', 1, 'com.ruoyi.web.controller.system.SysDeptController.addSave()', 'POST', 1, 'admin', '研发部门', '/system/dept/add', '127.0.0.1', '内网IP', '{\r\n  \"parentId\" : [ \"100\" ],\r\n  \"deptName\" : [ \"售货部\" ],\r\n  \"orderNum\" : [ \"1\" ],\r\n  \"leader\" : [ \"\" ],\r\n  \"phone\" : [ \"\" ],\r\n  \"email\" : [ \"\" ],\r\n  \"status\" : [ \"0\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:37:28');
+INSERT INTO `sys_oper_log` VALUES (3125, '用户管理', 2, 'com.ruoyi.web.controller.system.SysUserController.editSave()', 'POST', 1, 'admin', '研发部门', '/system/user/edit', '127.0.0.1', '内网IP', '{\r\n  \"userId\" : [ \"1\" ],\r\n  \"deptId\" : [ \"110\" ],\r\n  \"userName\" : [ \"若依\" ],\r\n  \"dept.deptName\" : [ \"售货部\" ],\r\n  \"phonenumber\" : [ \"15888888888\" ],\r\n  \"email\" : [ \"ry@163.com\" ],\r\n  \"loginName\" : [ \"admin\" ],\r\n  \"sex\" : [ \"1\" ],\r\n  \"role\" : [ \"2\" ],\r\n  \"remark\" : [ \"管理员\" ],\r\n  \"status\" : [ \"0\" ],\r\n  \"roleIds\" : [ \"2\" ],\r\n  \"postIds\" : [ \"1\" ]\r\n}', 'null', 1, '不允许操作超级管理员用户', '2020-12-09 08:37:39');
+INSERT INTO `sys_oper_log` VALUES (3126, '用户管理', 2, 'com.ruoyi.web.controller.system.SysUserController.editSave()', 'POST', 1, 'admin', '研发部门', '/system/user/edit', '127.0.0.1', '内网IP', '{\r\n  \"userId\" : [ \"2\" ],\r\n  \"deptId\" : [ \"110\" ],\r\n  \"userName\" : [ \"若依\" ],\r\n  \"dept.deptName\" : [ \"售货部\" ],\r\n  \"phonenumber\" : [ \"15666666666\" ],\r\n  \"email\" : [ \"ry@qq.com\" ],\r\n  \"loginName\" : [ \"ry\" ],\r\n  \"sex\" : [ \"1\" ],\r\n  \"role\" : [ \"2\" ],\r\n  \"remark\" : [ \"测试员\" ],\r\n  \"status\" : [ \"0\" ],\r\n  \"roleIds\" : [ \"2\" ],\r\n  \"postIds\" : [ \"2\" ]\r\n}', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:37:53');
+INSERT INTO `sys_oper_log` VALUES (3127, '部门管理', 3, 'com.ruoyi.web.controller.system.SysDeptController.remove()', 'GET', 1, 'admin', '研发部门', '/system/dept/remove/101', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"存在下级部门,不允许删除\",\r\n  \"code\" : 301\r\n}', 0, NULL, '2020-12-09 08:38:50');
+INSERT INTO `sys_oper_log` VALUES (3128, '部门管理', 3, 'com.ruoyi.web.controller.system.SysDeptController.remove()', 'GET', 1, 'admin', '研发部门', '/system/dept/remove/103', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:38:55');
+INSERT INTO `sys_oper_log` VALUES (3129, '部门管理', 3, 'com.ruoyi.web.controller.system.SysDeptController.remove()', 'GET', 1, 'admin', '研发部门', '/system/dept/remove/104', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:38:57');
+INSERT INTO `sys_oper_log` VALUES (3130, '部门管理', 3, 'com.ruoyi.web.controller.system.SysDeptController.remove()', 'GET', 1, 'admin', '研发部门', '/system/dept/remove/106', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:38:59');
+INSERT INTO `sys_oper_log` VALUES (3131, '部门管理', 3, 'com.ruoyi.web.controller.system.SysDeptController.remove()', 'GET', 1, 'admin', '研发部门', '/system/dept/remove/107', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:39:01');
+INSERT INTO `sys_oper_log` VALUES (3132, '部门管理', 3, 'com.ruoyi.web.controller.system.SysDeptController.remove()', 'GET', 1, 'admin', '研发部门', '/system/dept/remove/105', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:39:02');
+INSERT INTO `sys_oper_log` VALUES (3133, '部门管理', 3, 'com.ruoyi.web.controller.system.SysDeptController.remove()', 'GET', 1, 'admin', '研发部门', '/system/dept/remove/110', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"部门存在用户,不允许删除\",\r\n  \"code\" : 301\r\n}', 0, NULL, '2020-12-09 08:39:08');
+INSERT INTO `sys_oper_log` VALUES (3134, '部门管理', 3, 'com.ruoyi.web.controller.system.SysDeptController.remove()', 'GET', 1, 'admin', '研发部门', '/system/dept/remove/101', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:39:11');
+INSERT INTO `sys_oper_log` VALUES (3135, '部门管理', 3, 'com.ruoyi.web.controller.system.SysDeptController.remove()', 'GET', 1, 'admin', '研发部门', '/system/dept/remove/108', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:39:13');
+INSERT INTO `sys_oper_log` VALUES (3136, '部门管理', 3, 'com.ruoyi.web.controller.system.SysDeptController.remove()', 'GET', 1, 'admin', '研发部门', '/system/dept/remove/109', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:39:14');
+INSERT INTO `sys_oper_log` VALUES (3137, '部门管理', 3, 'com.ruoyi.web.controller.system.SysDeptController.remove()', 'GET', 1, 'admin', '研发部门', '/system/dept/remove/102', '127.0.0.1', '内网IP', '{ }', '{\r\n  \"msg\" : \"操作成功\",\r\n  \"code\" : 0\r\n}', 0, NULL, '2020-12-09 08:39:16');
 
 -- ----------------------------
 -- Table structure for sys_post
@@ -760,7 +552,7 @@ CREATE TABLE `sys_role`  (
 -- Records of sys_role
 -- ----------------------------
 INSERT INTO `sys_role` VALUES (1, '超级管理员', 'admin', 1, '1', '0', '0', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '超级管理员');
-INSERT INTO `sys_role` VALUES (2, '普通角色', 'common', 2, '2', '0', '0', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '普通角色');
+INSERT INTO `sys_role` VALUES (2, '普通角色', 'common', 2, '2', '0', '0', 'admin', '2018-03-16 11:33:00', 'admin', '2020-12-09 08:33:48', '普通角色');
 
 -- ----------------------------
 -- Table structure for sys_role_dept
@@ -794,24 +586,13 @@ CREATE TABLE `sys_role_menu`  (
 -- ----------------------------
 INSERT INTO `sys_role_menu` VALUES (2, 1);
 INSERT INTO `sys_role_menu` VALUES (2, 2);
-INSERT INTO `sys_role_menu` VALUES (2, 3);
-INSERT INTO `sys_role_menu` VALUES (2, 4);
 INSERT INTO `sys_role_menu` VALUES (2, 100);
 INSERT INTO `sys_role_menu` VALUES (2, 101);
-INSERT INTO `sys_role_menu` VALUES (2, 102);
 INSERT INTO `sys_role_menu` VALUES (2, 103);
 INSERT INTO `sys_role_menu` VALUES (2, 104);
-INSERT INTO `sys_role_menu` VALUES (2, 105);
-INSERT INTO `sys_role_menu` VALUES (2, 106);
-INSERT INTO `sys_role_menu` VALUES (2, 107);
 INSERT INTO `sys_role_menu` VALUES (2, 108);
 INSERT INTO `sys_role_menu` VALUES (2, 109);
-INSERT INTO `sys_role_menu` VALUES (2, 110);
-INSERT INTO `sys_role_menu` VALUES (2, 111);
 INSERT INTO `sys_role_menu` VALUES (2, 112);
-INSERT INTO `sys_role_menu` VALUES (2, 113);
-INSERT INTO `sys_role_menu` VALUES (2, 114);
-INSERT INTO `sys_role_menu` VALUES (2, 115);
 INSERT INTO `sys_role_menu` VALUES (2, 500);
 INSERT INTO `sys_role_menu` VALUES (2, 501);
 INSERT INTO `sys_role_menu` VALUES (2, 1000);
@@ -826,10 +607,6 @@ INSERT INTO `sys_role_menu` VALUES (2, 1008);
 INSERT INTO `sys_role_menu` VALUES (2, 1009);
 INSERT INTO `sys_role_menu` VALUES (2, 1010);
 INSERT INTO `sys_role_menu` VALUES (2, 1011);
-INSERT INTO `sys_role_menu` VALUES (2, 1012);
-INSERT INTO `sys_role_menu` VALUES (2, 1013);
-INSERT INTO `sys_role_menu` VALUES (2, 1014);
-INSERT INTO `sys_role_menu` VALUES (2, 1015);
 INSERT INTO `sys_role_menu` VALUES (2, 1016);
 INSERT INTO `sys_role_menu` VALUES (2, 1017);
 INSERT INTO `sys_role_menu` VALUES (2, 1018);
@@ -839,20 +616,6 @@ INSERT INTO `sys_role_menu` VALUES (2, 1021);
 INSERT INTO `sys_role_menu` VALUES (2, 1022);
 INSERT INTO `sys_role_menu` VALUES (2, 1023);
 INSERT INTO `sys_role_menu` VALUES (2, 1024);
-INSERT INTO `sys_role_menu` VALUES (2, 1025);
-INSERT INTO `sys_role_menu` VALUES (2, 1026);
-INSERT INTO `sys_role_menu` VALUES (2, 1027);
-INSERT INTO `sys_role_menu` VALUES (2, 1028);
-INSERT INTO `sys_role_menu` VALUES (2, 1029);
-INSERT INTO `sys_role_menu` VALUES (2, 1030);
-INSERT INTO `sys_role_menu` VALUES (2, 1031);
-INSERT INTO `sys_role_menu` VALUES (2, 1032);
-INSERT INTO `sys_role_menu` VALUES (2, 1033);
-INSERT INTO `sys_role_menu` VALUES (2, 1034);
-INSERT INTO `sys_role_menu` VALUES (2, 1035);
-INSERT INTO `sys_role_menu` VALUES (2, 1036);
-INSERT INTO `sys_role_menu` VALUES (2, 1037);
-INSERT INTO `sys_role_menu` VALUES (2, 1038);
 INSERT INTO `sys_role_menu` VALUES (2, 1039);
 INSERT INTO `sys_role_menu` VALUES (2, 1040);
 INSERT INTO `sys_role_menu` VALUES (2, 1041);
@@ -864,18 +627,6 @@ INSERT INTO `sys_role_menu` VALUES (2, 1046);
 INSERT INTO `sys_role_menu` VALUES (2, 1047);
 INSERT INTO `sys_role_menu` VALUES (2, 1048);
 INSERT INTO `sys_role_menu` VALUES (2, 1049);
-INSERT INTO `sys_role_menu` VALUES (2, 1050);
-INSERT INTO `sys_role_menu` VALUES (2, 1051);
-INSERT INTO `sys_role_menu` VALUES (2, 1052);
-INSERT INTO `sys_role_menu` VALUES (2, 1053);
-INSERT INTO `sys_role_menu` VALUES (2, 1054);
-INSERT INTO `sys_role_menu` VALUES (2, 1055);
-INSERT INTO `sys_role_menu` VALUES (2, 1056);
-INSERT INTO `sys_role_menu` VALUES (2, 1057);
-INSERT INTO `sys_role_menu` VALUES (2, 1058);
-INSERT INTO `sys_role_menu` VALUES (2, 1059);
-INSERT INTO `sys_role_menu` VALUES (2, 1060);
-INSERT INTO `sys_role_menu` VALUES (2, 1061);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -908,8 +659,8 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 103, 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '', '29c67a30398638269fe600f73a054934', '111111', '0', '0', '127.0.0.1', '2020-08-26 13:17:45', 'admin', '2018-03-16 11:33:00', 'ry', '2020-08-26 13:17:46', '管理员');
-INSERT INTO `sys_user` VALUES (2, 105, 'ry', '若依', '00', 'ry@qq.com', '15666666666', '1', '', '8e6d98b90472783cc73c17047ddccf36', '222222', '0', '0', '127.0.0.1', '2018-03-16 11:33:00', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '测试员');
+INSERT INTO `sys_user` VALUES (1, 110, 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '', '29c67a30398638269fe600f73a054934', '111111', '0', '0', '127.0.0.1', '2020-12-09 08:41:10', 'admin', '2018-03-16 11:33:00', 'ry', '2020-12-09 08:41:10', '管理员');
+INSERT INTO `sys_user` VALUES (2, 110, 'ry', '若依', '00', 'ry@qq.com', '15666666666', '1', '', '84025594309c395c693ac2997e0e6b2b', '222222', '0', '0', '127.0.0.1', '2020-12-09 08:40:22', 'admin', '2018-03-16 11:33:00', 'admin', '2020-12-09 08:40:23', '测试员');
 
 -- ----------------------------
 -- Table structure for sys_user_online
@@ -933,8 +684,7 @@ CREATE TABLE `sys_user_online`  (
 -- ----------------------------
 -- Records of sys_user_online
 -- ----------------------------
-INSERT INTO `sys_user_online` VALUES ('0df4b89c-8f75-46a2-a440-7ab039750738', 'admin', '研发部门', '140.206.67.66', 'XX XX', 'Chrome 8', 'Windows 10', 'on_line', '2020-08-26 13:10:23', '2020-08-26 13:13:10', 3600000);
-INSERT INTO `sys_user_online` VALUES ('ea9dedda-a6b0-4437-9bd7-2dd7375131e5', 'admin', '研发部门', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', 'on_line', '2020-08-26 13:16:53', '2020-08-26 13:27:25', 3600000);
+INSERT INTO `sys_user_online` VALUES ('d8eaa60e-165c-457d-852a-e5053e6bbfbb', 'admin', '售货部', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', 'on_line', '2020-12-09 08:41:05', '2020-12-09 08:41:10', 3600000);
 
 -- ----------------------------
 -- Table structure for sys_user_post
@@ -969,27 +719,109 @@ INSERT INTO `sys_user_role` VALUES (1, 1);
 INSERT INTO `sys_user_role` VALUES (2, 2);
 
 -- ----------------------------
--- Table structure for zstudent
+-- Table structure for t_goods
 -- ----------------------------
-DROP TABLE IF EXISTS `zstudent`;
-CREATE TABLE `zstudent`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(11) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
-  `age` int(3) NULL DEFAULT NULL,
-  `jisha` double(5, 2) NULL DEFAULT NULL,
-  `mofa` double(5, 2) NULL DEFAULT NULL,
-  `fangyu` double(5, 2) NULL DEFAULT NULL,
-  `zhugong` double(5, 2) NULL DEFAULT NULL,
-  `shengcun` double(5, 2) NULL DEFAULT NULL,
-  `wuli` double(5, 2) NULL DEFAULT NULL,
-  `jinqian` double(5, 2) NULL DEFAULT NULL,
+DROP TABLE IF EXISTS `t_goods`;
+CREATE TABLE `t_goods`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '' COMMENT '名称',
+  `type_id` bigint(20) NULL DEFAULT NULL COMMENT '类型ID',
+  `num` decimal(9, 2) NULL DEFAULT NULL COMMENT '库存',
+  `price` decimal(9, 2) NULL DEFAULT NULL COMMENT '价格',
+  `unit` varchar(9) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '单位',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 2855 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '商品表' ROW_FORMAT = Compact;
 
 -- ----------------------------
--- Records of zstudent
+-- Table structure for t_goods_type
 -- ----------------------------
-INSERT INTO `zstudent` VALUES (2, '张三', 21, 60.00, 100.00, 100.00, 70.00, 80.00, 90.00, 100.00);
-INSERT INTO `zstudent` VALUES (3, '张三', 1111, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+DROP TABLE IF EXISTS `t_goods_type`;
+CREATE TABLE `t_goods_type`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+  `type_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '类型名称',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2855 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '商品类型表' ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for t_inbound
+-- ----------------------------
+DROP TABLE IF EXISTS `t_inbound`;
+CREATE TABLE `t_inbound`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+  `inbound_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '入库单号',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2855 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '入库单表' ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for t_inbound_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `t_inbound_detail`;
+CREATE TABLE `t_inbound_detail`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `inbound_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '' COMMENT '入库单号',
+  `goods_id` bigint(20) NULL DEFAULT NULL COMMENT '商品ID',
+  `num` decimal(10, 0) NULL DEFAULT NULL COMMENT '数量',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2855 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '入库单明细表' ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for t_inventory_record
+-- ----------------------------
+DROP TABLE IF EXISTS `t_inventory_record`;
+CREATE TABLE `t_inventory_record`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2855 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '盘点记录表' ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for t_outbound
+-- ----------------------------
+DROP TABLE IF EXISTS `t_outbound`;
+CREATE TABLE `t_outbound`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `outbound_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '' COMMENT '出库单号',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2855 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '出库单表' ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for t_outbound_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `t_outbound_detail`;
+CREATE TABLE `t_outbound_detail`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `outbound_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '' COMMENT '出库单号',
+  `goods_id` bigint(20) NULL DEFAULT NULL COMMENT '商品ID',
+  `num` decimal(10, 0) NULL DEFAULT NULL COMMENT '数量',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2855 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '出库单明细表' ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for t_supplier
+-- ----------------------------
+DROP TABLE IF EXISTS `t_supplier`;
+CREATE TABLE `t_supplier`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `supplier_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT '' COMMENT '名称',
+  `phone` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '电话',
+  `wechat` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '微信',
+  `address` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '地址',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2855 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '供货商表' ROW_FORMAT = Compact;
 
 SET FOREIGN_KEY_CHECKS = 1;
