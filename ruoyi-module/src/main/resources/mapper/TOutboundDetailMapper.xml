@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.market.mapper.TOutboundDetailMapper">
+    
+    <resultMap type="TOutboundDetail" id="TOutboundDetailResult">
+        <result property="id"    column="id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="outboundCode"    column="outbound_code"    />
+        <result property="goodsId"    column="goods_id"    />
+        <result property="num"    column="num"    />
+    </resultMap>
+
+    <sql id="selectTOutboundDetailVo">
+        select id, create_by, create_time, outbound_code, goods_id, num from t_outbound_detail
+    </sql>
+
+    <select id="selectTOutboundDetailList" parameterType="TOutboundDetail" resultMap="TOutboundDetailResult">
+        <include refid="selectTOutboundDetailVo"/>
+        <where>  
+            <if test="outboundCode != null  and outboundCode != ''"> and outbound_code = #{outboundCode}</if>
+            <if test="goodsId != null "> and goods_id = #{goodsId}</if>
+            <if test="num != null "> and num = #{num}</if>
+        </where>
+    </select>
+    
+    <select id="selectTOutboundDetailById" parameterType="Long" resultMap="TOutboundDetailResult">
+        <include refid="selectTOutboundDetailVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTOutboundDetail" parameterType="TOutboundDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into t_outbound_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="outboundCode != null">outbound_code,</if>
+            <if test="goodsId != null">goods_id,</if>
+            <if test="num != null">num,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="outboundCode != null">#{outboundCode},</if>
+            <if test="goodsId != null">#{goodsId},</if>
+            <if test="num != null">#{num},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTOutboundDetail" parameterType="TOutboundDetail">
+        update t_outbound_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="outboundCode != null">outbound_code = #{outboundCode},</if>
+            <if test="goodsId != null">goods_id = #{goodsId},</if>
+            <if test="num != null">num = #{num},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTOutboundDetailById" parameterType="Long">
+        delete from t_outbound_detail where id = #{id}
+    </delete>
+
+    <delete id="deleteTOutboundDetailByIds" parameterType="String">
+        delete from t_outbound_detail where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

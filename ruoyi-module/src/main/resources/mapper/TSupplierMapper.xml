@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.market.mapper.TSupplierMapper">
+    
+    <resultMap type="TSupplier" id="TSupplierResult">
+        <result property="id"    column="id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="supplierName"    column="supplier_name"    />
+        <result property="phone"    column="phone"    />
+        <result property="wechat"    column="wechat"    />
+        <result property="address"    column="address"    />
+    </resultMap>
+
+    <sql id="selectTSupplierVo">
+        select id, create_by, create_time, supplier_name, phone, wechat, address from t_supplier
+    </sql>
+
+    <select id="selectTSupplierList" parameterType="TSupplier" resultMap="TSupplierResult">
+        <include refid="selectTSupplierVo"/>
+        <where>  
+            <if test="supplierName != null  and supplierName != ''"> and supplier_name like concat('%', #{supplierName}, '%')</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="wechat != null  and wechat != ''"> and wechat = #{wechat}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+        </where>
+    </select>
+    
+    <select id="selectTSupplierById" parameterType="Long" resultMap="TSupplierResult">
+        <include refid="selectTSupplierVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTSupplier" parameterType="TSupplier" useGeneratedKeys="true" keyProperty="id">
+        insert into t_supplier
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="supplierName != null">supplier_name,</if>
+            <if test="phone != null">phone,</if>
+            <if test="wechat != null">wechat,</if>
+            <if test="address != null">address,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="supplierName != null">#{supplierName},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="wechat != null">#{wechat},</if>
+            <if test="address != null">#{address},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTSupplier" parameterType="TSupplier">
+        update t_supplier
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="supplierName != null">supplier_name = #{supplierName},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="wechat != null">wechat = #{wechat},</if>
+            <if test="address != null">address = #{address},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTSupplierById" parameterType="Long">
+        delete from t_supplier where id = #{id}
+    </delete>
+
+    <delete id="deleteTSupplierByIds" parameterType="String">
+        delete from t_supplier where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

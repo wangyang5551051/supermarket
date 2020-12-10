@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('【请填写功能名称】列表')" />
+    <th:block th:include="include :: header('供货商列表')" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -11,12 +11,20 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <label>姓名：</label>
-                                <input type="text" name="name"/>
+                                <label>名称：</label>
+                                <input type="text" name="supplierName"/>
                             </li>
                             <li>
-                                <label>年龄：</label>
-                                <input type="text" name="age"/>
+                                <label>电话：</label>
+                                <input type="text" name="phone"/>
+                            </li>
+                            <li>
+                                <label>微信：</label>
+                                <input type="text" name="wechat"/>
+                            </li>
+                            <li>
+                                <label>地址：</label>
+                                <input type="text" name="address"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -28,16 +36,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:zstudent:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:supplier:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:zstudent:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:supplier:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:zstudent:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:supplier:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:zstudent:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:supplier:export">
                     <i class="fa fa-download"></i> 导出
                 </a>
             </div>
@@ -48,51 +56,41 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:zstudent:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:zstudent:remove')}]];
-        var prefix = ctx + "system/zstudent";
-        // function hello(data){
-        //     alert(data.name);
-        // }
-        $(function() {
-            // alert("我执行了AJAX");
-            //利用jQuery发起AJAX请求
-            // $.get("http://localhost:8081/student/user/haha",function(data){
-            //     alert(data);
-            // });
+        var editFlag = [[${@permission.hasPermi('system:supplier:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:supplier:remove')}]];
+        var prefix = ctx + "system/supplier";
 
-            // $.ajax({
-            //     url:"http://localhost:8081/student/user/hello",
-            //     type:"get",				//jsonp只能支持get请求   src只能进行get请求.
-            //     dataType:"jsonp",       //dataType表示返回值类型 必须标识
-            //     //jsonp: "callback",    //指定参数名称
-            //     jsonpCallback: "hello",  //指定回调函数名称
-            //     success:function (data){   //data经过jQuery封装返回就是json串
-            //         // alert(data);
-            //     }
-            // });
+        $(function() {
             var options = {
                 url: prefix + "/list",
                 createUrl: prefix + "/add",
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "【请填写功能名称】",
+                modalName: "供货商",
                 columns: [{
                     checkbox: true
                 },
                 {
                     field: 'id',
-                    title: 'id',
+                    title: 'ID',
                     visible: false
                 },
                 {
-                    field: 'name',
-                    title: '姓名'
+                    field: 'supplierName',
+                    title: '名称'
                 },
                 {
-                    field: 'age',
-                    title: '年龄'
+                    field: 'phone',
+                    title: '电话'
+                },
+                {
+                    field: 'wechat',
+                    title: '微信'
+                },
+                {
+                    field: 'address',
+                    title: '地址'
                 },
                 {
                     title: '操作',

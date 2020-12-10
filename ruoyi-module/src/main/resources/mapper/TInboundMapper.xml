@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.market.mapper.TInboundMapper">
+    
+    <resultMap type="TInbound" id="TInboundResult">
+        <result property="id"    column="id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="inboundCode"    column="inbound_code"    />
+    </resultMap>
+
+    <sql id="selectTInboundVo">
+        select id, create_by, create_time, inbound_code from t_inbound
+    </sql>
+
+    <select id="selectTInboundList" parameterType="TInbound" resultMap="TInboundResult">
+        <include refid="selectTInboundVo"/>
+        <where>  
+            <if test="inboundCode != null  and inboundCode != ''"> and inbound_code = #{inboundCode}</if>
+        </where>
+    </select>
+    
+    <select id="selectTInboundById" parameterType="Long" resultMap="TInboundResult">
+        <include refid="selectTInboundVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTInbound" parameterType="TInbound" useGeneratedKeys="true" keyProperty="id">
+        insert into t_inbound
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="inboundCode != null and inboundCode != ''">inbound_code,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="inboundCode != null and inboundCode != ''">#{inboundCode},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTInbound" parameterType="TInbound">
+        update t_inbound
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="inboundCode != null and inboundCode != ''">inbound_code = #{inboundCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTInboundById" parameterType="Long">
+        delete from t_inbound where id = #{id}
+    </delete>
+
+    <delete id="deleteTInboundByIds" parameterType="String">
+        delete from t_inbound where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

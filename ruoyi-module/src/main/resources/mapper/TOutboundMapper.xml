@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.market.mapper.TOutboundMapper">
+    
+    <resultMap type="TOutbound" id="TOutboundResult">
+        <result property="id"    column="id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="outboundCode"    column="outbound_code"    />
+    </resultMap>
+
+    <sql id="selectTOutboundVo">
+        select id, create_by, create_time, outbound_code from t_outbound
+    </sql>
+
+    <select id="selectTOutboundList" parameterType="TOutbound" resultMap="TOutboundResult">
+        <include refid="selectTOutboundVo"/>
+        <where>  
+            <if test="outboundCode != null  and outboundCode != ''"> and outbound_code = #{outboundCode}</if>
+        </where>
+    </select>
+    
+    <select id="selectTOutboundById" parameterType="Long" resultMap="TOutboundResult">
+        <include refid="selectTOutboundVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTOutbound" parameterType="TOutbound" useGeneratedKeys="true" keyProperty="id">
+        insert into t_outbound
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="outboundCode != null">outbound_code,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="outboundCode != null">#{outboundCode},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTOutbound" parameterType="TOutbound">
+        update t_outbound
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="outboundCode != null">outbound_code = #{outboundCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTOutboundById" parameterType="Long">
+        delete from t_outbound where id = #{id}
+    </delete>
+
+    <delete id="deleteTOutboundByIds" parameterType="String">
+        delete from t_outbound where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

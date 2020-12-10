@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.market.mapper.TInboundDetailMapper">
+    
+    <resultMap type="com.ruoyi.market.domain.TInboundDetail" id="TInboundDetailResult">
+        <result property="id"    column="id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="inboundCode"    column="inbound_code"    />
+        <result property="goodsId"    column="goods_id"    />
+        <result property="num"    column="num"    />
+    </resultMap>
+
+    <sql id="selectTInboundDetailVo">
+        select id, create_by, create_time, inbound_code, goods_id, num from t_inbound_detail
+    </sql>
+
+    <select id="selectTInboundDetailList" parameterType="com.ruoyi.market.domain.TInboundDetail" resultMap="TInboundDetailResult">
+        <include refid="selectTInboundDetailVo"/>
+        <where>  
+            <if test="inboundCode != null  and inboundCode != ''"> and inbound_code = #{inboundCode}</if>
+            <if test="goodsId != null "> and goods_id = #{goodsId}</if>
+            <if test="num != null "> and num = #{num}</if>
+        </where>
+    </select>
+    
+    <select id="selectTInboundDetailById" parameterType="Long" resultMap="TInboundDetailResult">
+        <include refid="selectTInboundDetailVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTInboundDetail" parameterType="com.ruoyi.market.domain.TInboundDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into t_inbound_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="inboundCode != null">inbound_code,</if>
+            <if test="goodsId != null">goods_id,</if>
+            <if test="num != null">num,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="inboundCode != null">#{inboundCode},</if>
+            <if test="goodsId != null">#{goodsId},</if>
+            <if test="num != null">#{num},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTInboundDetail" parameterType="com.ruoyi.market.domain.TInboundDetail">
+        update t_inbound_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="inboundCode != null">inbound_code = #{inboundCode},</if>
+            <if test="goodsId != null">goods_id = #{goodsId},</if>
+            <if test="num != null">num = #{num},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTInboundDetailById" parameterType="Long">
+        delete from t_inbound_detail where id = #{id}
+    </delete>
+
+    <delete id="deleteTInboundDetailByIds" parameterType="String">
+        delete from t_inbound_detail where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
