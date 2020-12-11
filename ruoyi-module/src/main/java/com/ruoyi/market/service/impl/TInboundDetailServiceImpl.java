@@ -2,6 +2,10 @@ package com.ruoyi.market.service.impl;
 
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.ShiroCommonUtils;
+import com.ruoyi.market.domain.TInbound;
+import com.ruoyi.market.mapper.TInboundMapper;
+import com.ruoyi.market.service.ITInboundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.market.mapper.TInboundDetailMapper;
@@ -18,6 +22,8 @@ import com.ruoyi.common.core.text.Convert;
 @Service
 public class TInboundDetailServiceImpl implements ITInboundDetailService 
 {
+    @Autowired
+    private TInboundMapper tInboundMapper;
     @Autowired
     private TInboundDetailMapper tInboundDetailMapper;
 
@@ -54,6 +60,14 @@ public class TInboundDetailServiceImpl implements ITInboundDetailService
     @Override
     public int insertTInboundDetail(TInboundDetail tInboundDetail)
     {
+        TInbound inbound = tInboundMapper.selectTInboundByCode(tInboundDetail.getInboundCode());
+        if(inbound == null){
+            throw new RuntimeException("新增失败，入库单未找到！");
+        }
+        if("2".equals(inbound.getStatus())){
+            throw new RuntimeException("新增失败，入库单已经完成！");
+        }
+        tInboundDetail.setCreateBy(ShiroCommonUtils.getSysUser().getUserName());
         tInboundDetail.setCreateTime(DateUtils.getNowDate());
         return tInboundDetailMapper.insertTInboundDetail(tInboundDetail);
     }
@@ -67,6 +81,13 @@ public class TInboundDetailServiceImpl implements ITInboundDetailService
     @Override
     public int updateTInboundDetail(TInboundDetail tInboundDetail)
     {
+        TInbound inbound = tInboundMapper.selectTInboundByCode(tInboundDetail.getInboundCode());
+        if(inbound == null){
+            throw new RuntimeException("修改失败，入库单未找到！");
+        }
+        if("2".equals(inbound.getStatus())){
+            throw new RuntimeException("修改失败，入库单已经完成！");
+        }
         return tInboundDetailMapper.updateTInboundDetail(tInboundDetail);
     }
 
@@ -79,6 +100,17 @@ public class TInboundDetailServiceImpl implements ITInboundDetailService
     @Override
     public int deleteTInboundDetailByIds(String ids)
     {
+        String[] strings = Convert.toStrArray(ids);
+        for (String id : strings) {
+            TInboundDetail tInboundDetail = tInboundDetailMapper.selectTInboundDetailById(Long.valueOf(id));
+            TInbound tInbound = tInboundMapper.selectTInboundByCode(tInboundDetail.getInboundCode());
+            if(tInbound == null){
+                throw new RuntimeException("删除失败，入库单未找到！");
+            }
+            if("2".equals(tInbound.getStatus())){
+                throw new RuntimeException("删除失败，入库单已经完成！");
+            }
+        }
         return tInboundDetailMapper.deleteTInboundDetailByIds(Convert.toStrArray(ids));
     }
 

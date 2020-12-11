@@ -9,36 +9,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="inboundCode"    column="inbound_code"    />
+        <result property="status"    column="status"    />
     </resultMap>
 
     <sql id="selectTInboundVo">
-        select id, create_by, create_time, inbound_code from t_inbound
+        select id, create_by, create_time, inbound_code, status from t_inbound
     </sql>
 
     <select id="selectTInboundList" parameterType="TInbound" resultMap="TInboundResult">
         <include refid="selectTInboundVo"/>
-        <where>  
-            <if test="inboundCode != null  and inboundCode != ''"> and inbound_code = #{inboundCode}</if>
+        <where>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
         </where>
     </select>
-    
+
     <select id="selectTInboundById" parameterType="Long" resultMap="TInboundResult">
         <include refid="selectTInboundVo"/>
         where id = #{id}
     </select>
-        
+    <select id="selectTInboundByCode" parameterType="String" resultMap="TInboundResult">
+        <include refid="selectTInboundVo"/>
+        where inbound_code = #{code}
+    </select>
+
     <insert id="insertTInbound" parameterType="TInbound" useGeneratedKeys="true" keyProperty="id">
         insert into t_inbound
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="createBy != null and createBy != ''">create_by,</if>
             <if test="createTime != null">create_time,</if>
-            <if test="inboundCode != null and inboundCode != ''">inbound_code,</if>
-         </trim>
+            <if test="inboundCode != null">inbound_code,</if>
+            <if test="status != null and status != ''">status,</if>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="createBy != null and createBy != ''">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
-            <if test="inboundCode != null and inboundCode != ''">#{inboundCode},</if>
-         </trim>
+            <if test="inboundCode != null">#{inboundCode},</if>
+            <if test="status != null and status != ''">#{status},</if>
+        </trim>
     </insert>
 
     <update id="updateTInbound" parameterType="TInbound">
@@ -46,7 +53,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="inboundCode != null and inboundCode != ''">inbound_code = #{inboundCode},</if>
+            <if test="inboundCode != null">inbound_code = #{inboundCode},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
         </trim>
         where id = #{id}
     </update>
@@ -56,10 +64,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteTInboundByIds" parameterType="String">
-        delete from t_inbound where id in 
+        delete from t_inbound where  status = "1" and id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
-
+    <select id="getCodeMax"  resultType="String" parameterType="String">
+        select MAX(SUBSTR(inbound_code FROM 9 FOR 10)) from t_inbound
+        where inbound_code like concat(#{time}, '%')
+    </select>
 </mapper>

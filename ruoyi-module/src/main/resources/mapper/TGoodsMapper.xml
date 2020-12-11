@@ -10,29 +10,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="name"    column="name"    />
         <result property="typeId"    column="type_id"    />
+        <result property="typeName"    column="type_name"    />
         <result property="num"    column="num"    />
         <result property="price"    column="price"    />
         <result property="unit"    column="unit"    />
     </resultMap>
 
     <sql id="selectTGoodsVo">
-        select id, create_by, create_time, name, type_id, num, price, unit from t_goods
+        select t.id, t.create_by, t.create_time, t.name, t.type_id, t.num, t.price, t.unit,t_goods_type.type_name from t_goods t
+        left join t_goods_type on t.type_id = t_goods_type.id
     </sql>
 
     <select id="selectTGoodsList" parameterType="TGoods" resultMap="TGoodsResult">
         <include refid="selectTGoodsVo"/>
         <where>  
-            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
-            <if test="typeId != null "> and type_id = #{typeId}</if>
-            <if test="num != null "> and num = #{num}</if>
-            <if test="price != null "> and price = #{price}</if>
-            <if test="unit != null  and unit != ''"> and unit = #{unit}</if>
+            <if test="name != null  and name != ''"> and t.name like concat('%', #{name}, '%')</if>
+            <if test="typeId != null "> and t.type_id = #{typeId}</if>
+            <if test="num != null "> and t.num = #{num}</if>
+            <if test="price != null "> and t.price = #{price}</if>
+            <if test="unit != null  and unit != ''"> and t.unit = #{unit}</if>
         </where>
     </select>
     
     <select id="selectTGoodsById" parameterType="Long" resultMap="TGoodsResult">
         <include refid="selectTGoodsVo"/>
-        where id = #{id}
+        where t.id = #{id}
     </select>
         
     <insert id="insertTGoods" parameterType="TGoods" useGeneratedKeys="true" keyProperty="id">

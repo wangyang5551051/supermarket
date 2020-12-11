@@ -1,13 +1,18 @@
 package com.ruoyi.market.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.ShiroCommonUtils;
+import com.ruoyi.common.utils.StringUtils;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.market.mapper.TInboundMapper;
 import com.ruoyi.market.domain.TInbound;
 import com.ruoyi.market.service.ITInboundService;
 import com.ruoyi.common.core.text.Convert;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 入库单Service业务层处理
@@ -54,6 +59,9 @@ public class TInboundServiceImpl implements ITInboundService
     @Override
     public int insertTInbound(TInbound tInbound)
     {
+        tInbound.setInboundCode(getCode());
+        tInbound.setStatus("1");
+        tInbound.setCreateBy(ShiroCommonUtils.getSysUser().getUserName());
         tInbound.setCreateTime(DateUtils.getNowDate());
         return tInboundMapper.insertTInbound(tInbound);
     }
@@ -65,8 +73,14 @@ public class TInboundServiceImpl implements ITInboundService
      * @return 结果
      */
     @Override
+    @Transactional
     public int updateTInbound(TInbound tInbound)
     {
+        TInbound inbound = tInboundMapper.selectTInboundById(tInbound.getId());
+        if("2".equals(inbound.getStatus())){
+            throw new RuntimeException("入库失败，入库单已经完成！");
+        }
+        tInbound.setStatus("2");
         return tInboundMapper.updateTInbound(tInbound);
     }
 
@@ -77,9 +91,15 @@ public class TInboundServiceImpl implements ITInboundService
      * @return 结果
      */
     @Override
+    @Transactional
     public int deleteTInboundByIds(String ids)
     {
-        return tInboundMapper.deleteTInboundByIds(Convert.toStrArray(ids));
+        String[] strings = Convert.toStrArray(ids);
+        int i = tInboundMapper.deleteTInboundByIds(Convert.toStrArray(ids));
+        if(i < strings.length){
+            throw new RuntimeException("删除失败，入库单已经完成！");
+        }
+        return i;
     }
 
     /**
@@ -92,5 +112,14 @@ public class TInboundServiceImpl implements ITInboundService
     public int deleteTInboundById(Long id)
     {
         return tInboundMapper.deleteTInboundById(id);
+    }
+
+    private synchronized String getCode(){
+        String time = DateUtils.getDateYMD();
+        String code =  tInboundMapper.getCodeMax(time);
+        if(!StringUtils.isEmpty(code)){
+            return time+String.format("%02d", Integer.valueOf(code)+1);
+        }
+        return time+"01";
     }
 }

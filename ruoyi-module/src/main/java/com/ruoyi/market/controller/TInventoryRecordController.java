@@ -1,6 +1,12 @@
 package com.ruoyi.market.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import com.ruoyi.market.service.ITGoodsTypeService;
+import com.ruoyi.system.domain.SysDictData;
+import com.ruoyi.system.service.ISysDictTypeService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +25,9 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 /**
  * 盘点记录Controller
  * 
@@ -33,11 +42,17 @@ public class TInventoryRecordController extends BaseController
 
     @Autowired
     private ITInventoryRecordService tInventoryRecordService;
+    @Autowired
+    private ITGoodsTypeService itGoodsTypeService;
+    @Autowired
+    private ISysDictTypeService dictTypeService;
 
     @RequiresPermissions("system:record:view")
     @GetMapping()
-    public String record()
+    public String record(ModelMap mmap)
     {
+        List<Map<String,Long>> resultList = itGoodsTypeService.selectTGoodsTypeMap();
+        mmap.put("resultList",resultList);
         return prefix + "/record";
     }
 
@@ -64,6 +79,14 @@ public class TInventoryRecordController extends BaseController
     public AjaxResult export(TInventoryRecord tInventoryRecord)
     {
         List<TInventoryRecord> list = tInventoryRecordService.selectTInventoryRecordList(tInventoryRecord);
+        List<SysDictData> sysDictData = dictTypeService.selectDictDataByType("sys_unit");
+        Map<String,String> unitMap = sysDictData.stream().collect(Collectors.toMap(SysDictData::getDictValue, SysDictData::getDictLabel));
+        list.forEach(x ->{
+            if(x.getNewNum() !=null && x.getOldNum() !=null){
+                x.setNum(x.getNewNum().subtract(x.getOldNum()));
+            }
+            x.setUnit(unitMap.get(x.getUnit()));
+        });
         ExcelUtil<TInventoryRecord> util = new ExcelUtil<TInventoryRecord>(TInventoryRecord.class);
         return util.exportExcel(list, "record");
     }

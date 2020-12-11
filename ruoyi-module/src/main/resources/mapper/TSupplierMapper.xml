@@ -22,9 +22,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectTSupplierVo"/>
         <where>  
             <if test="supplierName != null  and supplierName != ''"> and supplier_name like concat('%', #{supplierName}, '%')</if>
-            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
-            <if test="wechat != null  and wechat != ''"> and wechat = #{wechat}</if>
-            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="phone != null  and phone != ''"> and phone like concat('%', #{phone}, '%') </if>
+            <if test="wechat != null  and wechat != ''"> and wechat like concat('%', #{wechat}, '%') </if>
+            <if test="address != null  and address != ''"> and address like concat('%', #{address}, '%') </if>
         </where>
     </select>
     

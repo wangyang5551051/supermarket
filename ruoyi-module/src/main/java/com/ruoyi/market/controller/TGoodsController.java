@@ -79,8 +79,10 @@ public class TGoodsController extends BaseController
      * 新增商品
      */
     @GetMapping("/add")
-    public String add()
+    public String add(ModelMap mmap)
     {
+        List<Map<String,Long>> resultList = itGoodsTypeService.selectTGoodsTypeMap();
+        mmap.put("resultList",resultList);
         return prefix + "/add";
     }
 
@@ -104,6 +106,8 @@ public class TGoodsController extends BaseController
     {
         TGoods tGoods = tGoodsService.selectTGoodsById(id);
         mmap.put("tGoods", tGoods);
+        List<Map<String,Long>> resultList = itGoodsTypeService.selectTGoodsTypeMap();
+        mmap.put("resultList",resultList);
         return prefix + "/edit";
     }
 

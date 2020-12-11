@@ -2,6 +2,7 @@ package com.ruoyi.market.service.impl;
 
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.ShiroCommonUtils;
 import com.ruoyi.market.domain.TGoodsType;
 import com.ruoyi.market.mapper.TGoodsTypeMapper;
 import com.ruoyi.market.service.ITGoodsTypeService;
@@ -56,7 +57,7 @@ public class TGoodsTypeServiceImpl implements ITGoodsTypeService
     @Override
     public int insertTGoodsType(TGoodsType tGoodsType)
     {
-//        tGoodsType.setCreateBy(ShiroUtils.getSysUser().lo);
+        tGoodsType.setCreateBy(ShiroCommonUtils.getSysUser().getUserName());
         tGoodsType.setCreateTime(DateUtils.getNowDate());
         return tGoodsTypeMapper.insertTGoodsType(tGoodsType);
     }

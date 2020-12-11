@@ -23,6 +23,10 @@ public class TGoods extends BaseEntity
     @Excel(name = "名称")
     private String name;
 
+    /** 名称 */
+    @Excel(name = "类型名称")
+    private String typeName;
+
     /** 类型ID */
     @Excel(name = "类型ID")
     private Long typeId;
@@ -39,7 +43,15 @@ public class TGoods extends BaseEntity
     @Excel(name = "单位")
     private String unit;
 
-    public void setId(Long id) 
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }

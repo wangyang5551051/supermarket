@@ -22,15 +22,59 @@ public class TInboundDetail extends BaseEntity
     @Excel(name = "入库单号")
     private String inboundCode;
 
+    /** 商品名称 */
+    @Excel(name = "商品名称")
+    private String name;
+
+    @Excel(name = "单位")
+    private String unit;
+
+    @Excel(name = "类型名称")
+    private String typeName;
+
     /** 商品ID */
-    @Excel(name = "商品ID")
     private Long goodsId;
+
+    /** 类型ID */
+    private Long typeId;
 
     /** 数量 */
     @Excel(name = "数量")
     private Long num;
 
-    public void setId(Long id) 
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(Long typeId) {
+        this.typeId = typeId;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }

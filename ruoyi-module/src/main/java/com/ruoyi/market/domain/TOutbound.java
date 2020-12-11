@@ -22,32 +22,46 @@ public class TOutbound extends BaseEntity
     @Excel(name = "出库单号")
     private String outboundCode;
 
-    public void setId(Long id) 
+    /** 单据状态 */
+    @Excel(name = "单据状态")
+    private String status;
+
+    public void setId(Long id)
     {
         this.id = id;
     }
 
-    public Long getId() 
+    public Long getId()
     {
         return id;
     }
-    public void setOutboundCode(String outboundCode) 
+    public void setOutboundCode(String outboundCode)
     {
         this.outboundCode = outboundCode;
     }
 
-    public String getOutboundCode() 
+    public String getOutboundCode()
     {
         return outboundCode;
+    }
+    public void setStatus(String status)
+    {
+        this.status = status;
+    }
+
+    public String getStatus()
+    {
+        return status;
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("outboundCode", getOutboundCode())
-            .toString();
+                .append("id", getId())
+                .append("createBy", getCreateBy())
+                .append("createTime", getCreateTime())
+                .append("outboundCode", getOutboundCode())
+                .append("status", getStatus())
+                .toString();
     }
 }

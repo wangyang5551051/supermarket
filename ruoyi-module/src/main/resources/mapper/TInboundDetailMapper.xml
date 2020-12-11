@@ -11,24 +11,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="inboundCode"    column="inbound_code"    />
         <result property="goodsId"    column="goods_id"    />
         <result property="num"    column="num"    />
+        <result property="name"    column="name"    />
+        <result property="typeName"    column="type_name"    />
+        <result property="unit"    column="unit"    />
     </resultMap>
 
     <sql id="selectTInboundDetailVo">
-        select id, create_by, create_time, inbound_code, goods_id, num from t_inbound_detail
+        select t.id, t.create_by, t.create_time, t.inbound_code, t.goods_id, t.num, tg.name, tg.unit, tt.type_name from t_inbound_detail t
+        left join t_goods tg  on t.goods_id = tg.id
+        left join t_goods_type tt on tg.type_id = tt.id
     </sql>
 
     <select id="selectTInboundDetailList" parameterType="com.ruoyi.market.domain.TInboundDetail" resultMap="TInboundDetailResult">
         <include refid="selectTInboundDetailVo"/>
-        <where>  
-            <if test="inboundCode != null  and inboundCode != ''"> and inbound_code = #{inboundCode}</if>
-            <if test="goodsId != null "> and goods_id = #{goodsId}</if>
-            <if test="num != null "> and num = #{num}</if>
+        <where>
+            <if test="name != null "> and tg.name like concat('%', #{name}, '%')</if>
+            <if test="typeId != null "> and tg.type_id = #{typeId}</if>
+            <if test="goodsId != null "> and t.goods_id = #{goodsId}</if>
+            <if test="inboundCode != null  and inboundCode != ''"> and t.inbound_code = #{inboundCode}</if>
+            <if test="num != null "> and t.num = #{num}</if>
         </where>
     </select>
     
     <select id="selectTInboundDetailById" parameterType="Long" resultMap="TInboundDetailResult">
         <include refid="selectTInboundDetailVo"/>
-        where id = #{id}
+        where t.id = #{id}
     </select>
         
     <insert id="insertTInboundDetail" parameterType="com.ruoyi.market.domain.TInboundDetail" useGeneratedKeys="true" keyProperty="id">
@@ -66,7 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteTInboundDetailByIds" parameterType="String">
-        delete from t_inbound_detail where id in 
+        delete from t_inbound_detail where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

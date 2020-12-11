@@ -109,7 +109,13 @@ public class TInboundController extends BaseController
     @ResponseBody
     public AjaxResult editSave(TInbound tInbound)
     {
-        return toAjax(tInboundService.updateTInbound(tInbound));
+        AjaxResult ajaxResult;
+        try {
+            ajaxResult = toAjax(tInboundService.updateTInbound(tInbound));
+        } catch (Exception e) {
+            ajaxResult = AjaxResult.error(e.getMessage());
+        }
+        return ajaxResult;
     }
 
     /**
@@ -121,6 +127,12 @@ public class TInboundController extends BaseController
     @ResponseBody
     public AjaxResult remove(String ids)
     {
-        return toAjax(tInboundService.deleteTInboundByIds(ids));
+        AjaxResult ajaxResult;
+        try {
+            ajaxResult = toAjax(tInboundService.deleteTInboundByIds(ids));
+        } catch (Exception e) {
+            ajaxResult = AjaxResult.error(e.getMessage());
+        }
+        return ajaxResult;
     }
 }

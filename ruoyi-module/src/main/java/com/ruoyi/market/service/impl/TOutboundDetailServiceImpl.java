@@ -2,6 +2,7 @@ package com.ruoyi.market.service.impl;
 
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.ShiroCommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.market.mapper.TOutboundDetailMapper;
@@ -54,6 +55,7 @@ public class TOutboundDetailServiceImpl implements ITOutboundDetailService
     @Override
     public int insertTOutboundDetail(TOutboundDetail tOutboundDetail)
     {
+        tOutboundDetail.setCreateBy(ShiroCommonUtils.getSysUser().getUserName());
         tOutboundDetail.setCreateTime(DateUtils.getNowDate());
         return tOutboundDetailMapper.insertTOutboundDetail(tOutboundDetail);
     }

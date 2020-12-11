@@ -1,6 +1,14 @@
 package com.ruoyi.market.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import com.ruoyi.market.domain.TGoods;
+import com.ruoyi.market.service.ITGoodsService;
+import com.ruoyi.market.service.ITGoodsTypeService;
+import com.ruoyi.system.domain.SysDictData;
+import com.ruoyi.system.service.ISysDictTypeService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,14 +38,23 @@ import com.ruoyi.common.core.page.TableDataInfo;
 public class TInboundDetailController extends BaseController
 {
     private String prefix = "market/inbounddetail";
-
+    @Autowired
+    private ITGoodsService tGoodsService;
+    @Autowired
+    private ITGoodsTypeService itGoodsTypeService;
     @Autowired
     private ITInboundDetailService tInboundDetailService;
+    @Autowired
+    private ISysDictTypeService dictTypeService;
 
     @RequiresPermissions("system:detail:view")
     @GetMapping()
-    public String detail()
+    public String detail(ModelMap mmap)
     {
+        List<TGoods> resultList = tGoodsService.selectTGoodsList(new TGoods());
+        mmap.put("resultList",resultList);
+        List<Map<String,Long>> resultList1 = itGoodsTypeService.selectTGoodsTypeMap();
+        mmap.put("resultList1",resultList1);
         return prefix + "/detail";
     }
 
@@ -63,7 +80,12 @@ public class TInboundDetailController extends BaseController
     @ResponseBody
     public AjaxResult export(TInboundDetail tInboundDetail)
     {
+        List<SysDictData> sysDictData = dictTypeService.selectDictDataByType("sys_unit");
         List<TInboundDetail> list = tInboundDetailService.selectTInboundDetailList(tInboundDetail);
+        Map<String,String> unitMap = sysDictData.stream().collect(Collectors.toMap(SysDictData::getDictValue, SysDictData::getDictLabel));
+        list.forEach(x ->{
+            x.setUnit(unitMap.get(x.getUnit()));
+        });
         ExcelUtil<TInboundDetail> util = new ExcelUtil<TInboundDetail>(TInboundDetail.class);
         return util.exportExcel(list, "detail");
     }
@@ -72,8 +94,10 @@ public class TInboundDetailController extends BaseController
      * 新增入库单明细
      */
     @GetMapping("/add")
-    public String add()
+    public String add(ModelMap mmap)
     {
+        List<TGoods> resultList = tGoodsService.selectTGoodsList(new TGoods());
+        mmap.put("resultList",resultList);
         return prefix + "/add";
     }
 
@@ -86,7 +110,13 @@ public class TInboundDetailController extends BaseController
     @ResponseBody
     public AjaxResult addSave(TInboundDetail tInboundDetail)
     {
-        return toAjax(tInboundDetailService.insertTInboundDetail(tInboundDetail));
+        AjaxResult ajaxResult;
+        try {
+            ajaxResult = toAjax(tInboundDetailService.insertTInboundDetail(tInboundDetail));
+        } catch (Exception e) {
+            ajaxResult = AjaxResult.error(e.getMessage());
+        }
+        return ajaxResult;
     }
 
     /**
@@ -95,6 +125,8 @@ public class TInboundDetailController extends BaseController
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Long id, ModelMap mmap)
     {
+        List<TGoods> resultList = tGoodsService.selectTGoodsList(new TGoods());
+        mmap.put("resultList",resultList);
         TInboundDetail tInboundDetail = tInboundDetailService.selectTInboundDetailById(id);
         mmap.put("tInboundDetail", tInboundDetail);
         return prefix + "/edit";
@@ -109,7 +141,13 @@ public class TInboundDetailController extends BaseController
     @ResponseBody
     public AjaxResult editSave(TInboundDetail tInboundDetail)
     {
-        return toAjax(tInboundDetailService.updateTInboundDetail(tInboundDetail));
+        AjaxResult ajaxResult;
+        try {
+            ajaxResult = toAjax(tInboundDetailService.updateTInboundDetail(tInboundDetail));
+        } catch (Exception e) {
+            ajaxResult = AjaxResult.error(e.getMessage());
+        }
+        return ajaxResult;
     }
 
     /**
@@ -121,6 +159,12 @@ public class TInboundDetailController extends BaseController
     @ResponseBody
     public AjaxResult remove(String ids)
     {
-        return toAjax(tInboundDetailService.deleteTInboundDetailByIds(ids));
+        AjaxResult ajaxResult;
+        try {
+            ajaxResult = toAjax(tInboundDetailService.deleteTInboundDetailByIds(ids));
+        } catch (Exception e) {
+            ajaxResult = AjaxResult.error(e.getMessage());
+        }
+        return ajaxResult;
     }
 }

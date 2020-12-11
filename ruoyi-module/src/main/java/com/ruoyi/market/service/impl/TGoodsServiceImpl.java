@@ -1,13 +1,18 @@
 package com.ruoyi.market.service.impl;
 
-import java.util.List;
+import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.ShiroCommonUtils;
+import com.ruoyi.market.domain.TGoods;
+import com.ruoyi.market.domain.TInventoryRecord;
+import com.ruoyi.market.mapper.TGoodsMapper;
+import com.ruoyi.market.mapper.TInventoryRecordMapper;
+import com.ruoyi.market.service.ITGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.market.mapper.TGoodsMapper;
-import com.ruoyi.market.domain.TGoods;
-import com.ruoyi.market.service.ITGoodsService;
-import com.ruoyi.common.core.text.Convert;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 商品Service业务层处理
@@ -20,6 +25,8 @@ public class TGoodsServiceImpl implements ITGoodsService
 {
     @Autowired
     private TGoodsMapper tGoodsMapper;
+    @Autowired
+    private TInventoryRecordMapper tInventoryRecordMapper;
 
     /**
      * 查询商品
@@ -54,6 +61,7 @@ public class TGoodsServiceImpl implements ITGoodsService
     @Override
     public int insertTGoods(TGoods tGoods)
     {
+        tGoods.setCreateBy(ShiroCommonUtils.getSysUser().getUserName());
         tGoods.setCreateTime(DateUtils.getNowDate());
         return tGoodsMapper.insertTGoods(tGoods);
     }
@@ -92,5 +100,19 @@ public class TGoodsServiceImpl implements ITGoodsService
     public int deleteTGoodsById(Long id)
     {
         return tGoodsMapper.deleteTGoodsById(id);
+    }
+
+    @Override
+    public int updateTGoodsNum(TGoods tGoods)
+    {
+        TGoods tGoods1 = tGoodsMapper.selectTGoodsById(tGoods.getId());
+        TInventoryRecord inventoryRecord = new TInventoryRecord();
+        inventoryRecord.setGoodsId(tGoods.getId());
+        inventoryRecord.setOldNum(tGoods1.getNum());
+        inventoryRecord.setNewNum(tGoods.getNum());
+        inventoryRecord.setCreateTime(DateUtils.getNowDate());
+        inventoryRecord.setCreateBy(ShiroCommonUtils.getSysUser().getUserName());
+        tInventoryRecordMapper.insertTInventoryRecord(inventoryRecord);
+        return tGoodsMapper.updateTGoods(tGoods);
     }
 }

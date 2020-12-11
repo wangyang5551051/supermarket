@@ -1,6 +1,8 @@
 package com.ruoyi.market.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.market.domain.TGoods;
 
 /**
@@ -58,4 +60,6 @@ public interface ITGoodsService
      * @return 结果
      */
     public int deleteTGoodsById(Long id);
+
+    int updateTGoodsNum(TGoods tGoods);
 }

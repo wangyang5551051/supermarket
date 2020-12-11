@@ -20,6 +20,8 @@ public interface TInboundMapper
      */
     public TInbound selectTInboundById(Long id);
 
+    public TInbound selectTInboundByCode(String code);
+
     /**
      * 查询入库单列表
      * 
@@ -59,4 +61,6 @@ public interface TInboundMapper
      * @return 结果
      */
     public int deleteTInboundByIds(String[] ids);
+
+    String getCodeMax(String time);
 }

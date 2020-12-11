@@ -11,6 +11,25 @@
                     <div class="select-list">
                         <ul>
                             <li>
+                                <label>商品名称：</label>
+                                <input type="text" name="name"/>
+                            </li>
+                            <li>
+                                <label>类型名称：</label>
+                                <select class="form-control" name="typeId">
+                                    <option value="">--请选择--</option>
+                                    <option th:each="entries,stat:${resultList}" th:value="${entries['id']}" th:text="${entries['type_name']}"></option>
+                                </select>
+                            </li>
+                            <!--<li>-->
+                                <!--<label>原库存：</label>-->
+                                <!--<input type="text" name="oldNum"/>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<label>新库存：</label>-->
+                                <!--<input type="text" name="newNum"/>-->
+                            <!--</li>-->
+                            <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
                             </li>
@@ -20,15 +39,15 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:record:add">
-                    <i class="fa fa-plus"></i> 添加
-                </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:record:edit">
-                    <i class="fa fa-edit"></i> 修改
-                </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:record:remove">
-                    <i class="fa fa-remove"></i> 删除
-                </a>
+                <!--<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:record:add">-->
+                    <!--<i class="fa fa-plus"></i> 添加-->
+                <!--</a>-->
+                <!--<a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:record:edit">-->
+                    <!--<i class="fa fa-edit"></i> 修改-->
+                <!--</a>-->
+                <!--<a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:record:remove">-->
+                    <!--<i class="fa fa-remove"></i> 删除-->
+                <!--</a>-->
                 <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:record:export">
                     <i class="fa fa-download"></i> 导出
                 </a>
@@ -42,6 +61,7 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('system:record:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:record:remove')}]];
+        var datas = [[${@dict.getType('sys_unit')}]];
         var prefix = ctx + "system/record";
 
         $(function() {
@@ -52,6 +72,11 @@
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
                 modalName: "盘点记录",
+                sortName: "createTime",
+                sortOrder: "desc",
+                escape: true,
+                showPageGo: true,
+                rememberSelected: true,
                 columns: [{
                     checkbox: true
                 },
@@ -61,15 +86,61 @@
                     visible: false
                 },
                 {
-                    title: '操作',
-                    align: 'center',
-                    formatter: function(value, row, index) {
-                        var actions = [];
-                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
-                        return actions.join('');
-                    }
-                }]
+                    field: 'name',
+                    title: '商品名称',
+                    sortable: true
+                },{
+                    field: 'typeName',
+                    title: '类型名称',
+                        sortable: true
+                },{
+                    field: 'unit',
+                    title: '单位',
+                        formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(datas, value);
+                        }
+                },
+                {
+                    field: 'oldNum',
+                    title: '原库存'
+                },
+                {
+                    field: 'newNum',
+                    title: '新库存'
+                },{
+                    field: 'num',
+                    title: '变更库存',
+                        formatter:function(value) {
+                            var actions = [];
+                            if (value > 0 || value ==0) {
+                                actions.push($.common.sprintf("<span class='%s'>%s</span>", 'badge badge-primary', value));
+                            }else {
+                                actions.push($.common.sprintf("<span class='%s'>%s</span>", 'badge badge-danger', value));
+                            }
+                            return actions.join('');
+                        }
+                },
+                {
+                        field: 'createBy',
+                        title: '创建人',
+                        sortable: true
+                },
+                {
+                        field: 'createTime',
+                        title: '创建时间',
+                        sortable: true
+                }
+                // , {
+                //     title: '操作',
+                //     align: 'center',
+                //     formatter: function(value, row, index) {
+                //         var actions = [];
+                //         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                //         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                //         return actions.join('');
+                //     }
+                // }
+                ]
             };
             $.table.init(options);
         });
