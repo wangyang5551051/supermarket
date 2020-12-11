@@ -94,10 +94,11 @@ public class TInboundDetailController extends BaseController
      * 新增入库单明细
      */
     @GetMapping("/add")
-    public String add(ModelMap mmap)
+    public String add(ModelMap mmap,String inboundCode)
     {
         List<TGoods> resultList = tGoodsService.selectTGoodsList(new TGoods());
         mmap.put("resultList",resultList);
+        mmap.put("inboundCode",inboundCode);
         return prefix + "/add";
     }
 

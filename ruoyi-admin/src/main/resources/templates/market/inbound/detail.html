@@ -12,50 +12,35 @@
                     <ul>
                         <li>
                             <label>入库单号：</label>
-                            <input type="text" name="inboundCode"/>
-                        </li>
-                        <li>
-                            <label>商品名称：</label>
-                            <select class="form-control" name="goodsId">
-                                <option value="">--请选择--</option>
-                                <option th:each="entries,stat:${resultList}" th:value="${entries['id']}"
-                                        th:text="${entries['name']}"></option>
-                            </select>
-                        </li>
-                        <li>
-                            <label>类型名称：</label>
-                            <select class="form-control" name="typeId">
-                                <option value="">--请选择--</option>
-                                <option th:each="entries,stat:${resultList1}" th:value="${entries['id']}" th:text="${entries['type_name']}"></option>
-                            </select>
+                            <input type="text" name="inboundCode" th:value="${inboundCode}" readonly/>
                         </li>
                         <!--<li>-->
-                            <!--<label>数量：</label>-->
-                            <!--<input type="text" name="num"/>-->
+                        <!--<label>数量：</label>-->
+                        <!--<input type="text" name="num"/>-->
                         <!--</li>-->
-                        <li>
-                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
-                                    class="fa fa-search"></i>&nbsp;搜索</a>
-                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
-                                    class="fa fa-refresh"></i>&nbsp;重置</a>
-                        </li>
+                        <!--<li>-->
+                        <!--<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i-->
+                        <!--class="fa fa-search"></i>&nbsp;搜索</a>-->
+                        <!--<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i-->
+                        <!--class="fa fa-refresh"></i>&nbsp;重置</a>-->
+                        <!--</li>-->
                     </ul>
                 </div>
             </form>
         </div>
 
         <div class="btn-group-sm" id="toolbar" role="group">
-            <!--<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:detail:add">-->
-                <!--<i class="fa fa-plus"></i> 添加-->
-            <!--</a>-->
-            <!--<a class="btn btn-primary single disabled" onclick="$.operate.edit()"-->
-               <!--shiro:hasPermission="system:detail:edit">-->
-                <!--<i class="fa fa-edit"></i> 修改-->
-            <!--</a>-->
-            <!--<a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"-->
-               <!--shiro:hasPermission="system:detail:remove">-->
-                <!--<i class="fa fa-remove"></i> 删除-->
-            <!--</a>-->
+            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:detail:add">
+                <i class="fa fa-plus"></i> 添加
+            </a>
+            <a class="btn btn-primary single disabled" onclick="$.operate.edit()"
+               shiro:hasPermission="system:detail:edit">
+                <i class="fa fa-edit"></i> 修改
+            </a>
+            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
+               shiro:hasPermission="system:detail:remove">
+                <i class="fa fa-remove"></i> 删除
+            </a>
             <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:detail:export">
                 <i class="fa fa-download"></i> 导出
             </a>
@@ -75,7 +60,7 @@
     $(function () {
         var options = {
             url: prefix + "/list",
-            createUrl: prefix + "/add",
+            createUrl: prefix + "/add?inboundCode=" + [[${inboundCode}]],
             updateUrl: prefix + "/edit/{id}",
             removeUrl: prefix + "/remove",
             exportUrl: prefix + "/export",

@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.math.BigDecimal;
+
 /**
  * 入库单明细对象 t_inbound_detail
  * 
@@ -40,7 +42,7 @@ public class TInboundDetail extends BaseEntity
 
     /** 数量 */
     @Excel(name = "数量")
-    private Long num;
+    private BigDecimal num;
 
     public String getUnit() {
         return unit;
@@ -101,12 +103,12 @@ public class TInboundDetail extends BaseEntity
     {
         return goodsId;
     }
-    public void setNum(Long num) 
+    public void setNum(BigDecimal num)
     {
         this.num = num;
     }
 
-    public Long getNum() 
+    public BigDecimal getNum()
     {
         return num;
     }

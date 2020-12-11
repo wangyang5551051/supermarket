@@ -84,7 +84,10 @@
                 {
                     field: 'inboundCode',
                     title: '入库单号',
-                    sortable: true
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return '<a href="javascript:void(0)" onclick="detail(\'' + row.inboundCode + '\')">' + value + '</a>';
+                    }
                 },
                 {
                     field: 'status',
@@ -152,6 +155,12 @@
             $.operate.submit(url, "post", "json", data);
         });
 
+    }
+
+    /*字典列表-详细*/
+    function detail(inboundCode) {
+        var url = prefix + '/detail/' + inboundCode;
+        $.modal.openTab("入库单明细", url);
     }
 </script>
 </body>

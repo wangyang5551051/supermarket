@@ -20,6 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectTInboundVo"/>
         <where>
             <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="inboundCode != null  and inboundCode != ''"> and inbound_code like concat('%', #{inboundCode}, '%')</if>
         </where>
     </select>
 

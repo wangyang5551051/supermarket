@@ -1,18 +1,21 @@
 package com.ruoyi.market.service.impl;
 
-import java.util.Date;
-import java.util.List;
+import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.ShiroCommonUtils;
 import com.ruoyi.common.utils.StringUtils;
-import io.swagger.models.auth.In;
+import com.ruoyi.market.domain.TGoods;
+import com.ruoyi.market.domain.TInbound;
+import com.ruoyi.market.domain.TInboundDetail;
+import com.ruoyi.market.mapper.TGoodsMapper;
+import com.ruoyi.market.mapper.TInboundDetailMapper;
+import com.ruoyi.market.mapper.TInboundMapper;
+import com.ruoyi.market.service.ITInboundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.market.mapper.TInboundMapper;
-import com.ruoyi.market.domain.TInbound;
-import com.ruoyi.market.service.ITInboundService;
-import com.ruoyi.common.core.text.Convert;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 入库单Service业务层处理
@@ -24,7 +27,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class TInboundServiceImpl implements ITInboundService 
 {
     @Autowired
+    private TInboundDetailMapper tInboundDetailMapper;
+    @Autowired
     private TInboundMapper tInboundMapper;
+    @Autowired
+    private TGoodsMapper tGoodsMapper;
 
     /**
      * 查询入库单
@@ -80,6 +87,14 @@ public class TInboundServiceImpl implements ITInboundService
         if("2".equals(inbound.getStatus())){
             throw new RuntimeException("入库失败，入库单已经完成！");
         }
+        List<TInboundDetail> tInboundDetails = tInboundDetailMapper.selectTInboundDetailByCode(inbound.getInboundCode());
+        tInboundDetails.forEach(x ->{
+            TGoods tGoods = tGoodsMapper.selectTGoodsById(x.getGoodsId());
+            if(tGoods.getNum() != null && x.getNum() != null){
+                tGoods.setNum(tGoods.getNum().add(x.getNum()));
+            }
+            tGoodsMapper.updateTGoods(tGoods);
+        });
         tInbound.setStatus("2");
         return tInboundMapper.updateTInbound(tInbound);
     }

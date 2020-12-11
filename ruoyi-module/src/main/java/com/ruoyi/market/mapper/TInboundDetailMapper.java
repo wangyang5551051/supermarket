@@ -59,4 +59,6 @@ public interface TInboundDetailMapper
      * @return 结果
      */
     public int deleteTInboundDetailByIds(String[] ids);
+
+    List<TInboundDetail> selectTInboundDetailByCode(String inboundCode);
 }

@@ -135,4 +135,14 @@ public class TInboundController extends BaseController
         }
         return ajaxResult;
     }
+
+    /**
+     * 查看详细
+     */
+    @GetMapping("/detail/{inboundCode}")
+    public String detail(@PathVariable("inboundCode") String inboundCode, ModelMap mmap)
+    {
+        mmap.put("inboundCode", inboundCode);
+        return prefix + "/detail";
+    }
 }
