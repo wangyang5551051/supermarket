@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.math.BigDecimal;
+
 /**
  * 出库单明细对象 t_outbound_detail
  * 
@@ -26,11 +28,56 @@ public class TOutboundDetail extends BaseEntity
     @Excel(name = "商品ID")
     private Long goodsId;
 
+    /** 类型ID */
+    private Long typeId;
+
+    /** 商品名称 */
+    @Excel(name = "商品名称")
+    private String name;
+
+    @Excel(name = "单位")
+    private String unit;
+
+    @Excel(name = "类型名称")
+    private String typeName;
+
     /** 数量 */
     @Excel(name = "数量")
-    private Long num;
+    private BigDecimal num;
 
-    public void setId(Long id) 
+    public String getName() {
+        return name;
+    }
+
+    public Long getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(Long typeId) {
+        this.typeId = typeId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }
@@ -57,12 +104,12 @@ public class TOutboundDetail extends BaseEntity
     {
         return goodsId;
     }
-    public void setNum(Long num) 
+    public void setNum(BigDecimal num)
     {
         this.num = num;
     }
 
-    public Long getNum() 
+    public BigDecimal getNum()
     {
         return num;
     }

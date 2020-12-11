@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectTOutboundList" parameterType="TOutbound" resultMap="TOutboundResult">
         <include refid="selectTOutboundVo"/>
         <where>
-            <if test="outboundCode != null  and outboundCode != ''"> and outbound_code = #{outboundCode}</if>
+            <if test="outboundCode != null  and outboundCode != ''"> and outbound_code like concat('%', #{outboundCode},'%')</if>
             <if test="status != null  and status != ''"> and status = #{status}</if>
         </where>
     </select>
@@ -27,6 +27,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectTOutboundById" parameterType="Long" resultMap="TOutboundResult">
         <include refid="selectTOutboundVo"/>
         where id = #{id}
+    </select>
+    <select id="selectTOutboundByCode" parameterType="String" resultMap="TOutboundResult">
+        <include refid="selectTOutboundVo"/>
+        where outbound_code = #{outboundCode}
     </select>
 
     <insert id="insertTOutbound" parameterType="TOutbound" useGeneratedKeys="true" keyProperty="id">
@@ -61,10 +65,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteTOutboundByIds" parameterType="String">
-        delete from t_outbound where id in
+        delete from t_outbound where status = "1" and id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
+
+    <select id="getCodeMax"  resultType="String" parameterType="String">
+        select MAX(SUBSTR(outbound_code FROM 9 FOR 10)) from t_outbound
+        where outbound_code like concat(#{time}, '%')
+    </select>
 
 </mapper>

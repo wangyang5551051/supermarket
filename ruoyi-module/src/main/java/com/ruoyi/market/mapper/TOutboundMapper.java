@@ -59,4 +59,8 @@ public interface TOutboundMapper
      * @return 结果
      */
     public int deleteTOutboundByIds(String[] ids);
+
+    String getCodeMax(String time);
+
+    TOutbound selectTOutboundByCode(String outboundCode);
 }

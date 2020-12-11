@@ -11,24 +11,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="outboundCode"    column="outbound_code"    />
         <result property="goodsId"    column="goods_id"    />
         <result property="num"    column="num"    />
+        <result property="name"    column="name"    />
+        <result property="typeName"    column="type_name"    />
+        <result property="unit"    column="unit"    />
     </resultMap>
 
     <sql id="selectTOutboundDetailVo">
-        select id, create_by, create_time, outbound_code, goods_id, num from t_outbound_detail
+        select t.id, t.create_by, t.create_time, t.outbound_code, t.goods_id, t.num, tg.name, tg.unit, tt.type_name from t_outbound_detail t
+        left join t_goods tg  on t.goods_id = tg.id
+        left join t_goods_type tt on tg.type_id = tt.id
     </sql>
 
     <select id="selectTOutboundDetailList" parameterType="TOutboundDetail" resultMap="TOutboundDetailResult">
         <include refid="selectTOutboundDetailVo"/>
-        <where>  
-            <if test="outboundCode != null  and outboundCode != ''"> and outbound_code = #{outboundCode}</if>
-            <if test="goodsId != null "> and goods_id = #{goodsId}</if>
-            <if test="num != null "> and num = #{num}</if>
+        <where>
+            <if test="name != null "> and tg.name like concat('%', #{name}, '%')</if>
+            <if test="typeId != null "> and tg.type_id = #{typeId}</if>
+            <if test="outboundCode != null  and outboundCode != ''"> and t.outbound_code like concat('%', #{outboundCode}, '%')</if>
+            <if test="goodsId != null "> and t.goods_id = #{goodsId}</if>
+            <if test="num != null "> and t.num = #{num}</if>
         </where>
+    </select>
+    <select id="selectTOutboundDetailByCode" parameterType="String" resultMap="TOutboundDetailResult">
+        <include refid="selectTOutboundDetailVo"/>
+        where t.outbound_code = #{outboundCode}
     </select>
     
     <select id="selectTOutboundDetailById" parameterType="Long" resultMap="TOutboundDetailResult">
         <include refid="selectTOutboundDetailVo"/>
-        where id = #{id}
+        where t.id = #{id}
     </select>
         
     <insert id="insertTOutboundDetail" parameterType="TOutboundDetail" useGeneratedKeys="true" keyProperty="id">

@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="name != null "> and tg.name like concat('%', #{name}, '%')</if>
             <if test="typeId != null "> and tg.type_id = #{typeId}</if>
             <if test="goodsId != null "> and t.goods_id = #{goodsId}</if>
-            <if test="inboundCode != null  and inboundCode != ''"> and t.inbound_code = #{inboundCode}</if>
+            <if test="inboundCode != null  and inboundCode != ''"> and t.inbound_code like concat('%', #{inboundCode}, '%')</if>
             <if test="num != null "> and t.num = #{num}</if>
         </where>
     </select>

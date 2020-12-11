@@ -86,6 +86,7 @@ public class TOutboundController extends BaseController
     @ResponseBody
     public AjaxResult addSave(TOutbound tOutbound)
     {
+
         return toAjax(tOutboundService.insertTOutbound(tOutbound));
     }
 
@@ -109,7 +110,13 @@ public class TOutboundController extends BaseController
     @ResponseBody
     public AjaxResult editSave(TOutbound tOutbound)
     {
-        return toAjax(tOutboundService.updateTOutbound(tOutbound));
+        AjaxResult ajaxResult;
+        try {
+            ajaxResult = toAjax(tOutboundService.updateTOutbound(tOutbound));
+        } catch (Exception e) {
+            ajaxResult = AjaxResult.error(e.getMessage());
+        }
+        return ajaxResult;
     }
 
     /**
@@ -121,6 +128,22 @@ public class TOutboundController extends BaseController
     @ResponseBody
     public AjaxResult remove(String ids)
     {
-        return toAjax(tOutboundService.deleteTOutboundByIds(ids));
+        AjaxResult ajaxResult;
+        try {
+            ajaxResult = toAjax(tOutboundService.deleteTOutboundByIds(ids));
+        } catch (Exception e) {
+            ajaxResult = AjaxResult.error(e.getMessage());
+        }
+        return ajaxResult;
+    }
+
+    /**
+     * 查看详细
+     */
+    @GetMapping("/detail/{outboundCode}")
+    public String detail(@PathVariable("outboundCode") String outboundCode, ModelMap mmap)
+    {
+        mmap.put("outboundCode", outboundCode);
+        return prefix + "/detail";
     }
 }

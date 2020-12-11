@@ -3,12 +3,14 @@ package com.ruoyi.market.service.impl;
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.ShiroCommonUtils;
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.market.domain.*;
+import com.ruoyi.market.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.market.mapper.TOutboundMapper;
-import com.ruoyi.market.domain.TOutbound;
 import com.ruoyi.market.service.ITOutboundService;
 import com.ruoyi.common.core.text.Convert;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 出库单Service业务层处理
@@ -21,6 +23,10 @@ public class TOutboundServiceImpl implements ITOutboundService
 {
     @Autowired
     private TOutboundMapper tOutboundMapper;
+    @Autowired
+    private TOutboundDetailMapper tOutboundDetailMapper;
+    @Autowired
+    private TGoodsMapper tGoodsMapper;
 
     /**
      * 查询出库单
@@ -53,8 +59,11 @@ public class TOutboundServiceImpl implements ITOutboundService
      * @return 结果
      */
     @Override
+    @Transactional
     public int insertTOutbound(TOutbound tOutbound)
     {
+        tOutbound.setOutboundCode(getCode());
+        tOutbound.setStatus("1");
         tOutbound.setCreateBy(ShiroCommonUtils.getSysUser().getUserName());
         tOutbound.setCreateTime(DateUtils.getNowDate());
         return tOutboundMapper.insertTOutbound(tOutbound);
@@ -67,8 +76,22 @@ public class TOutboundServiceImpl implements ITOutboundService
      * @return 结果
      */
     @Override
+    @Transactional
     public int updateTOutbound(TOutbound tOutbound)
     {
+        TOutbound outbound = tOutboundMapper.selectTOutboundById(tOutbound.getId());
+        if("2".equals(outbound.getStatus())){
+            throw new RuntimeException("出库失败，出库单已经完成！");
+        }
+        List<TOutboundDetail> tOutboundDetails = tOutboundDetailMapper.selectTOutboundDetailByCode(outbound.getOutboundCode());
+        tOutboundDetails.forEach(x ->{
+            TGoods tGoods = tGoodsMapper.selectTGoodsById(x.getGoodsId());
+            if(tGoods.getNum() != null && x.getNum() != null){
+                tGoods.setNum(tGoods.getNum().subtract(x.getNum()));
+            }
+            tGoodsMapper.updateTGoods(tGoods);
+        });
+        tOutbound.setStatus("2");
         return tOutboundMapper.updateTOutbound(tOutbound);
     }
 
@@ -79,9 +102,15 @@ public class TOutboundServiceImpl implements ITOutboundService
      * @return 结果
      */
     @Override
+    @Transactional
     public int deleteTOutboundByIds(String ids)
     {
-        return tOutboundMapper.deleteTOutboundByIds(Convert.toStrArray(ids));
+        String[] strings = Convert.toStrArray(ids);
+        int i = tOutboundMapper.deleteTOutboundByIds(Convert.toStrArray(ids));
+        if(i < strings.length){
+            throw new RuntimeException("删除失败，出库单已经完成！");
+        }
+        return i;
     }
 
     /**
@@ -91,8 +120,18 @@ public class TOutboundServiceImpl implements ITOutboundService
      * @return 结果
      */
     @Override
+    @Transactional
     public int deleteTOutboundById(Long id)
     {
         return tOutboundMapper.deleteTOutboundById(id);
+    }
+
+    private synchronized String getCode(){
+        String time = DateUtils.getDateYMD();
+        String code =  tOutboundMapper.getCodeMax(time);
+        if(!StringUtils.isEmpty(code)){
+            return time+String.format("%02d", Integer.valueOf(code)+1);
+        }
+        return time+"01";
     }
 }

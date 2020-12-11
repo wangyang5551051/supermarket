@@ -12,6 +12,7 @@ import com.ruoyi.market.mapper.TInboundDetailMapper;
 import com.ruoyi.market.domain.TInboundDetail;
 import com.ruoyi.market.service.ITInboundDetailService;
 import com.ruoyi.common.core.text.Convert;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 入库单明细Service业务层处理
@@ -58,6 +59,7 @@ public class TInboundDetailServiceImpl implements ITInboundDetailService
      * @return 结果
      */
     @Override
+    @Transactional
     public int insertTInboundDetail(TInboundDetail tInboundDetail)
     {
         TInbound inbound = tInboundMapper.selectTInboundByCode(tInboundDetail.getInboundCode());
@@ -79,6 +81,7 @@ public class TInboundDetailServiceImpl implements ITInboundDetailService
      * @return 结果
      */
     @Override
+    @Transactional
     public int updateTInboundDetail(TInboundDetail tInboundDetail)
     {
         TInbound inbound = tInboundMapper.selectTInboundByCode(tInboundDetail.getInboundCode());
@@ -98,6 +101,7 @@ public class TInboundDetailServiceImpl implements ITInboundDetailService
      * @return 结果
      */
     @Override
+    @Transactional
     public int deleteTInboundDetailByIds(String ids)
     {
         String[] strings = Convert.toStrArray(ids);

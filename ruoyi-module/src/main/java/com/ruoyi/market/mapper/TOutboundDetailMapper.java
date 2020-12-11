@@ -59,4 +59,6 @@ public interface TOutboundDetailMapper
      * @return 结果
      */
     public int deleteTOutboundDetailByIds(String[] ids);
+
+    List<TOutboundDetail> selectTOutboundDetailByCode(String outboundCode);
 }

@@ -16,9 +16,9 @@
                         </li>
                         <li>
                             <label>单据状态：</label>
-                            <select name="status">
-                                <option value="">所有</option>
-                                <option value="-1">代码生成请选择字典属性</option>
+                            <select class="form-control" name="status">
+                                <option value="">--请选择--</option>
+                                <option th:each="entries,stat:${@dict.getType('sys_bound_status')}" th:value="${entries['dictValue']}" th:text="${entries['dictLabel']}"></option>
                             </select>
                         </li>
                         <li>
@@ -33,13 +33,13 @@
         </div>
 
         <div class="btn-group-sm" id="toolbar" role="group">
-            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:outbound:add">
-                <i class="fa fa-plus"></i> 添加
+            <a class="btn btn-success" onclick="add()" shiro:hasPermission="system:outbound:add">
+                <i class="fa fa-plus"></i> 生成出库单
             </a>
-            <a class="btn btn-primary single disabled" onclick="$.operate.edit()"
-               shiro:hasPermission="system:outbound:edit">
-                <i class="fa fa-edit"></i> 修改
-            </a>
+            <!--<a class="btn btn-primary single disabled" onclick="$.operate.edit()"-->
+               <!--shiro:hasPermission="system:outbound:edit">-->
+                <!--<i class="fa fa-edit"></i> 修改-->
+            <!--</a>-->
             <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
                shiro:hasPermission="system:outbound:remove">
                 <i class="fa fa-remove"></i> 删除
@@ -57,6 +57,7 @@
 <script th:inline="javascript">
     var editFlag = [[${@permission.hasPermi('system:outbound:edit')}]];
     var removeFlag = [[${@permission.hasPermi('system:outbound:remove')}]];
+    var datas = [[${@dict.getType('sys_bound_status')}]];
     var prefix = ctx + "system/outbound";
 
     $(function () {
@@ -67,6 +68,11 @@
             removeUrl: prefix + "/remove",
             exportUrl: prefix + "/export",
             modalName: "出库单",
+            sortName: "createTime",
+            sortOrder: "desc",
+            escape: true,
+            showPageGo: true,
+            rememberSelected: true,
             columns: [{
                 checkbox: true
             },
@@ -77,32 +83,84 @@
                 },
                 {
                     field: 'outboundCode',
-                    title: '出库单号'
+                    title: '出库单号',
+                    sortable: true,
+                    formatter: function(value, row, index) {
+                        return '<a href="javascript:void(0)" onclick="detail(\'' + row.outboundCode + '\')">' + value + '</a>';
+                    }
                 },
                 {
                     field: 'status',
-                    title: '单据状态'
+                    title: '单据状态',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(datas, value);
+                    },
+                    sortable: true
                 },
                 {
                     field: 'createBy',
-                    title: '创建人'
+                    title: '创建人',
+                    sortable: true
                 }, {
                     field: 'createTime',
-                    title: '创建时间'
+                    title: '创建时间',
+                    sortable: true
                 },
                 {
                     title: '操作',
                     align: 'center',
                     formatter: function (value, row, index) {
                         var actions = [];
-                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>一键入库</a> ');
+                        // actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }
                 }]
         };
         $.table.init(options);
     });
+
+    function add(){
+        var config = {
+            url: prefix + "/add",
+            type: "post",
+            dataType: "json",
+            data: {
+
+            },
+            beforeSend: function () {
+                $.modal.loading("正在处理中，请稍后...");
+                $.modal.disable();
+            },
+            success: function(result) {
+                if (result.code == web_status.SUCCESS) {
+                    $.modal.msgSuccess(result.msg);
+                    $.table.refresh();
+                } else if (result.code == web_status.WARNING) {
+                    $.modal.alertWarning(result.msg)
+                }  else {
+                    $.modal.alertError(result.msg);
+                }
+                $.modal.closeLoading();
+                $.modal.enable();
+            }
+        };
+        $.ajax(config);
+    }
+    function edit(id){
+        $.modal.confirm("确认要出库选中的单据吗?", function() {
+            var url = prefix + "/edit";
+            var data = { "id": id };
+            $.operate.submit(url, "post", "json", data);
+        });
+
+    }
+
+    /*字典列表-详细*/
+    function detail(outboundCode) {
+        var url = prefix + '/detail/' + outboundCode;
+        $.modal.openTab("出库单明细", url);
+    }
 </script>
 </body>
 </html>

@@ -64,6 +64,7 @@ public class TInboundServiceImpl implements ITInboundService
      * @return 结果
      */
     @Override
+    @Transactional
     public int insertTInbound(TInbound tInbound)
     {
         tInbound.setInboundCode(getCode());
@@ -124,6 +125,7 @@ public class TInboundServiceImpl implements ITInboundService
      * @return 结果
      */
     @Override
+    @Transactional
     public int deleteTInboundById(Long id)
     {
         return tInboundMapper.deleteTInboundById(id);
