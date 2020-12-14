@@ -20,6 +20,12 @@ public class TInboundDetail extends BaseEntity
     /** ID */
     private Long id;
 
+    /** 商品ID */
+    private Long goodsId;
+
+    /** 类型ID */
+    private Long typeId;
+
     /** 入库单号 */
     @Excel(name = "入库单号")
     private String inboundCode;
@@ -28,21 +34,15 @@ public class TInboundDetail extends BaseEntity
     @Excel(name = "商品名称")
     private String name;
 
-    @Excel(name = "单位")
-    private String unit;
-
     @Excel(name = "类型名称")
     private String typeName;
-
-    /** 商品ID */
-    private Long goodsId;
-
-    /** 类型ID */
-    private Long typeId;
 
     /** 数量 */
     @Excel(name = "数量")
     private BigDecimal num;
+
+    @Excel(name = "单位")
+    private String unit;
 
     public String getUnit() {
         return unit;

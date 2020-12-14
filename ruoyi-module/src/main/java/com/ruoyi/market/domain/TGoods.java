@@ -28,7 +28,6 @@ public class TGoods extends BaseEntity
     private String typeName;
 
     /** 类型ID */
-    @Excel(name = "类型ID")
     private Long typeId;
 
     /** 库存 */

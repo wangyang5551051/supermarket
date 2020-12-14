@@ -160,7 +160,7 @@
     /*字典列表-详细*/
     function detail(inboundCode) {
         var url = prefix + '/detail/' + inboundCode;
-        $.modal.openTab("入库单明细", url);
+        $.modal.openTab(inboundCode, url);
     }
 </script>
 </body>

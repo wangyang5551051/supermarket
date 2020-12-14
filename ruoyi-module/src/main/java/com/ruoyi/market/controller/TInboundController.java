@@ -1,6 +1,12 @@
 package com.ruoyi.market.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import com.ruoyi.market.domain.TInboundDetail;
+import com.ruoyi.system.domain.SysDictData;
+import com.ruoyi.system.service.ISysDictTypeService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +39,8 @@ public class TInboundController extends BaseController
 
     @Autowired
     private ITInboundService tInboundService;
+    @Autowired
+    private ISysDictTypeService dictTypeService;
 
     @RequiresPermissions("system:inbound:view")
     @GetMapping()
@@ -63,7 +71,13 @@ public class TInboundController extends BaseController
     @ResponseBody
     public AjaxResult export(TInbound tInbound)
     {
+        startOrderBy();
         List<TInbound> list = tInboundService.selectTInboundList(tInbound);
+        List<SysDictData> sysDictData = dictTypeService.selectDictDataByType("sys_bound_status");
+        Map<String,String> map = sysDictData.stream().collect(Collectors.toMap(SysDictData::getDictValue, SysDictData::getDictLabel));
+        list.forEach(x ->{
+            x.setStatus(map.get(x.getStatus()));
+        });
         ExcelUtil<TInbound> util = new ExcelUtil<TInbound>(TInbound.class);
         return util.exportExcel(list, "inbound");
     }
@@ -143,6 +157,8 @@ public class TInboundController extends BaseController
     public String detail(@PathVariable("inboundCode") String inboundCode, ModelMap mmap)
     {
         mmap.put("inboundCode", inboundCode);
+        TInbound tInbound = tInboundService.selectTInboundByCode(inboundCode);
+        mmap.put("status", "2".equals(tInbound.getStatus()));
         return prefix + "/detail";
     }
 }

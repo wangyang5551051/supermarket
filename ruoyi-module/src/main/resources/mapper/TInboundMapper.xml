@@ -71,7 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
     <select id="getCodeMax"  resultType="String" parameterType="String">
-        select MAX(SUBSTR(inbound_code FROM 9 FOR 10)) from t_inbound
+        select MAX(SUBSTR(inbound_code FROM 10 FOR 11)) from t_inbound
         where inbound_code like concat(#{time}, '%')
     </select>
 </mapper>

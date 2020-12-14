@@ -58,4 +58,6 @@ public interface ITOutboundService
      * @return 结果
      */
     public int deleteTOutboundById(Long id);
+
+    TOutbound selectTInboundByCode(String outboundCode);
 }

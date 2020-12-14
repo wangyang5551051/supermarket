@@ -14,7 +14,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label is-required">用户名称：</label>
                         <div class="col-sm-8">
-                            <input name="userName" placeholder="请输入用户名称" class="form-control" type="text" maxlength="30" required>
+                            <input name="userName" autocomplete='new-password' placeholder="请输入用户名称" class="form-control" type="text" maxlength="30" required>
                         </div>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
                         <label class="col-sm-4 control-label is-required">归属部门：</label>
                         <div class="col-sm-8">
                             <div class="input-group">
-                            	<input name="deptName" onclick="selectDeptTree()" id="treeName" type="text" placeholder="请选择归属部门" class="form-control" required>
+                            	<input autocomplete='new-password' name="deptName" onclick="selectDeptTree()" id="treeName" type="text" placeholder="请选择归属部门" class="form-control" required>
                                 <span class="input-group-addon"><i class="fa fa-search"></i></span>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label is-required">登录账号：</label>
                         <div class="col-sm-8">
-                            <input id="loginName" name="loginName" placeholder="请输入登录账号" class="form-control" type="text" maxlength="30" required>
+                            <input id="loginName" autocomplete='new-password' name="loginName" placeholder="请输入登录账号" class="form-control" type="text" maxlength="30" required>
                         </div>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                         <label class="col-sm-4 control-label is-required">登录密码：</label>
                         <div class="col-sm-8">
                             <div class="input-group">
-                                <input id="password" name="password" placeholder="请输入登录密码" class="form-control" type="password" th:value="${@config.getKey('sys.user.initPassword')}" required>
+                                <input id="password" autocomplete='new-password' name="password" placeholder="请输入登录密码" class="form-control" type="password" th:value="${@config.getKey('sys.user.initPassword')}" required>
                                 <span class="input-group-addon" title="登录密码,鼠标按下显示密码"
                                     onmousedown="$('#password').attr('type','text')"
                                     onmouseup="$('#password').attr('type','password')"><i class="fa fa-key"></i></span>

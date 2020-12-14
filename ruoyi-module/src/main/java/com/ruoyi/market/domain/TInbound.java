@@ -19,6 +19,7 @@ public class TInbound extends BaseEntity
     private Long id;
 
     /** 入库单号 */
+    @Excel(name = "入库单号")
     private String inboundCode;
 
     /** 单据状态 */

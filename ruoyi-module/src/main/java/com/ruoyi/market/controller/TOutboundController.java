@@ -1,6 +1,12 @@
 package com.ruoyi.market.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import com.ruoyi.market.domain.TInbound;
+import com.ruoyi.system.domain.SysDictData;
+import com.ruoyi.system.service.ISysDictTypeService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +39,8 @@ public class TOutboundController extends BaseController
 
     @Autowired
     private ITOutboundService tOutboundService;
+    @Autowired
+    private ISysDictTypeService dictTypeService;
 
     @RequiresPermissions("system:outbound:view")
     @GetMapping()
@@ -64,6 +72,11 @@ public class TOutboundController extends BaseController
     public AjaxResult export(TOutbound tOutbound)
     {
         List<TOutbound> list = tOutboundService.selectTOutboundList(tOutbound);
+        List<SysDictData> sysDictData = dictTypeService.selectDictDataByType("sys_bound_status");
+        Map<String,String> map = sysDictData.stream().collect(Collectors.toMap(SysDictData::getDictValue, SysDictData::getDictLabel));
+        list.forEach(x ->{
+            x.setStatus(map.get(x.getStatus()));
+        });
         ExcelUtil<TOutbound> util = new ExcelUtil<TOutbound>(TOutbound.class);
         return util.exportExcel(list, "outbound");
     }
@@ -144,6 +157,8 @@ public class TOutboundController extends BaseController
     public String detail(@PathVariable("outboundCode") String outboundCode, ModelMap mmap)
     {
         mmap.put("outboundCode", outboundCode);
+        TOutbound tOutbound = tOutboundService.selectTInboundByCode(outboundCode);
+        mmap.put("status", "2".equals(tOutbound.getStatus()));
         return prefix + "/detail";
     }
 }

@@ -2,8 +2,12 @@ package com.ruoyi.market.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import com.ruoyi.market.domain.TGoodsType;
 import com.ruoyi.market.service.ITGoodsTypeService;
+import com.ruoyi.system.domain.SysDictData;
+import com.ruoyi.system.service.ISysDictTypeService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,6 +42,8 @@ public class TGoodsController extends BaseController
     private ITGoodsService tGoodsService;
     @Autowired
     private ITGoodsTypeService itGoodsTypeService;
+    @Autowired
+    private ISysDictTypeService dictTypeService;
 
     @RequiresPermissions("system:goods:view")
     @GetMapping()
@@ -70,7 +76,16 @@ public class TGoodsController extends BaseController
     @ResponseBody
     public AjaxResult export(TGoods tGoods)
     {
+        startOrderBy();
         List<TGoods> list = tGoodsService.selectTGoodsList(tGoods);
+        List<TGoodsType> tGoodsTypes = itGoodsTypeService.selectTGoodsTypeList(new TGoodsType());
+        Map<Long, String> typeMap = tGoodsTypes.stream().collect(Collectors.toMap(TGoodsType::getId, TGoodsType::getTypeName));
+        List<SysDictData> sysDictData = dictTypeService.selectDictDataByType("sys_unit");
+        Map<String,String> unitMap = sysDictData.stream().collect(Collectors.toMap(SysDictData::getDictValue, SysDictData::getDictLabel));
+        list.forEach(x ->{
+            x.setUnit(unitMap.get(x.getUnit()));
+            x.setTypeName(typeMap.get(x.getTypeId()));
+        });
         ExcelUtil<TGoods> util = new ExcelUtil<TGoods>(TGoods.class);
         return util.exportExcel(list, "goods");
     }

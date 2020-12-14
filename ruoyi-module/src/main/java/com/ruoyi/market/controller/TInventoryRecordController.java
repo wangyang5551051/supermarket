@@ -78,6 +78,7 @@ public class TInventoryRecordController extends BaseController
     @ResponseBody
     public AjaxResult export(TInventoryRecord tInventoryRecord)
     {
+        startOrderBy();
         List<TInventoryRecord> list = tInventoryRecordService.selectTInventoryRecordList(tInventoryRecord);
         List<SysDictData> sysDictData = dictTypeService.selectDictDataByType("sys_unit");
         Map<String,String> unitMap = sysDictData.stream().collect(Collectors.toMap(SysDictData::getDictValue, SysDictData::getDictLabel));

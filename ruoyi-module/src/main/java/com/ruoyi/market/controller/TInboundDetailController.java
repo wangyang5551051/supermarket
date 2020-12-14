@@ -80,12 +80,14 @@ public class TInboundDetailController extends BaseController
     @ResponseBody
     public AjaxResult export(TInboundDetail tInboundDetail)
     {
-        List<SysDictData> sysDictData = dictTypeService.selectDictDataByType("sys_unit");
+        startOrderBy();
         List<TInboundDetail> list = tInboundDetailService.selectTInboundDetailList(tInboundDetail);
+        List<SysDictData> sysDictData = dictTypeService.selectDictDataByType("sys_unit");
         Map<String,String> unitMap = sysDictData.stream().collect(Collectors.toMap(SysDictData::getDictValue, SysDictData::getDictLabel));
         list.forEach(x ->{
             x.setUnit(unitMap.get(x.getUnit()));
         });
+
         ExcelUtil<TInboundDetail> util = new ExcelUtil<TInboundDetail>(TInboundDetail.class);
         return util.exportExcel(list, "detail");
     }

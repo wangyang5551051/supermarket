@@ -25,7 +25,6 @@ public class TOutboundDetail extends BaseEntity
     private String outboundCode;
 
     /** 商品ID */
-    @Excel(name = "商品ID")
     private Long goodsId;
 
     /** 类型ID */
@@ -35,8 +34,6 @@ public class TOutboundDetail extends BaseEntity
     @Excel(name = "商品名称")
     private String name;
 
-    @Excel(name = "单位")
-    private String unit;
 
     @Excel(name = "类型名称")
     private String typeName;
@@ -44,6 +41,9 @@ public class TOutboundDetail extends BaseEntity
     /** 数量 */
     @Excel(name = "数量")
     private BigDecimal num;
+
+    @Excel(name = "单位")
+    private String unit;
 
     public String getName() {
         return name;

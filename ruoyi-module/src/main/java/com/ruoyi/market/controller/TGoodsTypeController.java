@@ -63,6 +63,7 @@ public class TGoodsTypeController extends BaseController
     @ResponseBody
     public AjaxResult export(TGoodsType tGoodsType)
     {
+        startOrderBy();
         List<TGoodsType> list = tGoodsTypeService.selectTGoodsTypeList(tGoodsType);
         ExcelUtil<TGoodsType> util = new ExcelUtil<TGoodsType>(TGoodsType.class);
         return util.exportExcel(list, "type");

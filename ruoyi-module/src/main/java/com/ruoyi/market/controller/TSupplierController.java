@@ -63,6 +63,7 @@ public class TSupplierController extends BaseController
     @ResponseBody
     public AjaxResult export(TSupplier tSupplier)
     {
+        startOrderBy();
         List<TSupplier> list = tSupplierService.selectTSupplierList(tSupplier);
         ExcelUtil<TSupplier> util = new ExcelUtil<TSupplier>(TSupplier.class);
         return util.exportExcel(list, "supplier");

@@ -82,6 +82,7 @@ public class TOutboundDetailController extends BaseController
     @ResponseBody
     public AjaxResult export(TOutboundDetail tOutboundDetail)
     {
+        startOrderBy();
         List<SysDictData> sysDictData = dictTypeService.selectDictDataByType("sys_unit");
         Map<String,String> unitMap = sysDictData.stream().collect(Collectors.toMap(SysDictData::getDictValue, SysDictData::getDictLabel));
         List<TOutboundDetail> list = tOutboundDetailService.selectTOutboundDetailList(tOutboundDetail);

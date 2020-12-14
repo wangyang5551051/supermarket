@@ -132,11 +132,16 @@ public class TInboundServiceImpl implements ITInboundService
     }
 
     private synchronized String getCode(){
-        String time = DateUtils.getDateYMD();
+        String time = "I"+DateUtils.getDateYMD();
         String code =  tInboundMapper.getCodeMax(time);
         if(!StringUtils.isEmpty(code)){
             return time+String.format("%02d", Integer.valueOf(code)+1);
         }
         return time+"01";
+    }
+
+    @Override
+    public TInbound selectTInboundByCode(String code) {
+        return tInboundMapper.selectTInboundByCode(code);
     }
 }

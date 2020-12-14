@@ -127,11 +127,16 @@ public class TOutboundServiceImpl implements ITOutboundService
     }
 
     private synchronized String getCode(){
-        String time = DateUtils.getDateYMD();
+        String time = "O"+DateUtils.getDateYMD();
         String code =  tOutboundMapper.getCodeMax(time);
         if(!StringUtils.isEmpty(code)){
             return time+String.format("%02d", Integer.valueOf(code)+1);
         }
         return time+"01";
+    }
+
+    @Override
+    public TOutbound selectTInboundByCode(String outboundCode) {
+        return tOutboundMapper.selectTOutboundByCode(outboundCode);
     }
 }
