@@ -21,6 +21,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="status != null  and status != ''"> and status = #{status}</if>
             <if test="inboundCode != null  and inboundCode != ''"> and inbound_code like concat('%', #{inboundCode}, '%')</if>
+            <if test="day != null "> and TO_DAYS(create_time) = TO_DAYS(NOW())</if>
+            <if test="month != null "> and create_time  > DATE_SUB( CURDATE( ), INTERVAL 1 MONTH )</if>
         </where>
     </select>
 

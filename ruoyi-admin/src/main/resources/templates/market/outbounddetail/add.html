@@ -24,7 +24,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">数量：</label>
                 <div class="col-sm-8">
-                    <input name="num" class="form-control" type="text">
+                    <input id="num" name="num" class="form-control" type="text">
                 </div>
             </div>
         </form>
@@ -32,15 +32,31 @@
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
         var prefix = ctx + "system/outboundDetail"
-        $("#form-detail-add").validate({
-            focusCleanup: true
-        });
+        // $("#form-detail-add").validate({
+        //     focusCleanup: true
+        // });
 
         function submitHandler() {
             if ($.validate.form()) {
                 $.operate.save(prefix + "/add", $('#form-detail-add').serialize());
             }
         }
+
+        var icon = "<i class='fa fa-times-circle'></i> ";
+        $("#form-detail-add").validate({
+            rules: {
+                num: {
+                    number : true,
+                    required : true
+                }
+            },
+            messages: {
+                num: {
+                    number : icon + "请输入数字",
+                    required : icon + "请输入库存"
+                }
+            }
+        });
     </script>
 </body>
 </html>

@@ -33,15 +33,31 @@
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
         var prefix = ctx + "system/outboundDetail";
-        $("#form-detail-edit").validate({
-            focusCleanup: true
-        });
+        // $("#form-detail-edit").validate({
+        //     focusCleanup: true
+        // });
 
         function submitHandler() {
             if ($.validate.form()) {
                 $.operate.save(prefix + "/edit", $('#form-detail-edit').serialize());
             }
         }
+
+        var icon = "<i class='fa fa-times-circle'></i> ";
+        $("#form-detail-edit").validate({
+            rules: {
+                num: {
+                    number : true,
+                    required : true
+                }
+            },
+            messages: {
+                num: {
+                    number : icon + "请输入数字",
+                    required : icon + "请输入库存"
+                }
+            }
+        });
     </script>
 </body>
 </html>

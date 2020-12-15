@@ -25,6 +25,24 @@ public class TOutbound extends BaseEntity
     /** 单据状态 */
     @Excel(name = "单据状态")
     private String status;
+    private String day;
+    private String month;
+
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
 
     public void setId(Long id)
     {

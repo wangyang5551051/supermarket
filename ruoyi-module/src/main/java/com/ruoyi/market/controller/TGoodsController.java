@@ -1,17 +1,21 @@
 package com.ruoyi.market.controller;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.ruoyi.market.domain.TGoodsType;
+import com.ruoyi.market.domain.TInbound;
+import com.ruoyi.market.domain.TOutbound;
 import com.ruoyi.market.service.ITGoodsTypeService;
+import com.ruoyi.market.service.ITInboundService;
+import com.ruoyi.market.service.ITOutboundService;
 import com.ruoyi.system.domain.SysDictData;
 import com.ruoyi.system.service.ISysDictTypeService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.unit.DataUnit;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,6 +48,10 @@ public class TGoodsController extends BaseController
     private ITGoodsTypeService itGoodsTypeService;
     @Autowired
     private ISysDictTypeService dictTypeService;
+    @Autowired
+    private ITInboundService itInboundService;
+    @Autowired
+    private ITOutboundService itOutboundService;
 
     @RequiresPermissions("system:goods:view")
     @GetMapping()
@@ -148,5 +156,45 @@ public class TGoodsController extends BaseController
     public AjaxResult remove(String ids)
     {
         return toAjax(tGoodsService.deleteTGoodsByIds(ids));
+    }
+
+    /**
+     * 首页数据
+     */
+    @GetMapping("/main_v1")
+    @ResponseBody
+    public Object list()
+    {
+        List<TGoods> list = tGoodsService.selectTGoodsList(new TGoods());
+        Object[] data = new Object[6];
+        Object[] o1 = new Object[list.size()];
+        Object[] o2 = new Object[list.size()];
+
+        for (int i = 0; i < list.size(); i++) {
+            TGoods tGoods = list.get(i);
+            o1[i] = tGoods.getName();
+            o2[i] = tGoods.getNum()!=null?tGoods.getNum().stripTrailingZeros().toPlainString():"0";
+        }
+        data[0] = o1;
+        data[1] = o2;
+        TInbound inbound = new TInbound();
+        inbound.setDay("day");
+        List<TInbound> tInbounds = itInboundService.selectTInboundList(inbound);
+        TInbound inbound1 = new TInbound();
+        inbound1.setMonth("month");
+        List<TInbound> tInbounds1 = itInboundService.selectTInboundList(inbound1);
+        data[2] = tInbounds.size();
+        data[5] = tInbounds1.size();
+
+        TOutbound outbound = new TOutbound();
+        outbound.setDay("day");
+        List<TOutbound> tOutbounds = itOutboundService.selectTOutboundList(outbound);
+        data[4] = tInbounds1.size();
+        TOutbound outbound1 = new TOutbound();
+        outbound1.setMonth("month");
+        List<TOutbound> tOutbounds1 = itOutboundService.selectTOutboundList(outbound1);
+        data[3] = tOutbounds.size();
+        data[5] = tOutbounds1.size();
+        return data;
     }
 }
