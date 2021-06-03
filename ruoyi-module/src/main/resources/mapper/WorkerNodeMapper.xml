@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.uidgenerator.mapper.WorkerNodeMapper">
+    
+    <resultMap type="WorkerNode" id="WorkerNodeResult">
+        <result property="ID"    column="ID"    />
+        <result property="hostName"    column="HOST_NAME"    />
+        <result property="PORT"    column="PORT"    />
+        <result property="TYPE"    column="TYPE"    />
+        <result property="launchDate"    column="LAUNCH_DATE"    />
+        <result property="MODIFIED"    column="MODIFIED"    />
+        <result property="CREATED"    column="CREATED"    />
+    </resultMap>
+
+    <sql id="selectWorkerNodeVo">
+        select ID, HOST_NAME, PORT, TYPE, LAUNCH_DATE, MODIFIED, CREATED from worker_node
+    </sql>
+
+    <select id="selectWorkerNodeList" parameterType="WorkerNode" resultMap="WorkerNodeResult">
+        <include refid="selectWorkerNodeVo"/>
+        <where>  
+            <if test="hostName != null  and hostName != ''"> and HOST_NAME like concat('%', #{hostName}, '%')</if>
+            <if test="PORT != null  and PORT != ''"> and PORT = #{PORT}</if>
+            <if test="TYPE != null "> and TYPE = #{TYPE}</if>
+            <if test="launchDate != null "> and LAUNCH_DATE = #{launchDate}</if>
+            <if test="MODIFIED != null "> and MODIFIED = #{MODIFIED}</if>
+            <if test="CREATED != null "> and CREATED = #{CREATED}</if>
+        </where>
+    </select>
+    
+    <select id="selectWorkerNodeById" parameterType="Long" resultMap="WorkerNodeResult">
+        <include refid="selectWorkerNodeVo"/>
+        where ID = #{ID}
+    </select>
+        
+    <insert id="insertWorkerNode" parameterType="WorkerNode" useGeneratedKeys="true" keyProperty="ID">
+        insert into worker_node
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="hostName != null and hostName != ''">HOST_NAME,</if>
+            <if test="PORT != null and PORT != ''">PORT,</if>
+            <if test="TYPE != null">TYPE,</if>
+            <if test="launchDate != null">LAUNCH_DATE,</if>
+            <if test="MODIFIED != null">MODIFIED,</if>
+            <if test="CREATED != null">CREATED,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="hostName != null and hostName != ''">#{hostName},</if>
+            <if test="PORT != null and PORT != ''">#{PORT},</if>
+            <if test="TYPE != null">#{TYPE},</if>
+            <if test="launchDate != null">#{launchDate},</if>
+            <if test="MODIFIED != null">#{MODIFIED},</if>
+            <if test="CREATED != null">#{CREATED},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWorkerNode" parameterType="WorkerNode">
+        update worker_node
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="hostName != null and hostName != ''">HOST_NAME = #{hostName},</if>
+            <if test="PORT != null and PORT != ''">PORT = #{PORT},</if>
+            <if test="TYPE != null">TYPE = #{TYPE},</if>
+            <if test="launchDate != null">LAUNCH_DATE = #{launchDate},</if>
+            <if test="MODIFIED != null">MODIFIED = #{MODIFIED},</if>
+            <if test="CREATED != null">CREATED = #{CREATED},</if>
+        </trim>
+        where ID = #{ID}
+    </update>
+
+    <delete id="deleteWorkerNodeById" parameterType="Long">
+        delete from worker_node where ID = #{ID}
+    </delete>
+
+    <delete id="deleteWorkerNodeByIds" parameterType="String">
+        delete from worker_node where ID in 
+        <foreach item="ID" collection="array" open="(" separator="," close=")">
+            #{ID}
+        </foreach>
+    </delete>
+
+    <select id="getWorkerNodeByHostPort" resultMap="WorkerNodeResult">
+        SELECT
+            ID,
+            HOST_NAME,
+            PORT,
+            TYPE,
+            LAUNCH_DATE,
+            MODIFIED,
+            CREATED
+        FROM
+            WORKER_NODE
+        WHERE
+            HOST_NAME = #{host} AND PORT = #{port}
+    </select>
+</mapper>

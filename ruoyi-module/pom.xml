@@ -24,17 +24,6 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-system</artifactId>
         </dependency>
-        <!-- 核心模块-->
-        <!--<dependency>-->
-            <!--<groupId>com.ruoyi</groupId>-->
-            <!--<artifactId>ruoyi-framework</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>com.ruoyi</groupId>-->
-            <!--<artifactId>ruoyi-admin</artifactId>-->
-            <!--<version>4.3.1</version>-->
-        <!--</dependency>-->
-        <!-- swagger2-->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
@@ -68,20 +57,20 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
         <!-- mybatis-plus 依赖 -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.1.14</version>
-        </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.1.0</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>mysql</groupId>-->
+            <!--<artifactId>mysql-connector-java</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>com.alibaba</groupId>-->
+            <!--<artifactId>druid-spring-boot-starter</artifactId>-->
+            <!--<version>1.1.14</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>com.baomidou</groupId>-->
+            <!--<artifactId>mybatis-plus-boot-starter</artifactId>-->
+            <!--<version>3.1.0</version>-->
+        <!--</dependency>-->
         <!--<dependency>-->
             <!--<groupId>org.springframework.amqp</groupId>-->
             <!--<artifactId>spring-rabbit</artifactId>-->
@@ -99,6 +88,43 @@
             <!--<groupId>redis.clients</groupId>-->
             <!--<artifactId>jedis</artifactId>-->
             <!--<version>3.3.0</version>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>com.ws.sample</groupId>
+            <artifactId>myjar</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.xfvape.uid</groupId>
+            <artifactId>uid-generator</artifactId>
+            <version>0.0.4-RELEASE</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.xfvape.uid</groupId>-->
+            <!--<artifactId>uid-generator</artifactId>-->
+            <!--<version>0.0.4-RELEASE</version>-->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.slf4j</groupId>-->
+                    <!--<artifactId>log4j-over-slf4j</artifactId>-->
+                <!--</exclusion>-->
+                <!--<exclusion>-->
+                    <!--<groupId>ch.qos.logback</groupId>-->
+                    <!--<artifactId>logback-classic</artifactId>-->
+                <!--</exclusion>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.slf4j</groupId>-->
+                    <!--<artifactId>slf4j-api</artifactId>-->
+                <!--</exclusion>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.mybatis</groupId>-->
+                    <!--<artifactId>mybatis-spring</artifactId>-->
+                <!--</exclusion>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.mybatis</groupId>-->
+                    <!--<artifactId>mybatis</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
         <!--</dependency>-->
     </dependencies>
 
