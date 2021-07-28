@@ -8,7 +8,6 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 商品对象 t_goods
- * 
  * @author ruoyi
  * @date 2020-12-09
  */
